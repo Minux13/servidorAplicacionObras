@@ -26,50 +26,63 @@
         <script src="/static/js/jquery-3.3.1.min.js"></script>
         
         <script>
-        
+ 
             $(document).ready(function () {
-                
-        
-                var listProviders = {
-                    paginationStar : 0,
-                    paginationStep : 10,
-                    setTable : function(data){
-                        
-                        var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
-
-                        for( var d in data){
-                            strTRs += '<tr> <td>'+ data[d].title +'</td> <td>'+ data[d].description +'</td> </tr>';
-                        }
-
-                        document.getElementById('tableProv').innerHTML = strTRs;
-                       
-                    },
-                    getDataTable : function( start, step ){
-                         $.ajax({
-                            url: 'providers',
-                            type: 'post',
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: function (res) {
-                                
-                                listProviders.setTable(res.data)
-                            },
-
-                            data:  JSON.stringify ({'paginationStart':  start,
-                                                    'paginationStep': step, 
-                                                    'catalogue': 'providers'
-                                                    })
-                        });
-                       
-                    },
-                    init : function(){
-                        listProviders.getDataTable( listProviders.paginationStar, listProviders.paginationStep );
-                    }
-                }
-
                 listProviders.init();
-            
             });
+
+
+            var listProviders = {
+                paginationStar : 0,
+                paginationStep : 10,
+                setTR : function(title, description, idProvider){
+                    strTr = `
+                        <tr idProvider="`+ idProvider +`" onclick="listProviders.goToProvider(this);" >
+                            <td> `+ title +` </td>
+                            <td> `+ description +` </td>
+                        </tr>
+                    `;
+                    return strTr;
+                },
+                setTable : function(data){
+                    
+                    var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
+
+                    for( var d in data){
+                        strTRs += listProviders.setTR( data[d].title, data[d].description, data[d].id );
+                    }
+
+                    document.getElementById('tableProv').innerHTML = strTRs;
+                   
+                },
+                goToProvider : function(thisElement){
+                    var idProvider = thisElement.getAttribute('idprovider');
+                    var url = '/providers/edit/' + idProvider
+                    window.open( url ,"_self"); 
+                },
+                getDataTable : function( start, step ){
+                     $.ajax({
+                        url: 'providers',
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (res) {
+                            
+                            listProviders.setTable(res.data)
+                        },
+
+                        data:  JSON.stringify ({'paginationStart':  start,
+                                                'paginationStep': step, 
+                                                'catalogue': 'providers'
+                                                })
+                    });
+                   
+                },
+                init : function(){
+                    listProviders.getDataTable( listProviders.paginationStar, listProviders.paginationStep );
+                }
+            }
+
         
         </script>
     
