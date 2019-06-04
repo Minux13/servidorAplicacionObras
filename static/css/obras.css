@@ -79,6 +79,15 @@ body{
 }
 
 
+#sidebar .menu-element[active] {
+    background: white;
+    color: #606;
+}
+
+
+
+
+
 /*** navbar ***/
 .navbar-static-top{
     padding: 10px 0px;
@@ -583,4 +592,133 @@ hr{
     #obra-container-body{
         padding: 18px 20px;
     }
+}
+
+
+
+
+
+
+
+
+/*********  Catalogs   *********/
+.confirmDeleteButton{
+    margin: 0 10px;
+    opacity: 1;
+    padding: 10px 20px !important;
+    border-radius: 5px;
+    font-weight: 100;
+    float: inherit;
+}
+.cancelButtonConfirm{
+    background: #fff !important;
+    color: #555 !important;
+    border: 1px #bbd solid !important;
+}
+.deleteButtonConfirm{
+    background: linear-gradient(0deg, #933, #d44) !important;
+    color: white !important;
+}
+#dialogConfirmModal{
+    top: 30% !important;
+}
+#modalconfirm .modal-content{
+    padding: 30px 0;
+}
+#messageconfirm{
+    margin-bottom: 30px;
+}
+#modalconfirm p{
+    color: #222;
+    font-size: 1.4em;
+}
+#modalconfirm .fa-exclamation-triangle{
+    color: #a55;
+}
+
+/*Form and edit*/
+.form-control{
+    font-size: 1.5em;
+    padding: 8px 13px;
+}
+.buttonsActions{
+    padding: 5px 15px;
+    font-size: 1.5em;
+    margin: 30px 15px;
+    border: solid 1px #606;
+    background: #fff;
+    color: #606;
+    border-radius: 5px;
+}
+.contentOfButtonsActions{
+    text-align: right;
+}
+.contentOfButtonsActions .saveRegisterButton:hover{
+    background: linear-gradient(0deg, #303, #737);
+    color: #fff;
+    cursor: pointer;
+}
+.contentOfButtonsActions .deleteRegisterButton:hover{
+    background: linear-gradient(0deg, #933, #d44);
+    color: #fff;
+    cursor: pointer;
+}
+#addRegister{
+    padding: 20px;
+}
+
+
+
+/** List Providers **/
+#tableProv{
+    width: 100%;
+    font-size: 1.4em;
+}
+#tableProv tr th{
+    border-bottom: 2px solid #ddd;
+    padding: 15px;
+    color: #777;
+}
+#tableProv td{
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    color: #777;
+    cursor: pointer;
+}
+#bodyTableProviders{
+    padding: 30px;
+}
+
+/** Add Provider **/
+#containerRowAddButtonProvider{
+    text-align: right;
+}
+.obrasButtonNormal{
+    padding: 5px 15px;
+    font-size: 1.5em;
+    border: solid 1px #606;
+    background: #fff;
+    color: #606;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.obrasButtonNormal:hover{
+    cursor: pointer;
+    background: linear-gradient(0deg, #303, #737);
+    color: #fff;
+}
+
+
+
+
+/** Notify **/
+.notifyjs-bootstrap-base {
+    opacity: 0.85 !important;
+    padding: 25px 30px !important;
+    border-radius: 10px !important;
+    font-size: 1.4em !important;
+    background: #efefff !important;
+    opacity: 1 !important;
+    color: #666 !important;
+    border: 1px solid #666 !important;
 }

@@ -20,15 +20,15 @@ def providers():
         
         paginationStart = data['paginationStart']
         paginationStep  = data['paginationStep']
-        catalogue       = data['catalogue']
 
-        url = URLFrp + catalogue
-        PARAMS = {'X-Fields' :  str(paginationStart) + ',' + str(paginationStep) + ',id,ASC'} 
-
+        url = URLFrp + 'providers'
+        xFields =  str(paginationStart) + ',' + str(paginationStep) + ',id,ASC'
+        PARAMS = {'X-Fields' : xFields} 
+        
         r = requests.get( url, params = PARAMS  ) 
-        data = r.json() 
-
-        return jsonify( data = data )
+        dataRes = r.json() 
+        
+        return jsonify( data = dataRes )
 
 
 
@@ -92,7 +92,7 @@ def providersEdit(provider_id):
         url = URLFrp + 'providers/' + idProvider
         r = requests.put( url, data=dataJSON)
 
-        return render_template( 'providers/index.html' )
+        return jsonify( {'success':'success'} )
 
     elif request.method == 'DELETE':
         url = URLFrp + 'providers/' + str(provider_id)
