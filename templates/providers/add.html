@@ -1,0 +1,48 @@
+<!doctype html>
+
+<head>
+    <title>Hello from Flask</title>
+</head>
+
+<body>
+    
+    <form action="/" id="addProvider">
+        <label for="nameprovider">Nombre del Proveedor: </label> 
+        <input type="text" name="nameprovider"  id="nameprovider" placeholder="">
+
+        <label for="descriptionprovider">Descripción: </label> 
+        <input type="text" name="descriptionprovider"  id="descriptionprovider" placeholder="">
+        
+        <input type="submit" value="Guardar">
+    </form>
+
+    
+    <!-- Jquery -->
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+
+
+
+    <script>
+    // Attach a submit handler to the form
+    $( "#addProvider" ).submit(function( event ) {
+     
+        event.preventDefault();
+        
+        var name        = $('#nameprovider').val();
+        var description = $('#descriptionprovider').val();
+        
+        $.ajax({
+            url: '/providers/add',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log("saaaaaaaaaaaa");;
+            },
+            data:  JSON.stringify ({'title': name , 'description': description})
+        });
+     
+    });
+    </script>
+
+</body>

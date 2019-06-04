@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+    
+        <meta charset="utf-8">
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>Proveedores</title>
+    </head>
+    
+    <body>
+    
+        
+
+        <table id="tableProv">
+        
+        
+        </table>
+
+
+        
+        <!-- Jquery -->
+        <script src="/static/js/jquery-3.3.1.min.js"></script>
+        
+        <script>
+        
+            $(document).ready(function () {
+                
+        
+                var listProviders = {
+                    paginationStar : 0,
+                    paginationStep : 10,
+                    setTable : function(data){
+                        
+                        var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
+
+                        for( var d in data){
+                            strTRs += '<tr> <td>'+ data[d].title +'</td> <td>'+ data[d].description +'</td> </tr>';
+                        }
+
+                        document.getElementById('tableProv').innerHTML = strTRs;
+                       
+                    },
+                    getDataTable : function( start, step ){
+                         $.ajax({
+                            url: 'providers',
+                            type: 'post',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: function (res) {
+                                
+                                listProviders.setTable(res.data)
+                            },
+
+                            data:  JSON.stringify ({'paginationStart':  start,
+                                                    'paginationStep': step, 
+                                                    'catalogue': 'providers'
+                                                    })
+                        });
+                       
+                    },
+                    init : function(){
+                        listProviders.getDataTable( listProviders.paginationStar, listProviders.paginationStep );
+                    }
+                }
+
+                listProviders.init();
+            
+            });
+        
+        </script>
+    
+    </body>
+</html>
