@@ -214,11 +214,13 @@
 
             $(document).ready(function () {
 
-                //Button toggle for sidebar
+                //Funcionamiento del boton de la barra de menu
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
+                
 
+                //Comienza los procedimientos para la lista de proveedores
                 listRegisters.init();
             });
 
@@ -226,11 +228,11 @@
 
 
             var listRegisters = {
-                paginationStar : 0,
-                paginationStep : 10,
-                numberOfButtons: 1,     //Mock
-                isStartPage : true,
-                setTR : function(title, description, idProvider){
+                paginationStar : 0,     //Donde empieza a 
+                paginationStep : 10,    //Cantidad de registros traidos y vistos en la lista
+                numberOfButtons: 1,     //Valor que se actualiza al traer datos de la base de datos
+                isStartPage : true,     //Es true cuando se carga la pagina, lo uso para crear los botones cuando solo cuando se crea la pagina
+                setTR : function(title, description, idProvider){   // Crea cada <tr> de la tabla
                     strTr = `
                         <tr idProvider="`+ idProvider +`" onclick="listRegisters.goToProvider(this);" >
                             <td> `+ title +` </td>
@@ -239,7 +241,7 @@
                     `;
                     return strTr;
                 },
-                setTable : function(data){
+                setTable : function(data){          //Crea y actualiza la tabla de registros
                     
                     var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
 
@@ -252,12 +254,12 @@
                     document.getElementById('tableProv').innerHTML = strTRs;
                    
                 },
-                goToProvider : function(thisElement){
+                goToProvider : function(thisElement){       //Se ejecuta para ir a la info del registro cuando se da click sobre el <a>
                     var idProvider = thisElement.getAttribute('idprovider');
                     var url = '/providers/edit/' + idProvider
                     window.open( url ,"_self"); 
                 },
-                getDataTable : function( start, step ){
+                getDataTable : function( start, step ){         //Obtiene los datos por POST de la tabla
                      $.ajax({
                         url: 'providers',
                         type: 'post',
@@ -285,25 +287,25 @@
                     });
                    
                 },
-                linkAddProvider: function(){
+                linkAddProvider: function(){        //Para ir a la pagina de agregar un registro <a>
                     var url = '/providers/add';
                     window.open( url ,"_self"); 
                 },
-                setTagButton : function(init, numValueButton, isActive){
+                setTagButton : function(init, numValueButton, isActive){        //Crea el html de los botones
                     return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
                 },
-                actionButtonPagination: function( thisButton ){
+                actionButtonPagination: function( thisButton ){     //Accion que se ejecuta al dar click en un boton
 
-                    //Set list
+                    //Establece la tabla lista de registros
                     var init =  parseInt( thisButton.getAttribute('initL') ) ;
                     listRegisters.getDataTable( init, listRegisters.paginationStep )
                     
-                    //Behavior button
+                    //Comportamiento visual de los botones
                     $(".button_pag").removeAttr("active");
                     $( thisButton ).attr('active','')
 
                 },
-                createButtons: function( numAllRegisters ){
+                createButtons: function( numAllRegisters ){         //Logica para crear los botones
                     
                     var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
                     listRegisters.numberOfButtons = numOfButtons ;
@@ -317,7 +319,7 @@
                     }
                     document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
                 },
-                init : function(){
+                init : function(){          //Primera funcion que se llama al cargarse la pagina
                     listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep );
                 }
             }
