@@ -145,10 +145,7 @@
                             <i class="fa fa-home"></i>
                             &nbsp;
                             <a  id="titleFirstLink">Proveedores</a>
-                            &nbsp;&nbsp;
-                            <i class="fa fa-angle-right"></i>
-                            &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Editar Proveedor </a>
+
                         </li>                         
                     </ol>
                     <div class="clearfix">
@@ -171,11 +168,15 @@
 
                                 <div class="portlet-body" id="bodyTableProviders">
                                     <div id="containerRowAddButtonProvider">
-                                        <button onclick="listProviders.linkAddProvider();" class="obrasButtonNormal"> Agregar Proveedor </button>
+                                        <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar Proveedor </button>
                                     </div>
 
                                     <table id="tableProv">
                                     </table>
+
+
+                                    <div id="containerButtonsPagination">
+                                    </div>
 
                                 </div>
                             </div>
@@ -202,6 +203,8 @@
         <script src="/static/js/highcharts-3d.js"></script>
         <!-- Module of Highcharts -->
         <script src="/static/js/exporting.js"></script>
+        
+        <script src="/static/js/obras.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
@@ -216,16 +219,20 @@
                     $('#sidebar').toggleClass('active');
                 });
 
-                listProviders.init();
+                listRegisters.init();
             });
 
 
-            var listProviders = {
+
+
+            var listRegisters = {
                 paginationStar : 0,
                 paginationStep : 10,
+                numberOfButtons: 1,     //Mock
+                isStartPage : true,
                 setTR : function(title, description, idProvider){
                     strTr = `
-                        <tr idProvider="`+ idProvider +`" onclick="listProviders.goToProvider(this);" >
+                        <tr idProvider="`+ idProvider +`" onclick="listRegisters.goToProvider(this);" >
                             <td> `+ title +` </td>
                             <td> `+ description +` </td>
                         </tr>
@@ -236,8 +243,10 @@
                     
                     var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
 
-                    for( var d in data){
-                        strTRs += listProviders.setTR( data[d].title, data[d].description, data[d].id );
+                    for( var d = 0; d< listRegisters.paginationStep ; d++){
+                        if(data[d]){
+                            strTRs += listRegisters.setTR( data[d].title, data[d].description, data[d].id );
+                        }
                     }
 
                     document.getElementById('tableProv').innerHTML = strTRs;
@@ -255,12 +264,23 @@
                         dataType: 'json',
                         contentType: 'application/json',
                         success: function (res) {
+                            ////////////Set buttons and table
                             
-                            listProviders.setTable(res.data)
+                            var numAllRegisters = 10; //Mock 
+
+                            
+                            if(listRegisters.isStartPage){
+                                listRegisters.createButtons( numAllRegisters );
+                                listRegisters.isStartPage = false;
+                            }
+
+                            listRegisters.setTable(res.data)
                         },
 
                         data:  JSON.stringify ({'paginationStart':  start,
-                                                'paginationStep': step
+                                                'paginationStep': step,
+                                                'by'            : 'id',
+                                                'order'         : 'ASC'
                                                 })
                     });
                    
@@ -269,8 +289,36 @@
                     var url = '/providers/add';
                     window.open( url ,"_self"); 
                 },
+                setTagButton : function(init, numValueButton, isActive){
+                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+                },
+                actionButtonPagination: function( thisButton ){
+
+                    //Set list
+                    var init =  parseInt( thisButton.getAttribute('initL') ) ;
+                    listRegisters.getDataTable( init, listRegisters.paginationStep )
+                    
+                    //Behavior button
+                    $(".button_pag").removeAttr("active");
+                    $( thisButton ).attr('active','')
+
+                },
+                createButtons: function( numAllRegisters ){
+                    
+                    var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
+                    listRegisters.numberOfButtons = numOfButtons ;
+                    
+                    var strAllButtons = '';
+                    for(var b=0; b< numOfButtons ; b++ ){
+                        var start = b * listRegisters.paginationStep ;
+                        var numLebelButton = b + 1;
+                        var isActive = b==0? 'active' : '';
+                        strAllButtons += listRegisters.setTagButton( start, numLebelButton, isActive )
+                    }
+                    document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
+                },
                 init : function(){
-                    listProviders.getDataTable( listProviders.paginationStar, listProviders.paginationStep );
+                    listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep );
                 }
             }
 
