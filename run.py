@@ -26,11 +26,12 @@ def providers():
         paginationBy    = data['by']
         paginationOrder = data['order']
 
-        url = URLFrp + 'providers'
-        xFields =  str(paginationStart) + ',' + str(paginationStep)  + ',' + str(paginationBy) + ',' + str(paginationOrder)
-        PARAMS = {'X-Fields' : xFields} 
+        #?offset=9&limit=10&order_by=id&order=ASC
+
+        queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep)  + '&order_by=' + str(paginationBy) + '&order=' + str(paginationOrder)
+        url = URLFrp + queryStr
         
-        r = requests.get( url, params = PARAMS  ) 
+        r = requests.get( url) 
         dataRes = r.json() 
         
         return jsonify( data = dataRes )

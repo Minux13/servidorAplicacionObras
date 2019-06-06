@@ -20,8 +20,6 @@ var listRegisters = {
                 
                 var numAllRegisters = 10;
                 
-                console.log(res);
-                
                 if( createBtns ){
                     setTag.createButtons( numAllRegisters );
                     listRegisters.isStartPage = false;
@@ -114,9 +112,11 @@ var validate={
             var thisField = dataJson[f];
             var idField = thisField.id;
             var fieldValue = $('#' + idField ).val();
-            if (  !validate[thisField.type]( fieldValue ) ){
+            var isValide = validate[thisField.type]( fieldValue );
+            if (  !isValide[0] ){
                 document.getElementById( idField ).style.border = "1px solid #a33";
                 document.getElementById( 'for_' + idField ).style.display = "block";
+                document.getElementById( 'for_' + idField ).innerHTML = isValide[1];
                 send = false
             }
         }
@@ -124,7 +124,7 @@ var validate={
         return send;
     },
     'text' : function( val ){
-        if( val == '' ){return false;}
-        else{return true;}
+        if( val == '' ){return [false, 'Ingresa este campo'];}
+        else{return [true];}
     }
 }
