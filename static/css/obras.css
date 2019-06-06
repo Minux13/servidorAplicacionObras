@@ -719,6 +719,24 @@ hr{
     color: #fff;
 }
 
+.indicatorName{
+    text-transform: capitalize;
+}
+.rowAddRegister{
+    padding: 10px;
+}
+.rowAddRegister div{
+     margin-bottom: 5px;
+}
+#addRegister select{
+    height: fit-content;
+}
+/*Fechas*/
+.ui-widget-header, .ui-widget-content .ui-state-default {
+    background: #eee;
+    color: #000;
+}
+
 
 
 

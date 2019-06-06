@@ -8,9 +8,7 @@
         
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
-        
         <link rel="icon" href="/static/images/favi.png" type="image/gif" sizes="16x9">
-        
         
         <!--Loading JQuery UI css-->
         <link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -38,8 +36,9 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title> {{ menu[0]['name'] }} </title>
+        <title>{{ menu[0]['name'] }}</title>
     </head>
+
 
     <body class="  pace-done">
         <div class="pace  pace-inactive">
@@ -91,7 +90,7 @@
                 </ul>
             </nav>
 
-
+            
 
             <!-- Page Content Holder -->
             <div id="content" class="container-fluid">
@@ -133,11 +132,8 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a  id="titleFirstLink"  {{ menu[0]['url'] }}  >{{ menu[0]['name'] }}</a>
-                            &nbsp;&nbsp;
-                            <i class="fa fa-angle-right"></i>
-                            &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Crear {{ menu[0]['nameSingular'] }}  </a>
+                            <a   id="titleFirstLink"> {{ menu[0]['name'] }} </a>
+
                         </li>                         
                     </ol>
                     <div class="clearfix">
@@ -154,31 +150,20 @@
                         <div class="col-lg-12">
                              <div class="portlet box">
                                 
-
                                 <br>
 
 
 
-                                <div class="portlet-body" >
+                                <div class="portlet-body" id="bodyTableProviders">
+                                    <div id="containerRowAddButtonProvider">
+                                        <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar {{ menu[0]['nameSingular'] }} </button>
+                                    </div>
 
-                                    <div action="/" id="addRegister">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="nameprovider">Nombre del Proveedor </label> <br>
-                                                    <input type="text" name="nameprovider" class="form-control" id="nameprovider" >
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <label for="descriptionprovider">Descripción </label> <br>
-                                                    <input type="text" name="descriptionprovider" class="form-control" id="descriptionprovider" >
-                                                </div>
-                                            </div>
-                                                
-                                            <div class="contentOfButtonsActions" >
-                                                <button class="buttonsActions" onclick="addRegister();">Guardar</button>
-                                            </div>
-                                        </div>
+                                    <table id="tableRegisters">
+                                    </table>
+
+
+                                    <div id="containerButtonsPagination">
                                     </div>
 
                                 </div>
@@ -189,10 +174,10 @@
 
             </div>
         </div>
-        
+
+
         
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
-
 
     
         <!-- Jquery -->
@@ -209,50 +194,85 @@
         <script src="/static/js/highcharts-3d.js"></script>
         <!-- Module of Highcharts -->
         <script src="/static/js/exporting.js"></script>
+        
+        <script src="/static/js/obras.js"></script>
 
-        <!-- Notify -->
-        <script src="/static/js/notify.min.js"></script>
-        
-        
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
 
-    
+        <!-- Js for crate list -->
+        <script src="/static/js/listRegisters.js"></script>
+
+        
         <script>
 
             $(document).ready(function () {
 
-                //Button toggle for sidebar
+                //Funcionamiento del boton de la barra de menu
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
+                
 
+                //Comienza los procedimientos para la lista de proveedores
+                listRegisters.init();
             });
 
             
-            function addRegister() {
-             
-                var name        = $('#nameprovider').val();
-                var description = $('#descriptionprovider').val();
-                
-                var catalog = document.getElementById('catalogName').value;
-                
-                $.ajax({
-                    url: '/'+ catalog +'/add',
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (data) {
-                        $.notify(
-                            "El registro fue agregado", 
-                            { position:"bottom right"}
-                        );
-                    },
-                    data:  JSON.stringify ({'title': name , 'description': description})
-                });
-             
-            }
-        </script>
 
+
+
+
+            var setTag = {
+                tr : function( numContract, title, description, idRegister){
+                    strTr = `
+                        <tr idRegister="`+ idRegister +`" onclick="listRegisters.goToRegister(this);" >
+                            <td> `+ title +` </td>
+                            <td> `+ numContract +` </td>
+                            <td> `+ description +` </td>
+                        </tr>
+                    `;
+                    return strTr;
+                },
+                button : function(init, numValueButton, isActive){
+                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+                },
+                setTable : function(data){
+                    
+                    var strTRs = '<tr>  <th> Nombre </th> <th>Número de Contrato </th> <th> Descripción </th> </tr>';
+
+                    for( var d = 0; d< listRegisters.paginationStep ; d++){
+                        if(data[d]){
+                            strTRs += setTag.tr( data[d].number, data[d].title, data[d].description, data[d].id );
+                        }
+                    }
+
+                    document.getElementById('tableRegisters').innerHTML = strTRs;
+                   
+                },
+                createButtons: function( numAllRegisters ){
+                    
+                    var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
+                    listRegisters.numberOfButtons = numOfButtons ;
+                    
+                    var strAllButtons = '';
+                    for(var b=0; b< numOfButtons ; b++ ){
+                        var start = b * listRegisters.paginationStep ;
+                        var numLebelButton = b + 1;
+                        var isActive = b==0? 'active' : '';
+                        strAllButtons += setTag.button( start, numLebelButton, isActive )
+                    }
+                    document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
+                }
+                          
+            };
+
+
+
+
+
+        
+        </script>
+    
     </body>
 </html>

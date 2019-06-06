@@ -38,7 +38,7 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title> {{ menu[0]['name'] }} </title>
+        <title>{{ menu[0]['name'] }}</title>
     </head>
 
     <body class="  pace-done">
@@ -163,18 +163,104 @@
 
                                     <div action="/" id="addRegister">
                                         <div class="form-group">
-                                            <div class="row">
+                                            <div class="row rowAddRegister"  >
                                                 <div class="col-md-6">
-                                                    <label for="nameprovider">Nombre del Proveedor </label> <br>
-                                                    <input type="text" name="nameprovider" class="form-control" id="nameprovider" >
+                                                    <label for="title" class="indicatorName">Nombre del Contrato</label> <br>
+                                                    <input type="text" name="title" class="form-control" id="title" >
                                                 </div>
-                                                
                                                 <div class="col-md-6">
-                                                    <label for="descriptionprovider">Descripción </label> <br>
-                                                    <input type="text" name="descriptionprovider" class="form-control" id="descriptionprovider" >
+                                                    <label for="number" class="indicatorName">Número del Contrato </label> <br>
+                                                    <input type="text" name="number" class="form-control" id="number" >
                                                 </div>
                                             </div>
+                                        
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="initial_contracted_amount" class="indicatorName"> Monto Contratado Inicial </label> <br>
+                                                    <input type="number" name="initial_contracted_amount" class="form-control" id="initial_contracted_amount" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="provider" class="indicatorName"> Empresa </label> <br>
+                                                    <select name="provider" class="form-control" id="provider"  >
+                                                        <option value="1">Empresa 1</option>
+                                                        <option value="2">Empresa 2</option>
+                                                        <option value="3">Empresa 3</option>
+                                                        <option value="4">Empresa 4</option>
+                                                    </select>
+                                                </div>
+                                            </div>                                       
+                                        
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="kickoff" class="indicatorName"> Inicio de Obras Según Contrato </label> <br>
+                                                    <input type="text" name="kickoff" class="form-control" id="kickoff" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="ending" class="indicatorName"> Fin de Obras Según Contrato </label> <br>
+                                                    <input type="text" name="ending" class="form-control" id="ending" >
+                                                </div>
+                                            </div>                                       
                                                 
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="down_payment" class="indicatorName"> fecha de pago anticipo </label> <br>
+                                                    <input type="text" name="down_payment" class="form-control" id="down_payment" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="down_payment_amount" class="indicatorName"> monto de pago anticipo </label> <br>
+                                                    <input type="number" name="down_payment_amount" class="form-control" id="down_payment_amount" >
+                                                </div>
+                                            </div> 
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="ext_agreement_amount" class="indicatorName"> convenio de apliación económico </label> <br>
+                                                    <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="ext_agreement" class="indicatorName">  fecha de convenio ampliación de obra </label> <br>
+                                                    <input type="text" name="ext_agreement" class="form-control" id="ext_agreement" >
+                                                </div>
+                                            </div> 
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="final_contracted_amount" class="indicatorName"> monto contrato final </label> <br>
+                                                    <input type="number" name="final_contracted_amount" class="form-control" id="final_contracted_amount" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="total_amount_paid" class="indicatorName"> total pagado </label> <br>
+                                                    <input type="number" name="total_amount_paid" class="form-control" id="total_amount_paid" >
+                                                </div>
+                                            </div> 
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="outstanding_down_payment" class="indicatorName"> anticipo pendiente de amotizar </label> <br>
+                                                    <input type="number" name="outstanding_down_payment" class="form-control" id="outstanding_down_payment"  >
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="delivery_stage" class="indicatorName"> Estado de Entrega </label> <br>
+                                                    <select name="delivery_stage" class="form-control" id="delivery_stage"  >
+                                                        <option value="1">Verde</option>
+                                                        <option value="2">Amarillo</option>
+                                                        <option value="3">Naranja</option>
+                                                        <option value="4">Rojo</option>
+                                                    </select>
+                                                </div>
+                                                
+                                            </div> 
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-12">
+                                                    <label for="description" class="indicatorName"> Descripción </label> <br>
+                                                    <textarea name="description" class="form-control" id="description" > </textarea>
+                                                </div>
+                                                
+                                            </div> 
+                                                
+
+
                                             <div class="contentOfButtonsActions" >
                                                 <button class="buttonsActions" onclick="addRegister();">Guardar</button>
                                             </div>
@@ -227,15 +313,39 @@
                     $('#sidebar').toggleClass('active');
                 });
 
+                $( "#kickoff" ).datepicker();
+                $( "#ending" ).datepicker();
+                $( "#down_payment" ).datepicker();
+                $( "#ext_agreement" ).datepicker();
+
             });
 
             
             function addRegister() {
-             
+                
                 var name        = $('#nameprovider').val();
                 var description = $('#descriptionprovider').val();
                 
                 var catalog = document.getElementById('catalogName').value;
+
+                var jsonValues = {
+                    'numberr'                   : $('#number').val(),
+                    'title'                     : $('#title').val(),
+                    'description'               : $('#description').val(),
+                    'provider'                  : $('#provider').val(),
+                    'delivery_stage'            : $('#delivery_stage').val(),
+                    'initial_contracted_amount' : $('#initial_contracted_amount').val(),
+                    'kickoff'                   : $('#kickoff').val().replace(/\//g, '-'),
+                    'ending'                    : $('#ending').val().replace(/\//g, '-'),
+                    'down_payment'              : $('#down_payment').val().replace(/\//g, '-'),
+                    'down_payment_amount'       : $('#down_payment_amount').val(),
+                    'ext_agreement'             : $('#ext_agreement').val().replace(/\//g, '-'),
+                    'ext_agreement_amount'      : $('#ext_agreement_amount').val(),
+                    'final_contracted_amount'   : $('#final_contracted_amount').val(),
+                    'total_amount_paid'         : $('#total_amount_paid').val(),
+                    'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
+                }
+                
                 
                 $.ajax({
                     url: '/'+ catalog +'/add',
@@ -245,11 +355,12 @@
                     success: function (data) {
                         $.notify(
                             "El registro fue agregado", 
-                            { position:"bottom right"}
+                            { position:"bottom right" }
                         );
                     },
-                    data:  JSON.stringify ({'title': name , 'description': description})
+                    data:  JSON.stringify ( jsonValues )
                 });
+                
              
             }
         </script>
