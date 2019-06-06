@@ -36,7 +36,7 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title>Proveedores</title>
+        <title>{{ menu[0]['name'] }}</title>
     </head>
 
 
@@ -62,47 +62,35 @@
                     </div>
                 </div>
                 <ul class="list-unstyled components">                
-                    <li class="menu-element">
-                        <a  data-toggle="collapse">
+                    <li class="menu-element"  {{ menu[1]['isActive'] }}  >
+                        <a  {{ menu[1]['url'] }} >
                             <i class="fa fa-cogs fa-fw"></i>
-                            <span class="menu-title">Administración</span>
+                            <span class="menu-title">  {{ menu[1]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element" active>
-                        <a id="portfolio">
+                    <li class="menu-element"  {{ menu[2]['isActive'] }} >
+                        <a   {{ menu[2]['url'] }}  >
                             <i class="fa fa-briefcase"></i>
-                            <span class="menu-title" >Proveedores</span>
+                            <span class="menu-title" > {{ menu[2]['name'] }} </span>
                         </a>                       
                     </li>
-                    <li class="menu-element"> 
-                        <a >
+                    <li class="menu-element" {{ menu[3]['isActive'] }} > 
+                        <a    {{ menu[3]['url'] }} >
                             <i class="fa fa-sitemap fa-fw"> </i>
-                            <span class="menu-title">Definición de Proyecto</span>
+                            <span class="menu-title"> {{ menu[3]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element">
-                        <a >
-                            <i class="fa fa-tasks fa-fw"> </i>
-                            <span class="menu-title">Gestión de Proyecto</span>
-                        </a>                          
-                    </li>
-                    <li class="menu-element">
-                        <a >
-                            <i class="fa fa-table fa-fw"> </i>
-                            <span class="menu-title">Reportes</span>
-                        </a>                 
-                    </li>
-                    <li class="menu-element">
-                        <a >
+                    <li class="menu-element" {{ menu[4]['isActive'] }} >
+                        <a   {{ menu[4]['url'] }} >
                             <i class="fa fa-tachometer-alt fa-fw"> </i>
-                            <span class="menu-title">Tablero</span>
+                            <span class="menu-title"> {{ menu[4]['name'] }} </span>
                         </a>
                     </li>                   
                     
                 </ul>
             </nav>
 
-
+            
 
             <!-- Page Content Holder -->
             <div id="content" class="container-fluid">
@@ -144,7 +132,7 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a  id="titleFirstLink">Proveedores</a>
+                            <a   id="titleFirstLink"> {{ menu[0]['name'] }} </a>
 
                         </li>                         
                     </ol>
@@ -168,10 +156,10 @@
 
                                 <div class="portlet-body" id="bodyTableProviders">
                                     <div id="containerRowAddButtonProvider">
-                                        <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar Proveedor </button>
+                                        <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar {{ menu[0]['nameSingular'] }} </button>
                                     </div>
 
-                                    <table id="tableProv">
+                                    <table id="tableRegisters">
                                     </table>
 
 
@@ -187,6 +175,9 @@
             </div>
         </div>
 
+
+        
+        <input id="catalogName" type="hidden" value="{{ catalog }}" >
 
     
         <!-- Jquery -->
@@ -224,59 +215,36 @@
                 listRegisters.init();
             });
 
-
-
-
             var listRegisters = {
-                paginationStar : 0,     //Donde empieza a 
-                paginationStep : 10,    //Cantidad de registros traidos y vistos en la lista
-                numberOfButtons: 1,     //Valor que se actualiza al traer datos de la base de datos
-                isStartPage : true,     //Es true cuando se carga la pagina, lo uso para crear los botones cuando solo cuando se crea la pagina
-                setTR : function(title, description, idProvider){   // Crea cada <tr> de la tabla
-                    strTr = `
-                        <tr idProvider="`+ idProvider +`" onclick="listRegisters.goToProvider(this);" >
-                            <td> `+ title +` </td>
-                            <td> `+ description +` </td>
-                        </tr>
-                    `;
-                    return strTr;
-                },
-                setTable : function(data){          //Crea y actualiza la tabla de registros
-                    
-                    var strTRs = '<tr> <th> Proveedor </th> <th> Descripcion </th> </tr>';
-
-                    for( var d = 0; d< listRegisters.paginationStep ; d++){
-                        if(data[d]){
-                            strTRs += listRegisters.setTR( data[d].title, data[d].description, data[d].id );
-                        }
-                    }
-
-                    document.getElementById('tableProv').innerHTML = strTRs;
-                   
-                },
-                goToProvider : function(thisElement){       //Se ejecuta para ir a la info del registro cuando se da click sobre el <a>
-                    var idProvider = thisElement.getAttribute('idprovider');
-                    var url = '/providers/edit/' + idProvider
+                paginationStar : 0,
+                paginationStep : 10,
+                numberOfButtons: 1,     //Mock, se actualiza cuando se reciben los datos ajax
+                isStartPage : true,
+                goToRegister : function(thisElement){
+                    var idRegister = thisElement.getAttribute('idRegister');
+                    var catalog = document.getElementById('catalogName').value;
+                    var url = '/'+ catalog +'/edit/' + idRegister;
                     window.open( url ,"_self"); 
                 },
-                getDataTable : function( start, step ){         //Obtiene los datos por POST de la tabla
+                getDataTable : function( start, step, catalog, createBtns ){
                      $.ajax({
-                        url: 'providers',
+                        url: catalog,
                         type: 'post',
                         dataType: 'json',
                         contentType: 'application/json',
                         success: function (res) {
                             ////////////Set buttons and table
                             
-                            var numAllRegisters = 10; //Mock 
-
+                            var numAllRegisters = 10;
                             
-                            if(listRegisters.isStartPage){
-                                listRegisters.createButtons( numAllRegisters );
+                            console.log(res);
+                            
+                            if( createBtns ){
+                                setTag.createButtons( numAllRegisters );
                                 listRegisters.isStartPage = false;
                             }
 
-                            listRegisters.setTable(res.data)
+                            setTag.setTable(res.data)
                         },
 
                         data:  JSON.stringify ({'paginationStart':  start,
@@ -287,25 +255,61 @@
                     });
                    
                 },
-                linkAddProvider: function(){        //Para ir a la pagina de agregar un registro <a>
-                    var url = '/providers/add';
+                linkAddProvider: function(){
+                    var catalog = document.getElementById('catalogName').value;
+                    var url = '/'+ catalog +'/add';
                     window.open( url ,"_self"); 
                 },
-                setTagButton : function(init, numValueButton, isActive){        //Crea el html de los botones
-                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
-                },
-                actionButtonPagination: function( thisButton ){     //Accion que se ejecuta al dar click en un boton
+                actionButtonPagination: function( thisButton ){
 
-                    //Establece la tabla lista de registros
+                    //Set list
                     var init =  parseInt( thisButton.getAttribute('initL') ) ;
                     listRegisters.getDataTable( init, listRegisters.paginationStep )
                     
-                    //Comportamiento visual de los botones
+                    //Behavior button
                     $(".button_pag").removeAttr("active");
                     $( thisButton ).attr('active','')
 
                 },
-                createButtons: function( numAllRegisters ){         //Logica para crear los botones
+                init : function(){
+                    var catalog = document.getElementById('catalogName').value;
+                    listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, catalog, true );
+                }
+            };
+
+            
+
+
+
+
+
+            var setTag = {
+                tr : function( title, description, idRegister){
+                    strTr = `
+                        <tr idRegister="`+ idRegister +`" onclick="listRegisters.goToRegister(this);" >
+                            <td> `+ title +` </td>
+                            <td> `+ description +` </td>
+                        </tr>
+                    `;
+                    return strTr;
+                },
+                button : function(init, numValueButton, isActive){
+                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+                },
+                setTable : function(data){
+                    
+                    var strTRs = '<tr> <th> Nombre </th> <th> Descripción </th> </tr>';
+
+                    for( var d = 0; d< listRegisters.paginationStep ; d++){
+                        if(data[d]){
+                            strTRs += setTag.tr( data[d].title, data[d].description, data[d].id );
+                        }
+                    }
+
+                    document.getElementById('tableRegisters').innerHTML = strTRs;
+                   
+                },
+                createButtons: function( numAllRegisters ){
                     
                     var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
                     listRegisters.numberOfButtons = numOfButtons ;
@@ -315,14 +319,16 @@
                         var start = b * listRegisters.paginationStep ;
                         var numLebelButton = b + 1;
                         var isActive = b==0? 'active' : '';
-                        strAllButtons += listRegisters.setTagButton( start, numLebelButton, isActive )
+                        strAllButtons += setTag.button( start, numLebelButton, isActive )
                     }
                     document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
-                },
-                init : function(){          //Primera funcion que se llama al cargarse la pagina
-                    listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep );
                 }
-            }
+                          
+            };
+
+
+
+
 
         
         </script>

@@ -36,7 +36,7 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title>Proveedores</title>
+        <title> {{ menu[0]['name'] }} </title>
     </head>
 
 
@@ -62,40 +62,28 @@
                     </div>
                 </div>
                 <ul class="list-unstyled components">                
-                    <li class="menu-element">
-                        <a  data-toggle="collapse">
+                    <li class="menu-element"  {{ menu[1]['isActive'] }}  >
+                        <a  {{ menu[1]['url'] }} >
                             <i class="fa fa-cogs fa-fw"></i>
-                            <span class="menu-title">Administración</span>
+                            <span class="menu-title">  {{ menu[1]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element" active>
-                        <a id="portfolio">
+                    <li class="menu-element"  {{ menu[2]['isActive'] }} >
+                        <a   {{ menu[2]['url'] }}  >
                             <i class="fa fa-briefcase"></i>
-                            <span class="menu-title" >Proveedores</span>
+                            <span class="menu-title" > {{ menu[2]['name'] }} </span>
                         </a>                       
                     </li>
-                    <li class="menu-element"> 
-                        <a >
+                    <li class="menu-element" {{ menu[3]['isActive'] }} > 
+                        <a    {{ menu[3]['url'] }} >
                             <i class="fa fa-sitemap fa-fw"> </i>
-                            <span class="menu-title">Definición de Proyecto</span>
+                            <span class="menu-title"> {{ menu[3]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element">
-                        <a >
-                            <i class="fa fa-tasks fa-fw"> </i>
-                            <span class="menu-title">Gestión de Proyecto</span>
-                        </a>                          
-                    </li>
-                    <li class="menu-element">
-                        <a >
-                            <i class="fa fa-table fa-fw"> </i>
-                            <span class="menu-title">Reportes</span>
-                        </a>                 
-                    </li>
-                    <li class="menu-element">
-                        <a >
+                    <li class="menu-element" {{ menu[4]['isActive'] }} >
+                        <a   {{ menu[4]['url'] }} >
                             <i class="fa fa-tachometer-alt fa-fw"> </i>
-                            <span class="menu-title">Tablero</span>
+                            <span class="menu-title"> {{ menu[4]['name'] }} </span>
                         </a>
                     </li>                   
                     
@@ -144,7 +132,7 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a  id="titleFirstLink">Proveedores</a>
+                            <a  id="titleFirstLink" href="/providers">Proveedores</a>
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
@@ -172,7 +160,7 @@
 
                                 <div class="portlet-body">
 
-                                    <form action="/" id="addRegister">
+                                    <div id="addRegister">
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -191,7 +179,7 @@
                                                 <button onclick="warningDelete();" class="buttonsActions deleteRegisterButton"> Eliminar </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
 
                                 </div>
                             </div>
@@ -221,11 +209,12 @@
         
         
         
-                <input id="providerid" type="hidden" value="{{ data.id }}" >
 
             </div>
         </div>
 
+        <input id="registerid" type="hidden" value="{{ data.id }}" >
+        <input id="catalogName" type="hidden" value="{{ catalog }}" >
  
 
         
@@ -247,7 +236,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
-        <!-- Notofy -->
+        <!-- Notify -->
         <script src="/static/js/notify.min.js"></script>
 
 
@@ -267,13 +256,6 @@
             });
 
 
-            // Attach a submit handler to the form
-            $( "#addRegister" ).submit(function( event ) {
-             
-                event.preventDefault();
-            });
-
-
             function warningDelete(){
                 $('#modalconfirm').modal({ show: true });
                 $('.modal-backdrop').removeClass("modal-backdrop");  
@@ -281,9 +263,11 @@
             
             function deleteRegister(){
             
-                var idProvider = $('#providerid').val();
-                
-                var url = '/providers/edit/' + idProvider;
+                var idProvider = $('#registerid').val();
+
+                var catalog = document.getElementById('catalogName').value;
+                var url = '/'+ catalog +'/edit/' + idProvider;
+
                 $.ajax({
                     url: url,
                     type: 'DELETE',
@@ -299,11 +283,12 @@
 
             function saveRegister(){
                                 
-                var idProvider  = $('#providerid').val();
+                var idProvider  = $('#registerid').val();
                 var name        = $('#nameprovider').val();
                 var description = $('#descriptionprovider').val();
                 
-                var url = '/providers/edit/' + idProvider;
+                var catalog = document.getElementById('catalogName').value;
+                var url = '/'+ catalog +'/edit/' + idProvider;
             
                 $.ajax({
                     url: url,
