@@ -669,17 +669,17 @@ hr{
 
 
 
-/** List Providers **/
-#tableProv{
+/** List Registers **/
+#tableRegisters{
     width: 100%;
     font-size: 1.4em;
 }
-#tableProv tr th{
+#tableRegisters tr th{
     border-bottom: 2px solid #ddd;
     padding: 15px;
     color: #777;
 }
-#tableProv td{
+#tableRegisters td{
     border-bottom: 1px solid #ddd;
     padding: 15px;
     color: #777;
@@ -688,6 +688,16 @@ hr{
 #bodyTableProviders{
     padding: 30px;
 }
+#containerButtonsPagination{
+    text-align: center;
+    margin-top: 20px;
+}
+#containerButtonsPagination button{
+    cursor: pointer;
+}
+
+
+
 
 /** Add Provider **/
 #containerRowAddButtonProvider{
@@ -701,6 +711,7 @@ hr{
     color: #606;
     border-radius: 5px;
     margin-bottom: 5px;
+    text-transform: capitalize;
 }
 .obrasButtonNormal:hover{
     cursor: pointer;
@@ -715,10 +726,9 @@ hr{
 .notifyjs-bootstrap-base {
     opacity: 0.85 !important;
     padding: 25px 30px !important;
-    border-radius: 10px !important;
     font-size: 1.4em !important;
-    background: #efefff !important;
+    background: linear-gradient(0deg, #636, #a6a) !important;
     opacity: 1 !important;
-    color: #666 !important;
+    color: #fff !important;
     border: 1px solid #666 !important;
 }
