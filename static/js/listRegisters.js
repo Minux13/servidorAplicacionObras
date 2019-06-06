@@ -28,6 +28,9 @@ var listRegisters = {
                 }
 
                 setTag.setTable(res.data)
+        
+               document.getElementById('waintingAnimation').style.display = "none";
+
             },
 
             data:  JSON.stringify ({'paginationStart':  start,
@@ -35,7 +38,15 @@ var listRegisters = {
                                     'by'            : 'id',
                                     'order'         : 'ASC'
                                     })
-        });
+        }).done(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        })
+        .fail(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        })
+        .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) ;
        
     },
     linkAddProvider: function(){
@@ -55,9 +66,65 @@ var listRegisters = {
 
     },
     init : function(){
+        document.getElementById('waintingAnimation').style.display = "block";
+        
         var catalog = document.getElementById('catalogName').value;
         listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, catalog, true );
     }
 };
 
+          
+
+
+             
+function sendPOSTRegister( url, dataJson ){
+     $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
+            $.notify(
+                "El registro fue agregado", 
+                { position:"bottom right"}
+            );
+        },
+        data: dataJson
+    });               
+} 
+
+
+
+
+var validate={
+    'fields' : function( dataJson ){
+        
+        //Clean
+        for(var f in dataJson){
+            var thisField = dataJson[f];
+            var idField = thisField.id;
             
+            document.getElementById( idField ).style.border = "solid 1px #606";
+            document.getElementById( 'for_' + idField ).style.display = "none";
+
+        }
+
+        var send = true;
+        for(var f in dataJson){
+            var thisField = dataJson[f];
+            var idField = thisField.id;
+            var fieldValue = $('#' + idField ).val();
+            if (  !validate[thisField.type]( fieldValue ) ){
+                document.getElementById( idField ).style.border = "1px solid #a33";
+                document.getElementById( 'for_' + idField ).style.display = "block";
+                send = false
+            }
+        }
+
+        return send;
+    },
+    'text' : function( val ){
+        if( val == '' ){return false;}
+        else{return true;}
+    }
+}

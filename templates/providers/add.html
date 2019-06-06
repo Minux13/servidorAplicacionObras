@@ -167,11 +167,13 @@
                                                 <div class="col-md-6">
                                                     <label for="nameprovider">Nombre del Proveedor </label> <br>
                                                     <input type="text" name="nameprovider" class="form-control" id="nameprovider" >
+                                                    <p id="for_nameprovider" style="display:none; color: #800;font-size:1.3em;" >Ingresa un nombre </p>
                                                 </div>
                                                 
                                                 <div class="col-md-6">
                                                     <label for="descriptionprovider">Descripción </label> <br>
                                                     <input type="text" name="descriptionprovider" class="form-control" id="descriptionprovider" >
+                                                    <p id="for_descriptionprovider" style="display:none; color: #800;font-size:1.3em;" >Ingresa una descripción</p>
                                                 </div>
                                             </div>
                                                 
@@ -217,6 +219,11 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
 
+        
+        
+        <!-- Js for crate list -->
+        <script src="/static/js/listRegisters.js"></script>
+
     
         <script>
 
@@ -229,29 +236,29 @@
 
             });
 
-            
+
             function addRegister() {
              
-                var name        = $('#nameprovider').val();
-                var description = $('#descriptionprovider').val();
-                
                 var catalog = document.getElementById('catalogName').value;
+                var url = '/'+ catalog +'/add';
+
+                var fieldsJson = [
+                    {'id' : 'nameprovider',         'type' : 'text'},
+                    {'id' : 'descriptionprovider',  'type' : 'text'},
+                ]
+
+                var send = validate.fields( fieldsJson );
                 
-                $.ajax({
-                    url: '/'+ catalog +'/add',
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (data) {
-                        $.notify(
-                            "El registro fue agregado", 
-                            { position:"bottom right"}
-                        );
-                    },
-                    data:  JSON.stringify ({'title': name , 'description': description})
-                });
-             
+                if (send){
+                    var dataJson = JSON.stringify({
+                        'title':        $('#nameprovider').val() , 
+                        'description':  $('#descriptionprovider').val()
+                    });
+                    sendPOSTRegister( url, dataJson )
+                }
+            
             }
+
         </script>
 
     </body>

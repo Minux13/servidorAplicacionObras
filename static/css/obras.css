@@ -649,6 +649,7 @@ hr{
     background: #fff;
     color: #606;
     border-radius: 5px;
+    cursor: pointer;
 }
 .contentOfButtonsActions{
     text-align: right;
