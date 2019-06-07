@@ -56,6 +56,9 @@ var listRegisters = {
     },
     actionButtonPagination: function( thisButton ){
 
+        //Icono de espera
+        document.getElementById('waintingAnimation').style.display = "block";
+
         //Set list
         var init     =  parseInt( thisButton.getAttribute('initL') ) ;
         var searchBy =  thisButton.getAttribute('searchBy') ? thisButton.getAttribute('searchBy') : '' ;
@@ -72,6 +75,8 @@ var listRegisters = {
 
 
     initSearch : function() {
+        document.getElementById('waintingAnimation').style.display = "block";
+        
         var searchBy      = $('#searchRegisterSelect').val();
         var valueSearchBy = $('#searchRegisterField').val();
         var url = document.getElementById('catalogName').value;
