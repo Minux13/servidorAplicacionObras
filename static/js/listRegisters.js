@@ -9,7 +9,7 @@ var listRegisters = {
         var url = '/'+ catalog +'/edit/' + idRegister;
         window.open( url ,"_self"); 
     },
-    getDataTable : function( start, step, order, orderBy, url, createBtns ){
+    getDataTable : function( start, step, order, orderBy, url, createBtns, searchBy, valueSearchBy ){
          $.ajax({
             url: url,
             type: 'post',
@@ -20,7 +20,7 @@ var listRegisters = {
                 var numAllRegisters = res.count;
                 
                 if( createBtns ){
-                    setTag.createButtons( numAllRegisters );
+                    setTag.createButtons( numAllRegisters, searchBy, valueSearchBy );
                     listRegisters.isStartPage = false;
                 }
 
@@ -34,7 +34,9 @@ var listRegisters = {
             data:  JSON.stringify ({'paginationStart': start,
                                     'paginationStep' : step,
                                     'by'             : order,
-                                    'order'          : orderBy
+                                    'order'          : orderBy,
+                                    'searchBy'       : searchBy,
+                                    'valueSearchBy'  : valueSearchBy
                                     })
         }).done(function() {
             document.getElementById('waintingAnimation').style.display = "none";
@@ -55,9 +57,11 @@ var listRegisters = {
     actionButtonPagination: function( thisButton ){
 
         //Set list
-        var init =  parseInt( thisButton.getAttribute('initL') ) ;
-        var url = document.getElementById('catalogName').value;
-        listRegisters.getDataTable( init, listRegisters.paginationStep, 'id', 'ASC', url, false )
+        var init     =  parseInt( thisButton.getAttribute('initL') ) ;
+        var searchBy =  thisButton.getAttribute('searchBy') ? thisButton.getAttribute('searchBy') : '' ;
+        var valueSearchBy = thisButton.getAttribute('valueSearchBy') ? thisButton.getAttribute('valueSearchBy') : '' ;
+        var url      =  document.getElementById('catalogName').value;
+        listRegisters.getDataTable( init, listRegisters.paginationStep, 'id', 'ASC', url, false, searchBy, valueSearchBy )
         
         //Behavior button
         $(".button_pag").removeAttr("active");
@@ -68,8 +72,11 @@ var listRegisters = {
 
 
     initSearch : function() {
-        $('#searchRegisterSelect').val();
+        var searchBy      = $('#searchRegisterSelect').val();
+        var valueSearchBy = $('#searchRegisterField').val();
         var url = document.getElementById('catalogName').value;
+        
+        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true, searchBy, valueSearchBy );
         
     },
 
@@ -78,14 +85,14 @@ var listRegisters = {
         document.getElementById('waintingAnimation').style.display = "block";
         
         var url = document.getElementById('catalogName').value;
-        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true );
+        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true, '', '' );
     }
 };
 
           
 
 
-             
+//Para las secciones de agragar o editar             
 function sendPOSTRegister( url, dataJson ){
      $.ajax({
         url: url,
@@ -101,6 +108,8 @@ function sendPOSTRegister( url, dataJson ){
         data: dataJson
     });               
 } 
+
+
 
 
 
@@ -135,6 +144,15 @@ var validate={
         return send;
     },
     'text' : function( val ){
+        if( val == '' ){return [false, 'Ingresa este campo'];}
+        else{return [true];}
+    },
+    'float' : function( val ){
+        if( val == '' ){return [false, 'Ingresa este campo'];}
+        else if( isNaN( val ) ){return [false, 'Ingresa un número valido'];}
+        else{return [true];}
+    },
+    'date' : function( val ){
         if( val == '' ){return [false, 'Ingresa este campo'];}
         else{return [true];}
     }

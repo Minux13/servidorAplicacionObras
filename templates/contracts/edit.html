@@ -36,7 +36,7 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title>{{ menu[0]['name'] }}</title>
+        <title> {{ menu[0]['name'] }} </title>
     </head>
 
 
@@ -162,92 +162,103 @@
 
                                     <div id="addRegister">
                                         <div class="form-group">
-
-                                            
                                             <div class="row rowAddRegister"  >
                                                 <div class="col-md-6">
                                                     <label for="title" class="indicatorName">Nombre del Contrato</label> <br>
-                                                    <input type="text" name="title" class="form-control" id="title" value="{{ data.title }}"  >
+                                                    <input type="text" name="title" class="form-control" id="title" value="{{ data.title }}" >
+                                                    <p id="for_title" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="number" class="indicatorName">Número del Contrato </label> <br>
-                                                    <input type="text" name="number" class="form-control" id="number" value="{{ data.number }}"  >
+                                                    <input type="text" name="number" class="form-control" id="number" value="{{ data.number }}" >
+                                                    <p id="for_number" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div>
                                         
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="initial_contracted_amount" class="indicatorName"> Monto Contratado Inicial </label> <br>
-                                                    <input type="number" name="initial_contracted_amount" class="form-control" id="initial_contracted_amount" value="{{ data.initial_contracted_amount }}"  >
+                                                    <input type="number" name="initial_contracted_amount" class="form-control" id="initial_contracted_amount" value="{{ data.initial_contracted_amount }}" >
+                                                    <p id="for_initial_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="provider" class="indicatorName"> Empresa </label> <br>
-                                                    <select name="provider" class="form-control" id="provider"  >
+                                                    <select name="provider" class="form-control" id="provider" value="{{ data.provider }}"  >
                                                         <option value="1">Empresa 1</option>
                                                         <option value="2">Empresa 2</option>
                                                         <option value="3">Empresa 3</option>
                                                         <option value="4">Empresa 4</option>
                                                     </select>
+                                                    <p id="for_provider" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div>                                       
                                         
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="kickoff" class="indicatorName"> Inicio de Obras Según Contrato </label> <br>
-                                                    <input type="text" name="kickoff" class="form-control" id="kickoff" value="{{ data.kickoff }}"  >
+                                                    <input type="text" name="kickoff" class="form-control" id="kickoff" value="{{ data.kickoff }}" >
+                                                    <p id="for_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ending" class="indicatorName"> Fin de Obras Según Contrato </label> <br>
-                                                    <input type="text" name="ending" class="form-control" id="ending" value="{{ data.ending }}"  >
+                                                    <input type="text" name="ending" class="form-control" id="ending" value="{{ data.ending }}" >
+                                                    <p id="for_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div>                                       
                                                 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="down_payment" class="indicatorName"> fecha de pago anticipo </label> <br>
-                                                    <input type="text" name="down_payment" class="form-control" id="down_payment" value="{{ data.down_payment }}"  >
+                                                    <input type="text" name="down_payment" class="form-control" id="down_payment" value="{{ data.down_payment }}" >
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="down_payment_amount" class="indicatorName"> monto de pago anticipo </label> <br>
-                                                    <input type="number" name="down_payment_amount" class="form-control" id="down_payment_amount" value="{{ data.down_payment_amount }}"  >
+                                                    <input type="number" name="down_payment_amount" class="form-control" id="down_payment_amount" value="{{ data.down_payment_amount }}" >
+                                                    <p id="for_down_payment_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div> 
 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="ext_agreement_amount" class="indicatorName"> convenio de apliación económico </label> <br>
-                                                    <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" value="{{ data.ext_agreement_amount }}"  >
+                                                    <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" value="{{ data.ext_agreement_amount }}" >
+                                                    <p id="for_ext_agreement_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ext_agreement" class="indicatorName">  fecha de convenio ampliación de obra </label> <br>
-                                                    <input type="text" name="ext_agreement" class="form-control" id="ext_agreement" value="{{ data.ext_agreement }}"  >
+                                                    <input type="text" name="ext_agreement" class="form-control" id="ext_agreement" value="{{ data.ext_agreement }}" >
+                                                    <p id="for_ext_agreement" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div> 
 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="final_contracted_amount" class="indicatorName"> monto contrato final </label> <br>
-                                                    <input type="number" name="final_contracted_amount" class="form-control" id="final_contracted_amount" value="{{ data.final_contracted_amount }}"  >
+                                                    <input type="number" name="final_contracted_amount" class="form-control" id="final_contracted_amount" value="{{ data.final_contracted_amount }}" >
+                                                    <p id="for_final_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="total_amount_paid" class="indicatorName"> total pagado </label> <br>
-                                                    <input type="number" name="total_amount_paid" class="form-control" id="total_amount_paid" value="{{ data.total_amount_paid }}"  >
+                                                    <input type="number" name="total_amount_paid" class="form-control" id="total_amount_paid" value="{{ data.total_amount_paid }}" >
+                                                    <p id="for_total_amount_paid" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div> 
 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
                                                     <label for="outstanding_down_payment" class="indicatorName"> anticipo pendiente de amotizar </label> <br>
-                                                    <input type="number" name="outstanding_down_payment" class="form-control" id="outstanding_down_payment" value="{{ data.outstanding_down_payment }}"   >
+                                                    <input type="number" name="outstanding_down_payment" class="form-control" id="outstanding_down_payment" value="{{ data.outstanding_down_payment }}"  >
+                                                    <p id="for_outstanding_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="delivery_stage" class="indicatorName"> Estado de Entrega </label> <br>
-                                                    <select name="delivery_stage" class="form-control" id="delivery_stage"  >
+                                                    <select name="delivery_stage" class="form-control" id="delivery_stage" value="{{ data.delivery_stage }}"  >
                                                         <option value="1">Verde</option>
                                                         <option value="2">Amarillo</option>
                                                         <option value="3">Naranja</option>
                                                         <option value="4">Rojo</option>
                                                     </select>
+                                                    <p id="for_delivery_stage" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 
                                             </div> 
@@ -255,18 +266,12 @@
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-12">
                                                     <label for="description" class="indicatorName"> Descripción </label> <br>
-                                                    <textarea name="description" class="form-control" id="description" >{{ data.description }}</textarea>
+                                                    <textarea name="description" class="form-control" id="description" > {{ data.description }} </textarea>
+                                                    <p id="for_description" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 
                                             </div> 
                                                 
-
-
-
-
-
-
-
                                             <div class="contentOfButtonsActions" >
                                                 <button onclick="saveRegister();" class="buttonsActions saveRegisterButton"> Guardar </button>
                                                 <button onclick="warningDelete();" class="buttonsActions deleteRegisterButton"> Eliminar </button>
@@ -336,6 +341,9 @@
         <!-- Custom JS for Sistema de Obras -->
         <script src="/static/js/obras.js"></script>
 
+        <!-- Js for crate list -->
+        <script src="/static/js/listRegisters.js"></script>
+
 
         <script>
 
@@ -346,6 +354,11 @@
                     $('#sidebar').toggleClass('active');
                 });
 
+                $( "#kickoff" ).datepicker();
+                $( "#ending" ).datepicker();
+                $( "#down_payment" ).datepicker();
+                $( "#ext_agreement" ).datepicker();
+
             });
 
 
@@ -354,8 +367,6 @@
                 $('.modal-backdrop').removeClass("modal-backdrop");  
             }
             
-
-
             function deleteRegister(){
             
                 var idRegister = $('#registerid').val();
@@ -379,43 +390,47 @@
             function saveRegister(){
                                 
                 var idRegister  = $('#registerid').val();
-                
-                var jsonValues = {
-                    'id'                        : idRegister,
-                    'numberr'                   : $('#number').val(),
-                    'title'                     : $('#title').val(),
-                    'description'               : $('#description').val(),
-                    'provider'                  : $('#provider').val(),
-                    'delivery_stage'            : $('#delivery_stage').val(),
-                    'initial_contracted_amount' : $('#initial_contracted_amount').val(),
-                    'kickoff'                   : $('#kickoff').val().replace(/\//g, '-'),
-                    'ending'                    : $('#ending').val().replace(/\//g, '-'),
-                    'down_payment'              : $('#down_payment').val().replace(/\//g, '-'),
-                    'down_payment_amount'       : $('#down_payment_amount').val(),
-                    'ext_agreement'             : $('#ext_agreement').val().replace(/\//g, '-'),
-                    'ext_agreement_amount'      : $('#ext_agreement_amount').val(),
-                    'final_contracted_amount'   : $('#final_contracted_amount').val(),
-                    'total_amount_paid'         : $('#total_amount_paid').val(),
-                    'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
-                }
-                
-                
                 var catalog = document.getElementById('catalogName').value;
                 var url = '/'+ catalog +'/edit/' + idRegister;
-            
-                $.ajax({
-                    url: url,
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (data) {
-                        $.notify(
-                            'El registro fue modificado', 
-                            { position:"bottom right" }
-                        );
-                    },
-                    data:  JSON.stringify ( jsonValues )
-                });
+
+                //Fields for validate
+                var fieldsJson = [
+                    {'id' : 'number',                   'type' : 'text'},
+                    {'id' : 'title',                    'type' : 'text'},
+                    //{'id' : 'provider',                 'type' : 'number'},
+                    //{'id' : 'delivery_stage',           'type' : 'number'},
+                    {'id' : 'initial_contracted_amount','type' : 'float'},
+                    {'id' : 'kickoff',                  'type' : 'date'},
+                    {'id' : 'ending',                   'type' : 'date'},
+                ];
+
+                var send = validate.fields( fieldsJson );
+                
+                if (send){
+                    //Create json send
+                    //////Aqui si se envia el id
+                    var dataJson = JSON.stringify({
+                        'id'                        : idRegister,
+                        'number'                    : $('#number').val(),                             
+                        'title'                     : $('#title').val(),                              
+                        'description'               : $('#description').val(),                        
+                        'provider'                  : $('#provider').val(),                           
+                        'delivery_stage'            : $('#delivery_stage').val(),                     
+                        'initial_contracted_amount' : $('#initial_contracted_amount').val(),          
+                        'kickoff'                   : $('#kickoff').val() ? $('#kickoff').val().replace(/\//g, '-') : null,        
+                        'ending'                    : $('#ending').val() ? $('#ending').val().replace(/\//g, '-') : null,         
+                        'down_payment'              : $('#down_payment').val() ? $('#down_payment').val().replace(/\//g, '-') : null,
+                        'down_payment_amount'       : $('#down_payment_amount').val(),
+                        'ext_agreement'             : $('#ext_agreement').val() ? $('#ext_agreement').val().replace(/\//g, '-') : null,
+                        'ext_agreement_amount'      : $('#ext_agreement_amount').val(),               
+                        'final_contracted_amount'   : $('#final_contracted_amount').val(),            
+                        'total_amount_paid'         : $('#total_amount_paid').val(),                  
+                        'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
+                    });
+                    sendPOSTRegister( url, dataJson )
+                }
+
+
             }
 
         </script>

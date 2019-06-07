@@ -155,9 +155,65 @@
 
 
                                 <div class="portlet-body" id="bodyTableProviders">
-                                    <div id="containerRowAddButtonProvider">
-                                        <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar {{ menu[0]['nameSingular'] }} </button>
+                                    <div class=row>
+                                        <div class="col-md-6 order-1 order-md-0 ">
+                                            <div id="containerSearchButton" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2" >
+                                                <i class="fas fa-search"></i>
+                                                <span>Buscar</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 order-0 order-md-1 ">
+                                            <div id="containerAddButton">
+                                                <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar {{ menu[0]['nameSingular'] }} </button>
+                                            </div>
+                                        </div>
                                     </div>
+
+
+
+
+
+
+                                    <div class="row searchColapseFields">
+                                        <div class="col">
+                                            <div class="collapse multi-collapse" id="multiCollapseExample2">
+                                                <div id="searchForm">
+                                                    <div class=row>
+                                                        <div class="col-md-6">
+                                                            <label for="searchRegisterSelect" class="searchFielsLabels"> Buscar por: </label> <br>
+                                                            <select name="searchRegisterSelect" class="form-control" id="searchRegisterSelect"  >
+                                                                <option value="number">Número de contrato</option>
+                                                                <option value="title">Nombre</option>
+                                                                <option value="description">Descripción</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="searchRegisterField" class="searchFielsLabels"> Nombre</label> <br>
+                                                            <input type="text" name="searchRegisterField" class="form-control" id="searchRegisterField"  >
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class=row>
+                                                        <div class="col-md-12">
+                                                            <div style="text-align: right;" >
+                                                                
+                                                                <button class="obrasButtonNormal" onclick="listRegisters.initSearch();">  
+                                                                    <i class="fas fa-search"></i> Buscar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
 
                                     <table id="tableRegisters">
                                     </table>
@@ -175,7 +231,16 @@
             </div>
         </div>
 
-
+        <div class="lds-roller"  id="waintingAnimation" >
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+        </div>
         
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
 
@@ -200,9 +265,9 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
 
+
         <!-- Js for crate list -->
         <script src="/static/js/listRegisters.js"></script>
-
         
         <script>
 
@@ -218,39 +283,40 @@
                 listRegisters.init();
             });
 
-            
+
+
 
 
 
 
             var setTag = {
-                tr : function( numContract, title, description, idRegister){
+                tr : function( title, numberC, description, idRegister){
                     strTr = `
                         <tr idRegister="`+ idRegister +`" onclick="listRegisters.goToRegister(this);" >
                             <td> `+ title +` </td>
-                            <td> `+ numContract +` </td>
+                            <td> `+ numberC +` </td>
                             <td> `+ description +` </td>
                         </tr>
                     `;
                     return strTr;
                 },
-                button : function(init, numValueButton, isActive){
-                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+                button : function(init, numValueButton, isActive, searchBy, valueSearchBy){
+                    return '<button initL="'+ init +'" searchBy="'+ searchBy +'" valueSearchBy="'+ valueSearchBy +'"  onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
                 },
                 setTable : function(data){
                     
-                    var strTRs = '<tr>  <th> Nombre </th> <th>Número de Contrato </th> <th> Descripción </th> </tr>';
+                    var strTRs = '<tr> <th> Nombre </th> <th> Número Contrato </th> <th> Descripción </th> </tr>';
 
                     for( var d = 0; d< listRegisters.paginationStep ; d++){
                         if(data[d]){
-                            strTRs += setTag.tr( data[d].number, data[d].title, data[d].description, data[d].id );
+                            strTRs += setTag.tr( data[d].title, data[d].number, data[d].description, data[d].id );
                         }
                     }
 
                     document.getElementById('tableRegisters').innerHTML = strTRs;
                    
-                },
-                createButtons: function( numAllRegisters ){
+                },                                      //searchBy
+                createButtons: function( numAllRegisters, filterBy, valueSearchBy ){
                     
                     var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
                     listRegisters.numberOfButtons = numOfButtons ;
@@ -260,7 +326,7 @@
                         var start = b * listRegisters.paginationStep ;
                         var numLebelButton = b + 1;
                         var isActive = b==0? 'active' : '';
-                        strAllButtons += setTag.button( start, numLebelButton, isActive )
+                        strAllButtons += setTag.button( start, numLebelButton, isActive, filterBy, valueSearchBy )
                     }
                     document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
                 }
