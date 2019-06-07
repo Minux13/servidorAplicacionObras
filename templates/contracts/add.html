@@ -189,11 +189,10 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="provider" class="indicatorName"> Empresa </label> <br>
-                                                    <select name="provider" class="form-control" id="provider"  >
-                                                        <option value="1">Empresa 1</option>
-                                                        <option value="2">Empresa 2</option>
-                                                        <option value="3">Empresa 3</option>
-                                                        <option value="4">Empresa 4</option>
+                                                    <select name="provider" class="form-control" id="provider" >
+                                                        {% for provider in providers %}
+                                                        <option value="{{ provider.id }}"> {{ provider.title }} </option>
+                                                        {% endfor %}
                                                     </select>
                                                     <p id="for_provider" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>

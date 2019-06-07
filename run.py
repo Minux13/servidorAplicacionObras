@@ -125,8 +125,6 @@ def contracts():
     else:
         data = request.get_json()
         
-        print("////////////")
-        print(data)
         paginationStart     = data['paginationStart']
         paginationStep      = data['paginationStep']
         paginationBy        = data['by']
@@ -142,11 +140,6 @@ def contracts():
         else:
             urlCount = URLFrp + 'contracts/count?' + searchBy + '=' + valueSearchBy
             searchQuery = '&'+ searchBy +'=' + valueSearchBy
-
-
-        print("////////////")
-        print(urlCount)
-        print( 'contracts/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery)
 
 
         countAmount = requests.get( urlCount ).json()['count']
@@ -169,7 +162,21 @@ def contractsAdd():
     #Renderiza el template del formulario para agregar un proveedor
     if request.method == 'GET':
         
-        return render_template( 'contracts/add.html', catalog='contracts', menu = general.menuContract )
+        
+        #Obtiene todos providers para el select
+        urlCountProviders = URLFrp + 'providers/count'
+        countAmountProviders = requests.get( urlCountProviders ).json()['count']
+
+        queryStrProviders = 'providers/?offset=0&limit=' + str(countAmountProviders)
+        urlProviders = URLFrp + queryStrProviders
+
+        rProviders = requests.get( urlProviders ) 
+        providers = rProviders.json() 
+
+
+
+
+        return render_template( 'contracts/add.html', catalog='contracts', menu = general.menuContract, providers =providers )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
@@ -195,10 +202,10 @@ def contractsAdd():
         }
 
         dataJSON = json.dumps(dicData)
-        print(dicData['title'])
+
         url = URLFrp + 'contracts/'
         r = requests.post( url, data=dataJSON)
-        print(r)
+
         return jsonify( data = data )
 
 
@@ -214,7 +221,19 @@ def contractsEdit(provider_id):
         r = requests.get( url) 
         reqJ = r.json()
 
-        return render_template( 'contracts/edit.html', data = reqJ, catalog = 'contracts', menu = general.menuContract )
+        #Obtiene todos providers
+        urlCountProviders = URLFrp + 'providers/count'
+        countAmountProviders = requests.get( urlCountProviders ).json()['count']
+
+        queryStrProviders = 'providers/?offset=0&limit=' + str(countAmountProviders)
+        urlProviders = URLFrp + queryStrProviders
+
+        rProviders = requests.get( urlProviders ) 
+        providers = rProviders.json() 
+        
+        
+
+        return render_template( 'contracts/edit.html', data = reqJ, catalog = 'contracts', menu = general.menuContract, providers = providers )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
