@@ -105,6 +105,7 @@ function sendPOSTRegister( url, dataJson ){
         dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
+            console.log(data);
             $.notify(
                 "El registro fue agregado", 
                 { position:"bottom right"}
@@ -126,8 +127,7 @@ var validate={
         for(var f in dataJson){
             var thisField = dataJson[f];
             var idField = thisField.id;
-            
-            document.getElementById( idField ).style.border = "solid 1px #606";
+            document.getElementById( idField ).style.border = "solid 1px #ced4da";
             document.getElementById( 'for_' + idField ).style.display = "none";
 
         }
@@ -153,12 +153,35 @@ var validate={
         else{return [true];}
     },
     'float' : function( val ){
-        if( val == '' ){return [false, 'Ingresa este campo'];}
-        else if( isNaN( val ) ){return [false, 'Ingresa un número valido'];}
+        if( val == '' ){return [false, 'Ingresa un número válido'];}
+        else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
         else{return [true];}
     },
     'date' : function( val ){
+        var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
         if( val == '' ){return [false, 'Ingresa este campo'];}
+        else if( !val.match(patt) ){return [false, 'Ingresa una fecha válida'];}
         else{return [true];}
     }
 }
+
+
+
+
+var datesGENL = {
+    formatPicker : { dateFormat: 'dd-mm-yy' },
+    formatOrder : function(val){
+        var dateArr = val.split('-')
+        return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
+    },
+    formatOrderTime : function(val){
+        var dateArrTime = val.split('T')
+        var dateArr = dateArrTime[0].split('-')
+        return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
+    },
+    formatDateSend: function(dat){
+        var dateArr = dat.split('-')
+        return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
+    }
+}
+

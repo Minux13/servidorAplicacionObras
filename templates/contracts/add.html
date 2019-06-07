@@ -215,6 +215,7 @@
                                                 <div class="col-md-6">
                                                     <label for="down_payment" class="indicatorName"> fecha de pago anticipo </label> <br>
                                                     <input type="text" name="down_payment" class="form-control" id="down_payment" >
+                                                    <p id="for_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="down_payment_amount" class="indicatorName"> monto de pago anticipo </label> <br>
@@ -225,7 +226,7 @@
 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="ext_agreement_amount" class="indicatorName"> convenio de apliación económico </label> <br>
+                                                    <label for="ext_agreement_amount" class="indicatorName"> convenio de ampliación económico </label> <br>
                                                     <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" >
                                                     <p id="for_ext_agreement_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
@@ -271,7 +272,7 @@
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-12">
                                                     <label for="description" class="indicatorName"> Descripción </label> <br>
-                                                    <textarea name="description" class="form-control" id="description" > </textarea>
+                                                    <textarea name="description" class="form-control" id="description" ></textarea>
                                                     <p id="for_description" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 
@@ -342,10 +343,10 @@
                     $('#sidebar').toggleClass('active');
                 });
 
-                $( "#kickoff" ).datepicker();
-                $( "#ending" ).datepicker();
-                $( "#down_payment" ).datepicker();
-                $( "#ext_agreement" ).datepicker();
+                $( "#kickoff" ).datepicker( datesGENL.formatPicker );
+                $( "#ending" ).datepicker( datesGENL.formatPicker );
+                $( "#down_payment" ).datepicker( datesGENL.formatPicker );
+                $( "#ext_agreement" ).datepicker( datesGENL.formatPicker );
 
             });
 
@@ -359,11 +360,19 @@
                 var fieldsJson = [
                     {'id' : 'number',                   'type' : 'text'},
                     {'id' : 'title',                    'type' : 'text'},
-                    //{'id' : 'provider',                 'type' : 'number'},
-                    //{'id' : 'delivery_stage',           'type' : 'number'},
+                    //{'id' : 'provider',               'type' : 'number'},
+                    //{'id' : 'delivery_stage',         'type' : 'number'},
                     {'id' : 'initial_contracted_amount','type' : 'float'},
                     {'id' : 'kickoff',                  'type' : 'date'},
                     {'id' : 'ending',                   'type' : 'date'},
+                    {'id' : 'description',              'type' : 'text'},
+                    {'id' : 'down_payment',             'type' : 'date'},
+                    {'id' : 'down_payment_amount',      'type' : 'float'},
+                    {'id' : 'ext_agreement',            'type' : 'date'},
+                    {'id' : 'ext_agreement_amount',     'type' : 'float'},
+                    {'id' : 'final_contracted_amount',  'type' : 'float'},
+                    {'id' : 'total_amount_paid',        'type' : 'float'},
+                    {'id' : 'outstanding_down_payment', 'type' : 'float'},
                 ];
 
                 var send = validate.fields( fieldsJson );
@@ -377,11 +386,11 @@
                         'provider'                  : $('#provider').val(),                           
                         'delivery_stage'            : $('#delivery_stage').val(),                     
                         'initial_contracted_amount' : $('#initial_contracted_amount').val(),          
-                        'kickoff'                   : $('#kickoff').val() ? $('#kickoff').val().replace(/\//g, '-') : null,        
-                        'ending'                    : $('#ending').val() ? $('#ending').val().replace(/\//g, '-') : null,         
-                        'down_payment'              : $('#down_payment').val() ? $('#down_payment').val().replace(/\//g, '-') : null,
+                        'kickoff'                   : datesGENL.formatDateSend( $('#kickoff').val() ),        
+                        'ending'                    : datesGENL.formatDateSend( $('#ending').val() ),         
+                        'down_payment'              : datesGENL.formatDateSend( $('#down_payment').val() ),
                         'down_payment_amount'       : $('#down_payment_amount').val(),
-                        'ext_agreement'             : $('#ext_agreement').val() ? $('#ext_agreement').val().replace(/\//g, '-') : null,
+                        'ext_agreement'             : datesGENL.formatDateSend( $('#ext_agreement').val() ),
                         'ext_agreement_amount'      : $('#ext_agreement_amount').val(),               
                         'final_contracted_amount'   : $('#final_contracted_amount').val(),            
                         'total_amount_paid'         : $('#total_amount_paid').val(),                  

@@ -164,104 +164,145 @@
                                         <div class="form-group">
                                             <div class="row rowAddRegister"  >
                                                 <div class="col-md-6">
-                                                    <label for="title" class="indicatorName">Nombre del Contrato</label> <br>
+                                                    <label for="title" class="indicatorName">Nombre </label> <br>
                                                     <input type="text" name="title" class="form-control" id="title" value="{{ data.title }}" >
                                                     <p id="for_title" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="number" class="indicatorName">Número del Contrato </label> <br>
-                                                    <input type="text" name="number" class="form-control" id="number" value="{{ data.number }}" >
-                                                    <p id="for_number" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <label for="city" class="indicatorName"> Municipio </label> <br>
+                                                    <select name="city" class="form-control" id="city" >
+
+                                                        <option value="1">Abasolo</option>
+                                                        <option value="2">Agualeguas</option>
+                                                        <option value="3">Los Aldamas</option>
+                                                        <option value="4">Allende</option>
+                                                        <option value="5">Anahuac</option>
+                                                        <option value="6">Apodaca</option>
+                                                        <option value="7">Aramberri</option>
+                                                        <option value="8">Bustamante</option>
+                                                        <option value="9">Cadereyta Jimenez</option>
+                                                        <option value="10">Carmen</option>
+                                                        <option value="11">Cerralvo</option>
+                                                        <option value="12">Cienega de Flores</option>
+                                                        <option value="13">China</option>
+                                                        <option value="14">Dr. Arroyo</option>
+                                                        <option value="15">Dr. Coss</option>
+                                                        <option value="16">Dr. Gonzalez</option>
+                                                        <option value="17">Galeana</option>
+                                                        <option value="18">Garcia</option>
+                                                        <option value="19">San Pedro Garza Garcia</option>
+                                                        <option value="20">Gral. Bravo</option>
+                                                        <option value="21">Gral. Escobedo</option>
+                                                        <option value="22">Gral. Teran</option>
+                                                        <option value="23">Gral. Trevi</option>
+                                                        <option value="24">Gral. Zaragoza</option>
+                                                        <option value="25">Gral. Zuazua</option>
+                                                        <option value="26">Guadalupe</option>
+                                                        <option value="27">Los Herreras</option>
+                                                        <option value="28">Higueras</option>
+                                                        <option value="29">Hualahuises</option>
+                                                        <option value="30">Iturbide</option>
+                                                        <option value="31">Juarez</option>
+                                                        <option value="32">Lampazos de Naranjo</option>
+                                                        <option value="33">Linares</option>
+                                                        <option value="34">Marin</option>
+                                                        <option value="35">Melchor Ocampo</option>
+                                                        <option value="36">Mier y Noriega</option>
+                                                        <option value="37">Mina</option>
+                                                        <option value="38">Montemorelos</option>
+                                                        <option value="39">Monterrey</option>
+                                                        <option value="40">Paras</option>
+                                                        <option value="41">Pesqueria</option>
+                                                        <option value="42">Los Ramones</option>
+                                                        <option value="43">Rayones</option>
+                                                        <option value="44">Sabinas Hidalgo</option>
+                                                        <option value="45">Salinas Victoria</option>
+                                                        <option value="46">San Nicolas de los Garza</option>
+                                                        <option value="47">Hidalgo</option>
+                                                        <option value="48">Santa Catarina</option>
+                                                        <option value="49">Santiago</option>
+                                                        <option value="50">Vallecillo</option>
+                                                        <option value="51">Villaldama</option>
+
+
+                                                    </select>
+                                                    <p id="for_city" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div>
-                                        
-                                             <div class="row rowAddRegister">
+
+
+                                            <div class="row rowAddRegister"  >
                                                 <div class="col-md-6">
-                                                    <label for="initial_contracted_amount" class="indicatorName"> Monto Contratado Inicial </label> <br>
-                                                    <input type="number" name="initial_contracted_amount" class="form-control" id="initial_contracted_amount" value="{{ data.initial_contracted_amount }}" >
-                                                    <p id="for_initial_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <label for="category" class="indicatorName"> Categoría </label> <br>
+                                                    <select name="category" class="form-control" id="category" >
+                                                        <option value="1"  >AMPLIACIÓN</option>
+                                                        <option value="2"  >CONSTRUCCIÓN EXISTENTE</option>
+                                                        <option value="3"  >CONSTRUCCIÓN NUEVA</option>
+                                                        <option value="4"  >EQUIPAMIENTO</option>
+                                                        <option value="5"  >MANTENIMIENTO</option>
+                                                        <option value="6"  >PAVIMENTACIÓN</option>
+                                                        <option value="7"  >RECONSTRUCCIÓN</option>
+                                                        <option value="8"  >REMODELACIÓN</option>
+                                                        <option value="9"  >RESTAURACIÓN</option>
+                                                        <option value="10" >REHABILITACIÓN</option>
+                                                    </select>
+                                                    <p id="for_category" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="provider" class="indicatorName"> Empresa </label> <br>
-                                                    <select name="provider" class="form-control" id="provider"  >
-                                                        {% for provider in providers %}
-                                                        <option value="{{ provider.id }}"> {{ provider.title }} </option>
+                                                    <label for="department" class="indicatorName"> Departamento </label> <br>
+                                                    <select name="department" class="form-control" id="department" >
+                                                        <option value="1" >INFRAESTRUCTURA</option>
+                                                        <option value="2" >ICIFED</option>
+                                                        <option value="3" >REA</option>
+                                                        <option value="4" >SADM</option>
+                                                        <option value="5" >SSNL</option>
+                                                        <option value="6" >CODETUR</option>
+                                                        <option value="7" >CODEFRONT</option>
+                                                        <option value="8" >DIF</option>
+                                                        <option value="9" >FIDEPROES</option>
+                                                        <option value="10">FUNDIDORA</option>
+                                                        <option value="11">CONALEP</option>
+                                                        <option value="12">CAMINOS</option>
+                                                        <option value="13">ISSSTELEON</option>
+                                                    </select>
+                                                    <p id="for_department" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                            </div>
+
+
+                                        
+                                            <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="budget" class="indicatorName"> Presupuesto </label> <br>
+                                                    <input type="number" name="budget" class="form-control" id="budget" value="{{data.budget}}" >
+                                                    <p id="for_budget" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="contract" class="indicatorName"> Contrato </label> <br>
+                                                    <select name="contract" class="form-control" id="contract" >
+                                                        {% for contract in contracts %}
+                                                        <option value="{{ contract.id }}"> {{ contract.title }} </option>
                                                         {% endfor %}
                                                     </select>
-                                                    <p id="for_provider" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_contract" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                             </div>                                       
                                         
+                                              
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="kickoff" class="indicatorName"> Inicio de Obras Según Contrato </label> <br>
-                                                    <input type="text" name="kickoff" class="form-control" id="kickoff" value="{{ data.kickoff }}" >
-                                                    <p id="for_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <label for="planed_kickoff" class="indicatorName"> Fecha de inicio planeada </label> <br>
+                                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" value="{{data.planed_kickoff}}" >
+                                                    <p id="for_planed_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="ending" class="indicatorName"> Fin de Obras Según Contrato </label> <br>
-                                                    <input type="text" name="ending" class="form-control" id="ending" value="{{ data.ending }}" >
-                                                    <p id="for_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <label for="planed_ending" class="indicatorName"> Fecha de fin de obra planeada </label> <br>
+                                                    <input type="text" name="planed_ending" class="form-control" id="planed_ending" value="{{data.planed_ending}}" >
+                                                    <p id="for_planed_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
                                                 </div>
-                                            </div>                                       
-                                                
-                                             <div class="row rowAddRegister">
-                                                <div class="col-md-6">
-                                                    <label for="down_payment" class="indicatorName"> fecha de pago anticipo </label> <br>
-                                                    <input type="text" name="down_payment" class="form-control" id="down_payment" value="{{ data.down_payment }}" >
-                                                    <p id="for_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="down_payment_amount" class="indicatorName"> monto de pago anticipo </label> <br>
-                                                    <input type="number" name="down_payment_amount" class="form-control" id="down_payment_amount" value="{{ data.down_payment_amount }}" >
-                                                    <p id="for_down_payment_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                            </div> 
+                                            </div>  
 
-                                             <div class="row rowAddRegister">
-                                                <div class="col-md-6">
-                                                    <label for="ext_agreement_amount" class="indicatorName"> convenio de ampliación económico </label> <br>
-                                                    <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" value="{{ data.ext_agreement_amount }}" >
-                                                    <p id="for_ext_agreement_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="ext_agreement" class="indicatorName">  fecha de convenio ampliación de obra </label> <br>
-                                                    <input type="text" name="ext_agreement" class="form-control" id="ext_agreement" value="{{ data.ext_agreement }}" >
-                                                    <p id="for_ext_agreement" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                            </div> 
 
-                                             <div class="row rowAddRegister">
-                                                <div class="col-md-6">
-                                                    <label for="final_contracted_amount" class="indicatorName"> monto contrato final </label> <br>
-                                                    <input type="number" name="final_contracted_amount" class="form-control" id="final_contracted_amount" value="{{ data.final_contracted_amount }}" >
-                                                    <p id="for_final_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="total_amount_paid" class="indicatorName"> total pagado </label> <br>
-                                                    <input type="number" name="total_amount_paid" class="form-control" id="total_amount_paid" value="{{ data.total_amount_paid }}" >
-                                                    <p id="for_total_amount_paid" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                            </div> 
-
-                                             <div class="row rowAddRegister">
-                                                <div class="col-md-6">
-                                                    <label for="outstanding_down_payment" class="indicatorName"> anticipo pendiente de amotizar </label> <br>
-                                                    <input type="number" name="outstanding_down_payment" class="form-control" id="outstanding_down_payment" value="{{ data.outstanding_down_payment }}"  >
-                                                    <p id="for_outstanding_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="delivery_stage" class="indicatorName"> Estado de Entrega </label> <br>
-                                                    <select name="delivery_stage" class="form-control" id="delivery_stage" value="{{ data.delivery_stage }}"  >
-                                                        <option value="1">Verde</option>
-                                                        <option value="2">Amarillo</option>
-                                                        <option value="3">Naranja</option>
-                                                        <option value="4">Rojo</option>
-                                                    </select>
-                                                    <p id="for_delivery_stage" style="display:none; color: #800;font-size:1.3em;" > </p>
-                                                </div>
-                                                
-                                            </div> 
 
                                              <div class="row rowAddRegister">
                                                 <div class="col-md-12">
@@ -312,15 +353,11 @@
         </div>
 
 
-        <input id="kickoffValue" type="hidden" value="{{ data.kickoff }}" >
-        <input id="endingValue" type="hidden" value="{{ data.ending }}" >
-        <input id="down_paymentValue" type="hidden" value="{{ data.down_payment }}" >
-        <input id="ext_agreementValue" type="hidden" value="{{ data.ext_agreement }}" >
-        <input id="providerValue" type="hidden" value="{{ data.provider }}" >
-        <input id="delivery_stageValue" type="hidden" value="{{ data.delivery_stage }}" >
-
-
         
+        <input id="planed_kickoffValue" type="hidden" value="{{ data.planed_kickoff }}" >
+        <input id="planed_endingValue" type="hidden" value="{{ data.planed_ending }}" >
+
+
         <input id="registerid" type="hidden" value="{{ data.id }}" >
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
  
@@ -363,25 +400,21 @@
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
-                
 
-                //Se aplican los iniciadores de datepicker a los inputs tipo fecha
-                $( "#kickoff" ).datepicker( datesGENL.formatPicker );
-                $( "#ending" ).datepicker( datesGENL.formatPicker );
-                $( "#down_payment" ).datepicker( datesGENL.formatPicker );
-                $( "#ext_agreement" ).datepicker( datesGENL.formatPicker );
+                $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
+                $( "#planed_ending" ).datepicker( datesGENL.formatPicker );
 
 
-                //Muestran los valores que se deben de ver
-                //Se cambia a d-m-a
-                document.getElementById('kickoff').value       = datesGENL.formatOrder($('#kickoffValue').val() );
-                document.getElementById('ending').value        = datesGENL.formatOrder($('#endingValue').val() );
-                document.getElementById('ext_agreement').value = datesGENL.formatOrder($('#ext_agreementValue').val() );
-                document.getElementById('down_payment').value  = datesGENL.formatOrderTime($('#down_paymentValue').val() );
+                //Muestran las fechas que se deben ver
+                document.getElementById('planed_kickoff').value       = datesGENL.formatOrder($('#planed_kickoffValue').val() );
+                document.getElementById('planed_ending').value        = datesGENL.formatOrder($('#planed_endingValue').val() );
 
                 //Preselecciones, por que no agarra value el select
-                document.getElementById('delivery_stage').value = document.getElementById('delivery_stageValue').value;
-                document.getElementById('provider').value  =       document.getElementById('providerValue').value;
+                document.getElementById('city').value = {{ data.city }}               
+                document.getElementById('category').value = {{ data.category }}               
+                document.getElementById('department').value = {{ data.department }}               
+                document.getElementById('contract').value = {{ data.contract }}               
+                
 
             });
 
@@ -419,45 +452,36 @@
 
                 //Fields for validate
                 var fieldsJson = [
-                    {'id' : 'number',                   'type' : 'text'},
-                    {'id' : 'title',                    'type' : 'text'},
-                    //{'id' : 'provider',               'type' : 'number'},
-                    //{'id' : 'delivery_stage',         'type' : 'number'},
-                    {'id' : 'initial_contracted_amount','type' : 'float'},
-                    {'id' : 'kickoff',                  'type' : 'date'},
-                    {'id' : 'ending',                   'type' : 'date'},
-                    {'id' : 'description',              'type' : 'text'},
-                    {'id' : 'down_payment',             'type' : 'date'},
-                    {'id' : 'down_payment_amount',      'type' : 'float'},
-                    {'id' : 'ext_agreement',            'type' : 'date'},
-                    {'id' : 'ext_agreement_amount',     'type' : 'float'},
-                    {'id' : 'final_contracted_amount',  'type' : 'float'},
-                    {'id' : 'total_amount_paid',        'type' : 'float'},
-                    {'id' : 'outstanding_down_payment', 'type' : 'float'},
+                    {'id' : 'title',                'type' : 'text'},
+                    //{'id' : 'city',               'type' : 'float'},
+                    //{'id' : 'category',           'type' : 'date'},
+                    //{'id' : 'department',         'type' : 'date'},
+                    {'id' : 'budget',              'type' : 'float'},
+                    //{'id' : 'contract',             'type' : 'text'},
+                    {'id' : 'planed_kickoff',       'type' : 'date'},
+                    {'id' : 'planed_ending',        'type' : 'date'},
+                    {'id' : 'description',          'type' : 'text'}
                 ];
 
                 var send = validate.fields( fieldsJson );
+
+
                 
                 if (send){
                     //Create json send
                     //////Aqui si se envia el id
                     var dataJson = JSON.stringify({
-                        'id'                        : idRegister,
-                        'number'                    : $('#number').val(),                             
-                        'title'                     : $('#title').val(),                              
-                        'description'               : $('#description').val(),                        
-                        'provider'                  : $('#provider').val(),                           
-                        'delivery_stage'            : $('#delivery_stage').val(),                     
-                        'initial_contracted_amount' : $('#initial_contracted_amount').val(),          
-                        'kickoff'                   : datesGENL.formatDateSend( $('#kickoff').val() ),        
-                        'ending'                    : datesGENL.formatDateSend( $('#ending').val() ),         
-                        'down_payment'              : datesGENL.formatDateSend( $('#down_payment').val() ),
-                        'down_payment_amount'       : $('#down_payment_amount').val(),
-                        'ext_agreement'             : datesGENL.formatDateSend( $('#ext_agreement').val() ),
-                        'ext_agreement_amount'      : $('#ext_agreement_amount').val(),               
-                        'final_contracted_amount'   : $('#final_contracted_amount').val(),            
-                        'total_amount_paid'         : $('#total_amount_paid').val(),                  
-                        'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
+                        'id'            : idRegister,
+                        'title'         : $('#title').val(),
+                        'description'   : $('#description').val(),
+                        'city'          : $('#city').val(),
+                        'category'      : $('#category').val(),
+                        'department'    : $('#department').val(),
+                        'contract'      : $('#contract').val(),
+                        'budget'        : $('#budget').val(),
+                        'planed_kickoff': datesGENL.formatDateSend( $('#planed_kickoff').val() ) ,
+                        'planed_ending' : datesGENL.formatDateSend( $('#planed_ending').val() ) ,
+                        'inceptor_uuid' : 'string'
                     });
                     sendPOSTRegister( url, dataJson )
                 }

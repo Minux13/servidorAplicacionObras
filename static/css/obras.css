@@ -783,3 +783,14 @@ hr{
     color: #fff !important;
     border: 1px solid #666 !important;
 }
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+div.ui-datepicker{
+ font-size:1.4em;
+}

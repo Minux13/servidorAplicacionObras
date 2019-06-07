@@ -1,0 +1,436 @@
+<!doctype html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        
+        <link rel="icon" href="/static/images/favi.png" type="image/gif" sizes="16x9">
+        
+        
+        <!--Loading JQuery UI css-->
+        <link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css">
+        
+        <!--  -->
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+        <!-- Bootstrap CSS CDN -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        
+        <!-- Our Custom CSS -->
+        <link href="/static/css/style4.css" rel="stylesheet" type="text/css">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        
+        <!-- Fonts Google -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        
+ 
+        <!-- CSS for Lato family font -->
+        <link href="/static/css/cssLaton.css" rel="stylesheet">
+        
+        
+        <link href="/static/css/obras.css" rel="stylesheet">
+        
+
+        <title> {{ menu[0]['name'] }} </title>
+    </head>
+
+    <body class="  pace-done">
+        <div class="pace  pace-inactive">
+            <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">  
+                <div class="pace-progress-inner">
+                </div>
+            </div>
+            <div class="pace-activity">
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar" style="min-height: 100%;">
+                <div class="sidebar-header">
+                    <div class="sjo-logo-big">
+                        <img width="244" height="119" class="img-fluid" src="/static/images/logo.png">
+                    </div>
+                    <div class="sjo-logo-small">
+                        <img width="244" height="119" class="img-fluid" src="/static/images/escudo.png">
+                    </div>
+                </div>
+                <ul class="list-unstyled components">                
+                    <li class="menu-element"  {{ menu[1]['isActive'] }}  >
+                        <a  {{ menu[1]['url'] }} >
+                            <i class="fa fa-cogs fa-fw"></i>
+                            <span class="menu-title">  {{ menu[1]['name'] }} </span>
+                        </a>
+                    </li>
+                    <li class="menu-element"  {{ menu[2]['isActive'] }} >
+                        <a   {{ menu[2]['url'] }}  >
+                            <i class="fa fa-briefcase"></i>
+                            <span class="menu-title" > {{ menu[2]['name'] }} </span>
+                        </a>                       
+                    </li>
+                    <li class="menu-element" {{ menu[3]['isActive'] }} > 
+                        <a    {{ menu[3]['url'] }} >
+                            <i class="fa fa-sitemap fa-fw"> </i>
+                            <span class="menu-title"> {{ menu[3]['name'] }} </span>
+                        </a>
+                    </li>
+                    <li class="menu-element" {{ menu[4]['isActive'] }} >
+                        <a   {{ menu[4]['url'] }} >
+                            <i class="fa fa-tachometer-alt fa-fw"> </i>
+                            <span class="menu-title"> {{ menu[4]['name'] }} </span>
+                        </a>
+                    </li>                   
+                    
+                </ul>
+            </nav>
+
+
+
+            <!-- Page Content Holder -->
+            <div id="content" class="container-fluid">
+
+            <!-- Nav Bar -->
+                <nav class="navbar navbar-default navbar-static-top" >
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button class="btn btn-info navbar-btn" id="sidebarCollapse" type="button">
+                                <i class="fa fa-bars"></i>
+                                <span class="sr-only">Toggle navigation</span>
+                            </button>
+                        </div>
+                        <!--
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle" style="font-size: 20px; vertical-align: -1px;"></i>
+                                Usuario
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-sw" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" ><i class="fa fa-user"></i>Mi Perfil</a>               
+                                
+                                <a class="dropdown-item" href="#"><i class="fa fa-calendar"></i>Calendario</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-envelope"></i>Buzón</a>     
+                                
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" ><i class="fas fa-sign-out-alt"></i></i>Salir</a>
+                            </div>
+                        </div>   
+                        -->                     
+                    </div>
+                </nav>
+
+
+                <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                
+                <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+                    <ol class="breadcrumb page-breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            &nbsp;
+                            <a  id="titleFirstLink"  {{ menu[0]['url'] }}  >{{ menu[0]['name'] }}</a>
+                            &nbsp;&nbsp;
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp;&nbsp;
+                            <a  id="titleDepartment" > Crear {{ menu[0]['nameSingular'] }}  </a>
+                        </li>                         
+                    </ol>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                
+                <!--END TITLE & BREADCRUMB PAGE-->
+                
+
+                <!--BEGIN CONTENT-->
+                <div class="container-fluid">
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                             <div class="portlet box">
+                                
+
+                                <br>
+
+
+
+                                <div class="portlet-body" >
+
+
+                                    <div action="/" id="addRegister">
+                                        <div class="form-group">
+
+                                            <div class="row rowAddRegister"  >
+                                                <div class="col-md-6">
+                                                    <label for="title" class="indicatorName">Nombre </label> <br>
+                                                    <input type="text" name="title" class="form-control" id="title" >
+                                                    <p id="for_title" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="city" class="indicatorName"> Municipio </label> <br>
+                                                    <select name="city" class="form-control" id="city" >
+
+                                                        <option value="1">Abasolo</option>
+                                                        <option value="2">Agualeguas</option>
+                                                        <option value="3">Los Aldamas</option>
+                                                        <option value="4">Allende</option>
+                                                        <option value="5">Anahuac</option>
+                                                        <option value="6">Apodaca</option>
+                                                        <option value="7">Aramberri</option>
+                                                        <option value="8">Bustamante</option>
+                                                        <option value="9">Cadereyta Jimenez</option>
+                                                        <option value="10">Carmen</option>
+                                                        <option value="11">Cerralvo</option>
+                                                        <option value="12">Cienega de Flores</option>
+                                                        <option value="13">China</option>
+                                                        <option value="14">Dr. Arroyo</option>
+                                                        <option value="15">Dr. Coss</option>
+                                                        <option value="16">Dr. Gonzalez</option>
+                                                        <option value="17">Galeana</option>
+                                                        <option value="18">Garcia</option>
+                                                        <option value="19">San Pedro Garza Garcia</option>
+                                                        <option value="20">Gral. Bravo</option>
+                                                        <option value="21">Gral. Escobedo</option>
+                                                        <option value="22">Gral. Teran</option>
+                                                        <option value="23">Gral. Trevi</option>
+                                                        <option value="24">Gral. Zaragoza</option>
+                                                        <option value="25">Gral. Zuazua</option>
+                                                        <option value="26">Guadalupe</option>
+                                                        <option value="27">Los Herreras</option>
+                                                        <option value="28">Higueras</option>
+                                                        <option value="29">Hualahuises</option>
+                                                        <option value="30">Iturbide</option>
+                                                        <option value="31">Juarez</option>
+                                                        <option value="32">Lampazos de Naranjo</option>
+                                                        <option value="33">Linares</option>
+                                                        <option value="34">Marin</option>
+                                                        <option value="35">Melchor Ocampo</option>
+                                                        <option value="36">Mier y Noriega</option>
+                                                        <option value="37">Mina</option>
+                                                        <option value="38">Montemorelos</option>
+                                                        <option value="39">Monterrey</option>
+                                                        <option value="40">Paras</option>
+                                                        <option value="41">Pesqueria</option>
+                                                        <option value="42">Los Ramones</option>
+                                                        <option value="43">Rayones</option>
+                                                        <option value="44">Sabinas Hidalgo</option>
+                                                        <option value="45">Salinas Victoria</option>
+                                                        <option value="46">San Nicolas de los Garza</option>
+                                                        <option value="47">Hidalgo</option>
+                                                        <option value="48">Santa Catarina</option>
+                                                        <option value="49">Santiago</option>
+                                                        <option value="50">Vallecillo</option>
+                                                        <option value="51">Villaldama</option>
+
+
+
+                                                    </select>
+                                                    <p id="for_city" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row rowAddRegister"  >
+                                                <div class="col-md-6">
+                                                    <label for="category" class="indicatorName"> Categoría </label> <br>
+                                                    <select name="category" class="form-control" id="category" >
+                                                        <option value="1"  >AMPLIACIÓN</option>
+                                                        <option value="2"  >CONSTRUCCIÓN EXISTENTE</option>
+                                                        <option value="3"  >CONSTRUCCIÓN NUEVA</option>
+                                                        <option value="4"  >EQUIPAMIENTO</option>
+                                                        <option value="5"  >MANTENIMIENTO</option>
+                                                        <option value="6"  >PAVIMENTACIÓN</option>
+                                                        <option value="7"  >RECONSTRUCCIÓN</option>
+                                                        <option value="8"  >REMODELACIÓN</option>
+                                                        <option value="9"  >RESTAURACIÓN</option>
+                                                        <option value="10" >REHABILITACIÓN</option>
+                                                    </select>
+                                                    <p id="for_category" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="department" class="indicatorName"> Departamento </label> <br>
+                                                    <select name="department" class="form-control" id="department" >
+                                                        <option value="1" >INFRAESTRUCTURA</option>
+                                                        <option value="2" >ICIFED</option>
+                                                        <option value="3" >REA</option>
+                                                        <option value="4" >SADM</option>
+                                                        <option value="5" >SSNL</option>
+                                                        <option value="6" >CODETUR</option>
+                                                        <option value="7" >CODEFRONT</option>
+                                                        <option value="8" >DIF</option>
+                                                        <option value="9" >FIDEPROES</option>
+                                                        <option value="10">FUNDIDORA</option>
+                                                        <option value="11">CONALEP</option>
+                                                        <option value="12">CAMINOS</option>
+                                                        <option value="13">ISSSTELEON</option>
+                                                    </select>
+                                                    <p id="for_department" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                            </div>
+
+
+                                        
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="budget" class="indicatorName"> Presupuesto </label> <br>
+                                                    <input type="number" name="budget" class="form-control" id="budget" >
+                                                    <p id="for_budget" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="contract" class="indicatorName"> Contrato </label> <br>
+                                                    <select name="contract" class="form-control" id="contract" >
+                                                        {% for contract in contracts %}
+                                                        <option value="{{ contract.id }}"> {{ contract.title }} </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <p id="for_contract" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                            </div>                                       
+                                        
+                                              
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="planed_kickoff" class="indicatorName"> Fecha de inicio planeada </label> <br>
+                                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" >
+                                                    <p id="for_planed_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="planed_ending" class="indicatorName"> Fecha de fin de obra planeada </label> <br>
+                                                    <input type="text" name="planed_ending" class="form-control" id="planed_ending" >
+                                                    <p id="for_planed_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                </div>
+                                            </div>  
+
+
+
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-12">
+                                                    <label for="description" class="indicatorName"> Descripción </label> <br>
+                                                    <textarea name="description" class="form-control" id="description" ></textarea>
+                                                    <p id="for_description" style="display:none; color: #800;font-size:1.3em;" > Ingresa este campo </p>
+                                                </div>
+                                                
+                                            </div> 
+                                                
+
+
+                                            <div class="contentOfButtonsActions" >
+                                                <button class="buttonsActions" onclick="addRegister();">Guardar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>                            
+                </div>
+
+            </div>
+        </div>
+        
+        
+        <input id="catalogName" type="hidden" value="{{ catalog }}" >
+
+
+    
+        <!-- Jquery -->
+        <script src="/static/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- Jquery UI -->
+        <script src="/static/js/jquery-ui.js"></script>
+        <!--  -->
+        <script src="/static/js/jsonpath-0.8.0.js"></script>
+        <!-- Highcharts -->
+        <script src="/static/js/highcharts.js"></script>
+        <!-- Highcharts 3D charts -->
+        <script src="/static/js/highcharts-3d.js"></script>
+        <!-- Module of Highcharts -->
+        <script src="/static/js/exporting.js"></script>
+
+        <!-- Notify -->
+        <script src="/static/js/notify.min.js"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        
+
+        
+        
+        <!-- Js for crate list -->
+        <script src="/static/js/listRegisters.js"></script>
+
+    
+        <script>
+
+            $(document).ready(function () {
+
+                //Button toggle for sidebar
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+
+                $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
+                $( "#planed_ending" ).datepicker( datesGENL.formatPicker );
+
+            });
+
+
+            function addRegister() {
+             
+                var catalog = document.getElementById('catalogName').value;
+                var url = '/'+ catalog +'/add';
+
+                //Fields for validate
+                var fieldsJson = [
+                    {'id' : 'title',                'type' : 'text'},
+                    //{'id' : 'city',               'type' : 'float'},
+                    //{'id' : 'category',           'type' : 'date'},
+                    //{'id' : 'department',         'type' : 'date'},
+                    {'id' : 'budget',              'type' : 'float'},
+                    //{'id' : 'contract',             'type' : 'text'},
+                    {'id' : 'planed_kickoff',       'type' : 'date'},
+                    {'id' : 'planed_ending',        'type' : 'date'},
+                    {'id' : 'description',          'type' : 'text'},
+                ];
+
+                var send = validate.fields( fieldsJson );
+                
+
+                if (send){
+                    var dataJson = JSON.stringify({
+                        'title'         : $('#title').val(),
+                        'description'   : $('#description').val(),
+                        'city'          : $('#city').val(),
+                        'category'      : $('#category').val(),
+                        'department'    : $('#department').val(),
+                        'contract'      : $('#contract').val(),
+                        'budget'        : $('#budget').val(),
+                        'planed_kickoff': datesGENL.formatDateSend( $('#planed_kickoff').val() ) ,
+                        'planed_ending' : datesGENL.formatDateSend( $('#planed_ending').val() ) ,
+                        'inceptor_uuid' : 'string',           
+                    });
+                    
+                    sendPOSTRegister( url, dataJson )
+                }
+            
+            }
+
+        </script>
+
+    </body>
+</html>
