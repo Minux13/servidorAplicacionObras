@@ -28,13 +28,16 @@ def providers():
 
         #?offset=9&limit=10&order_by=id&order=ASC
 
+        countAmount = requests.get( URLFrp + 'providers/count' ).json()['count']
+        print(countAmount)
+
         queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep)  + '&order_by=' + str(paginationBy) + '&order=' + str(paginationOrder)
         url = URLFrp + queryStr
         
         r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( data = dataRes )
+        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
 
 
 
@@ -47,7 +50,6 @@ def providersAdd():
         
         return render_template( 'providers/add.html', catalog='providers', menu = general.menuProvider )
     
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
         data = request.get_json()
         title = data['title']
@@ -80,7 +82,6 @@ def providersEdit(provider_id):
 
         return render_template( 'providers/edit.html', data = reqJ, catalog = 'providers', menu = general.menuProvider )
     
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
         data = request.get_json()
         idProvider  = data['id']

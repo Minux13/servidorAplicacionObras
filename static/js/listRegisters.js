@@ -9,16 +9,15 @@ var listRegisters = {
         var url = '/'+ catalog +'/edit/' + idRegister;
         window.open( url ,"_self"); 
     },
-    getDataTable : function( start, step, catalog, createBtns ){
+    getDataTable : function( start, step, order, orderBy, url, createBtns ){
          $.ajax({
-            url: catalog,
+            url: url,
             type: 'post',
             dataType: 'json',
             contentType: 'application/json',
             success: function (res) {
-                ////////////Set buttons and table
                 
-                var numAllRegisters = 10;
+                var numAllRegisters = res.count;
                 
                 if( createBtns ){
                     setTag.createButtons( numAllRegisters );
@@ -28,13 +27,14 @@ var listRegisters = {
                 setTag.setTable(res.data)
         
                document.getElementById('waintingAnimation').style.display = "none";
+               
 
             },
 
-            data:  JSON.stringify ({'paginationStart':  start,
-                                    'paginationStep': step,
-                                    'by'            : 'id',
-                                    'order'         : 'ASC'
+            data:  JSON.stringify ({'paginationStart': start,
+                                    'paginationStep' : step,
+                                    'by'             : order,
+                                    'order'          : orderBy
                                     })
         }).done(function() {
             document.getElementById('waintingAnimation').style.display = "none";
@@ -56,18 +56,29 @@ var listRegisters = {
 
         //Set list
         var init =  parseInt( thisButton.getAttribute('initL') ) ;
-        listRegisters.getDataTable( init, listRegisters.paginationStep )
+        var url = document.getElementById('catalogName').value;
+        listRegisters.getDataTable( init, listRegisters.paginationStep, 'id', 'ASC', url, false )
         
         //Behavior button
         $(".button_pag").removeAttr("active");
         $( thisButton ).attr('active','')
 
     },
+    
+
+
+    initSearch : function() {
+        $('#searchRegisterSelect').val();
+        var url = document.getElementById('catalogName').value;
+        
+    },
+
     init : function(){
+
         document.getElementById('waintingAnimation').style.display = "block";
         
-        var catalog = document.getElementById('catalogName').value;
-        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, catalog, true );
+        var url = document.getElementById('catalogName').value;
+        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true );
     }
 };
 

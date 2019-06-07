@@ -757,6 +757,13 @@ hr{
 #addRegister select{
     height: fit-content;
 }
+.input-box { position: relative; }
+.input-box input { padding-left: 30px; }
+.unit { position: absolute; display: block; left: 15px; top: 10px; z-index: 9; font-size: 1.4em; }
+
+
+
+
 /*Fechas*/
 .ui-widget-header, .ui-widget-content .ui-state-default {
     background: #eee;

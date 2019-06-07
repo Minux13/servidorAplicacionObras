@@ -26,14 +26,18 @@ def providers():
         paginationBy    = data['by']
         paginationOrder = data['order']
 
-        url = URLFrp + 'providers'
-        xFields =  str(paginationStart) + ',' + str(paginationStep)  + ',' + str(paginationBy) + ',' + str(paginationOrder)
-        PARAMS = {'X-Fields' : xFields} 
+        #?offset=9&limit=10&order_by=id&order=ASC
+
+        countAmount = requests.get( URLFrp + 'providers/count' ).json()['count']
+        print(countAmount)
+
+        queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep)  + '&order_by=' + str(paginationBy) + '&order=' + str(paginationOrder)
+        url = URLFrp + queryStr
         
-        r = requests.get( url, params = PARAMS  ) 
+        r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( data = dataRes )
+        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
 
 
 
@@ -46,7 +50,6 @@ def providersAdd():
         
         return render_template( 'providers/add.html', catalog='providers', menu = general.menuProvider )
     
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
         data = request.get_json()
         title = data['title']
@@ -79,7 +82,6 @@ def providersEdit(provider_id):
 
         return render_template( 'providers/edit.html', data = reqJ, catalog = 'providers', menu = general.menuProvider )
     
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
         data = request.get_json()
         idProvider  = data['id']
@@ -238,4 +240,4 @@ def contractsEdit(provider_id):
 
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=80)
+	app.run(port=80)
