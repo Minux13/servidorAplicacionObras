@@ -125,19 +125,39 @@ def contracts():
     else:
         data = request.get_json()
         
-        paginationStart = data['paginationStart']
-        paginationStep  = data['paginationStep']
-        paginationBy    = data['by']
-        paginationOrder = data['order']
-
-        url = URLFrp + 'contracts'
-        xFields =  str(paginationStart) + ',' + str(paginationStep)  + ',' + str(paginationBy) + ',' + str(paginationOrder)
-        PARAMS = {'X-Fields' : xFields} 
+        print("////////////")
+        print(data)
+        paginationStart     = data['paginationStart']
+        paginationStep      = data['paginationStep']
+        paginationBy        = data['by']
+        paginationOrder     = data['order']
+        searchBy            = data['searchBy']
+        valueSearchBy       = data['valueSearchBy']
         
-        r = requests.get( url, params = PARAMS  ) 
+
+
+        if searchBy == '':
+            urlCount = URLFrp + 'contracts/count'
+            searchQuery = '' 
+        else:
+            urlCount = URLFrp + 'contracts/count?' + searchBy + '=' + valueSearchBy
+            searchQuery = '&'+ searchBy +'=' + valueSearchBy
+
+
+        print("////////////")
+        print(urlCount)
+        print( 'contracts/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery)
+
+
+        countAmount = requests.get( urlCount ).json()['count']
+        queryStr = 'contracts/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
+        url = URLFrp + queryStr
+
+
+        r = requests.get( url) 
         dataRes = r.json() 
-        print(url)
-        return jsonify( data = dataRes ) 
+        
+        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
 
 
 
@@ -156,7 +176,7 @@ def contractsAdd():
         data = request.get_json()
 
         dicData = { 
-            'number'                     : data['numberr'                  ], 
+            'number'                     : data['number'                   ], 
             'title'                      : data['title'                    ], 
             'description'                : data['description'              ], 
             'provider'                   : data['provider'                 ], 
@@ -178,7 +198,7 @@ def contractsAdd():
         print(dicData['title'])
         url = URLFrp + 'contracts/'
         r = requests.post( url, data=dataJSON)
-
+        print(r)
         return jsonify( data = data )
 
 
@@ -203,7 +223,7 @@ def contractsEdit(provider_id):
         idRegister = data['id']
 
         dicData = { 
-            'number'                     : data['numberr'                  ], 
+            'number'                     : data['number'                  ], 
             'title'                      : data['title'                    ], 
             'description'                : data['description'              ], 
             'provider'                   : data['provider'                 ], 
