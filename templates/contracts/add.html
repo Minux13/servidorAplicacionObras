@@ -397,9 +397,7 @@
                         'outstanding_down_payment'  : $('#outstanding_down_payment').val(),           
                     });
 
-
-
-                    sendPOSTRegister( url, dataJson )
+                    POSTRegister.send( url, dataJson, 'create' );
                 }
             
             }

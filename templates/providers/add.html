@@ -254,7 +254,7 @@
                         'title':        $('#nameprovider').val() , 
                         'description':  $('#descriptionprovider').val()
                     });
-                    sendPOSTRegister( url, dataJson )
+                    POSTRegister.send( url, dataJson, 'create' );
                 }
             
             }
