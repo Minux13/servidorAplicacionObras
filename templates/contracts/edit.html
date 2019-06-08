@@ -274,7 +274,7 @@
                                                 
                                             <div class="contentOfButtonsActions" >
                                                 <button onclick="saveRegister();" class="buttonsActions saveRegisterButton"> Guardar </button>
-                                                <button onclick="warningDelete();" class="buttonsActions deleteRegisterButton"> Eliminar </button>
+                                                <button onclick="DELETERegisters.warning();" class="buttonsActions deleteRegisterButton"> Eliminar </button>
                                             </div>
                                         </div>
                                     </div>
@@ -297,7 +297,7 @@
                                         Seguro que desea eliminar este elemento
                                     </p>    
                                     <button type="button" class="close confirmDeleteButton cancelButtonConfirm" data-dismiss="modal" aria-hidden="true"  >Cancelar</button>
-                                    <button type="button" class="close confirmDeleteButton deleteButtonConfirm" data-dismiss="modal" aria-hidden="true" onclick="deleteRegister();">Eliminar</button>
+                                    <button type="button" class="close confirmDeleteButton deleteButtonConfirm" data-dismiss="modal" aria-hidden="true" onclick="DELETERegisters.send();">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -386,30 +386,6 @@
             });
 
 
-            function warningDelete(){
-                $('#modalconfirm').modal({ show: true });
-                $('.modal-backdrop').removeClass("modal-backdrop");  
-            }
-            
-            function deleteRegister(){
-            
-                var idRegister = $('#registerid').val();
-
-                var catalog = document.getElementById('catalogName').value;
-                var url = '/'+ catalog +'/edit/' + idRegister;
-
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    success: function (data) {
-                        $.notify(
-                            "El registro fue eliminado", 
-                            { position:"bottom right" }
-                        );
-                    }
-                });
-            
-            }
 
             function saveRegister(){
                                 
@@ -459,7 +435,7 @@
                         'total_amount_paid'         : $('#total_amount_paid').val(),                  
                         'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
                     });
-                    sendPOSTRegister( url, dataJson )
+                    POSTRegister.send( url, dataJson, 'update' );
                 }
 
 

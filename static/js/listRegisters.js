@@ -98,23 +98,63 @@ var listRegisters = {
 
 
 //Para las secciones de agragar o editar             
-function sendPOSTRegister( url, dataJson ){
-     $.ajax({
-        url: url,
-        type: 'post',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function (data) {
-            console.log(data);
-            $.notify(
-                "El registro fue agregado", 
-                { position:"bottom right"}
-            );
+var POSTRegister = {
+    messages : {
+        'update': {
+            'success': 'El registro fué actualizado',
+            'fail'   : 'El registro no pudo ser actualizado'
         },
-        data: dataJson
-    });               
+        'create': {
+            'success': 'El registro fué agregado',
+            'fail'   : 'El registro no pudo ser agregado'
+        }
+    },
+    send: function( url, dataJson, msj ){
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $.notify(
+                    POSTRegister.messages[msj].success, 
+                    { position:"bottom right"}
+                );
+            },
+            data: dataJson
+        });               
+    }
 } 
 
+
+var DELETERegisters = {
+    messages : {
+        'success': 'El registro fué eliminado',
+        'fail'   : 'El registro no pudo ser eliminado'
+    },
+    warning : function warningDelete(){
+        $('#modalconfirm').modal({ show: true });
+        $('.modal-backdrop').removeClass("modal-backdrop");  
+    },
+    send: function(){
+            
+        var idRegister = $('#registerid').val();
+        var catalog = document.getElementById('catalogName').value;
+        var url = '/'+ catalog +'/edit/' + idRegister;
+
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function (data) {
+                $.notify(
+                    DELETERegisters.messages.success, 
+                    { position:"bottom right" }
+                );
+            }
+        });
+    
+    }
+};
 
 
 
