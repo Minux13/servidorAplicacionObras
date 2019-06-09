@@ -29,7 +29,6 @@ def providers():
         #?offset=9&limit=10&order_by=id&order=ASC
 
         countAmount = requests.get( URLFrp + 'providers/count' ).json()['count']
-        print(countAmount)
 
         queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep)  + '&order_by=' + str(paginationBy) + '&order=' + str(paginationOrder)
         url = URLFrp + queryStr
@@ -387,7 +386,6 @@ def projectsEdit(provider_id):
         rContracts = requests.get( urlContracts ) 
         contracts = rContracts.json() 
         
-        print(reqJ)
         return render_template( 'projects/edit.html', data = reqJ, catalog = 'projects', menu = general.menuProject, contracts = contracts )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
@@ -425,4 +423,4 @@ def projectsEdit(provider_id):
 
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80)
