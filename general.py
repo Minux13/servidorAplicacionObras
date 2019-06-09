@@ -1,25 +1,25 @@
 menuContract = [
-    {'name':'Contratos',  'url':'href=/contracts ', 'nameSingular': 'Contrato'  },
-    {'name':'Contratos',  'url':'href=/contracts ','isActive':'active'          },
-    {'name':'Obras',      'url':'href=/projects ' ,'isActive':''                },
-    {'name':'Proveedores','url':'href=/providers ','isActive':''                },
-    {'name':'Tableros',   'url':'href=/contracts ','isActive':''                },
+    {'name':'Contratos',  'url':'/contracts ', 'nameSingular': 'Contratssso'  },
+    {'name':'Proveedores','url':'/providers ', 'idHTML':'menuComponentProviders', 'iconClass':'fas fa-ethernet'     , 'isActive':''                },
+    {'name':'Contratos',  'url':'/contracts ', 'idHTML':'menuComponentContracts', 'iconClass':'fas fa-file-contract', 'isActive':'active'          },
+    {'name':'Obras',      'url':'/projects ' , 'idHTML':'menuComponentProjects' , 'iconClass':'fas fa-hard-hat'     , 'isActive':''                },
+    {'name':'Tableros',   'url':'/contracts ', 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':''                },
 ]
 
 
 menuProvider = [
-    {'name':'Proveedores','url':'href=/providers ', 'nameSingular': 'Proveedor' },
-    {'name':'Contratos',  'url':'href=/contracts ','isActive':''                },
-    {'name':'Obras',      'url':'href=/projects  ' ,'isActive':''               },
-    {'name':'Proveedores','url':'href=/providers ','isActive':'active'          },
-    {'name':'Tableros',   'url':'href=/contracts ','isActive':''                },
+    {'name':'Proveedores','url':'/providers'  , 'nameSingular': 'Proveedor' },
+    {'name':'Proveedores','url':'/providers'  , 'idHTML':'menuComponentProviders', 'iconClass':'fas fa-ethernet'     , 'isActive':'active'          },
+    {'name':'Contratos',  'url':'/contracts'  , 'idHTML':'menuComponentContracts', 'iconClass':'fas fa-file-contract', 'isActive':''                },
+    {'name':'Obras',      'url':'/projects'   , 'idHTML':'menuComponentProjects' , 'iconClass':'fas fa-hard-hat'     , 'isActive':''                },
+    {'name':'Tableros',   'url':'/contracts'  , 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':''                },
 ]
 
 
 menuProject = [
-    {'name':'Obras',      'url':'href=/projects ' ,'nameSingular': 'Obra'  },
-    {'name':'Contratos',  'url':'href=/contracts ','isActive':''           },
-    {'name':'Obras',      'url':'href=/projects  ','isActive':'active'     },
-    {'name':'Proveedores','url':'href=/providers ','isActive':''           },
-    {'name':'Tableros',   'url':'href=/contracts ','isActive':''           },
+    {'name':'Obras',      'url':'/projects ' ,'nameSingular': 'Obra'  },
+    {'name':'Proveedores','url':'/providers ', 'idHTML':'menuComponentProviders', 'iconClass':'fas fa-ethernet'     , 'isActive':''           },
+    {'name':'Contratos',  'url':'/contracts ', 'idHTML':'menuComponentContracts', 'iconClass':'fas fa-file-contract', 'isActive':''           },
+    {'name':'Obras',      'url':'/projects  ', 'idHTML':'menuComponentProjects' , 'iconClass':'fas fa-hard-hat'     , 'isActive':'active'     },
+    {'name':'Tableros',   'url':'/contracts ', 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':''           },
 ]

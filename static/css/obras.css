@@ -794,3 +794,9 @@ input[type=number]::-webkit-outer-spin-button {
 div.ui-datepicker{
  font-size:1.4em;
 }
+
+
+
+#menuComponentGraphics{
+    display: none;
+}

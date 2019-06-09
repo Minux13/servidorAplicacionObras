@@ -36,7 +36,7 @@
         <link href="/static/css/obras.css" rel="stylesheet">
         
 
-        <title>{{ menu[0]['name'] }}</title>
+        <title> Contraloría y Transparencia Gubernamental Gobierno del Estado de Nuevo León </title>
     </head>
 
 
@@ -61,31 +61,39 @@
                         <img width="244" height="119" class="img-fluid" src="/static/images/escudo.png">
                     </div>
                 </div>
-                <ul class="list-unstyled components">                
-                    <li class="menu-element"  {{ menu[1]['isActive'] }}  >
-                        <a  {{ menu[1]['url'] }} >
-                            <i class="fa fa-cogs fa-fw"></i>
+                <ul class="list-unstyled components">
+                
+                                
+
+
+                    <li class="menu-element"  id="{{ menu[1]['idHTML'] }}"  {{ menu[1]['isActive'] }}  >
+                        <a  href="{{ menu[1]['url'] }}" >
+                            <i class="{{ menu[1]['iconClass'] }}"></i>
                             <span class="menu-title">  {{ menu[1]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element"  {{ menu[2]['isActive'] }} >
-                        <a   {{ menu[2]['url'] }}  >
-                            <i class="fa fa-briefcase"></i>
+                    <li class="menu-element"  id="{{ menu[2]['idHTML'] }}"  {{ menu[2]['isActive'] }} >
+                        <a  href="{{ menu[2]['url'] }}"  >
+                            <i class="{{ menu[2]['iconClass'] }}"></i>
                             <span class="menu-title" > {{ menu[2]['name'] }} </span>
                         </a>                       
                     </li>
-                    <li class="menu-element" {{ menu[3]['isActive'] }} > 
-                        <a    {{ menu[3]['url'] }} >
-                            <i class="fa fa-sitemap fa-fw"> </i>
+                    <li class="menu-element"  id="{{ menu[3]['idHTML'] }}"   {{ menu[3]['isActive'] }} > 
+                        <a   href="{{ menu[3]['url'] }}" >
+                            <i class="{{ menu[3]['iconClass'] }}"> </i>
                             <span class="menu-title"> {{ menu[3]['name'] }} </span>
                         </a>
                     </li>
-                    <li class="menu-element" {{ menu[4]['isActive'] }} >
-                        <a   {{ menu[4]['url'] }} >
-                            <i class="fa fa-tachometer-alt fa-fw"> </i>
+                    <li class="menu-element"  id="{{ menu[4]['idHTML'] }}"  {{ menu[4]['isActive'] }} >
+                        <a   href="{{ menu[4]['url'] }}" >
+                            <i class="{{ menu[4]['iconClass'] }}"> </i>
                             <span class="menu-title"> {{ menu[4]['name'] }} </span>
                         </a>
-                    </li>                   
+                    </li>     
+                    
+  
+                    
+                              
                     
                 </ul>
             </nav>
