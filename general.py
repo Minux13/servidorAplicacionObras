@@ -1,5 +1,5 @@
 menuContract = [
-    {'name':'Contratos',  'url':'/contracts ', 'nameSingular': 'Contratssso'  },
+    {'name':'Contratos',  'url':'/contracts ', 'nameSingular': 'Contrato'  },
     {'name':'Proveedores','url':'/providers ', 'idHTML':'menuComponentProviders', 'iconClass':'fas fa-ethernet'     , 'isActive':''                },
     {'name':'Contratos',  'url':'/contracts ', 'idHTML':'menuComponentContracts', 'iconClass':'fas fa-file-contract', 'isActive':'active'          },
     {'name':'Obras',      'url':'/projects ' , 'idHTML':'menuComponentProjects' , 'iconClass':'fas fa-hard-hat'     , 'isActive':''                },
