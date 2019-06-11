@@ -116,8 +116,16 @@ var POSTRegister = {
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
+                if( data.status_code >=200 && data.status_code < 300 ) {
+                    var message = POSTRegister.messages[msj].success;
+                }else if( data.status_code >=400 && data.status_code < 600 ) {
+                    var message = POSTRegister.messages[msj].fail;
+                }else {
+                    var message = POSTRegister.messages[msj].fail;
+                }
+
                 $.notify(
-                    POSTRegister.messages[msj].success, 
+                    message, 
                     { position:"bottom right"}
                 );
             },
@@ -146,8 +154,16 @@ var DELETERegisters = {
             url: url,
             type: 'DELETE',
             success: function (data) {
+                if( data.status_code >=200 && data.status_code < 300 ) {
+                    var message = DELETERegisters.messages.success;
+                }else if( data.status_code >=400 && data.status_code < 600 ) {
+                    var message = DELETERegisters.messages.fail;
+                }else {
+                    var message = DELETERegisters.messages.fail;
+                }
+
                 $.notify(
-                    DELETERegisters.messages.success, 
+                    message, 
                     { position:"bottom right" }
                 );
             }

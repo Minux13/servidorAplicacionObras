@@ -64,7 +64,7 @@ def providersAdd():
         url = URLFrp + 'providers/'
         r = requests.post( url, data=dataJSON)
 
-        return jsonify( data = data )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
@@ -98,12 +98,12 @@ def providersEdit(provider_id):
         url = URLFrp + 'providers/' + idProvider
         r = requests.put( url, data=dataJSON)
 
-        return jsonify( {'success':'success'} )
+        return jsonify( {'status_code': r.status_code } )
 
     elif request.method == 'DELETE':
         url = URLFrp + 'providers/' + str(provider_id)
         r = requests.delete( url )
-        return jsonify( 'yes' )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
@@ -205,7 +205,7 @@ def contractsAdd():
         url = URLFrp + 'contracts/'
         r = requests.post( url, data=dataJSON)
 
-        return jsonify( data = data )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
@@ -269,7 +269,7 @@ def contractsEdit(provider_id):
     elif request.method == 'DELETE':
         url = URLFrp + 'contracts/' + str(provider_id)
         r = requests.delete( url )
-        return jsonify( 'yes' )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
@@ -361,7 +361,7 @@ def projectsAdd():
         url = URLFrp + 'projects/'
         r = requests.post( url, data=dataJSON)
 
-        return jsonify( data = data )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
@@ -412,15 +412,15 @@ def projectsEdit(provider_id):
         url = URLFrp + 'projects/' + idRegister
         r = requests.put( url, data=dataJSON)
 
-        return jsonify( {'success':'success'} )
+        return jsonify( {'status_code': r.status_code} )
 
     elif request.method == 'DELETE':
         url = URLFrp + 'projects/' + str(provider_id)
         r = requests.delete( url )
-        return jsonify( 'yes' )
+        return jsonify( {'status_code': r.status_code } )
 
 
 
 
 if __name__ == '__main__':
-	app.run(port=8081, debug=True)
+    app.run(port=8081, debug=True)
