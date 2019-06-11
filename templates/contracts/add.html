@@ -177,12 +177,12 @@
                                                 <div class="col-md-6">
                                                     <label for="title" class="indicatorName">Nombre del Contrato</label> <br>
                                                     <input type="text" name="title" class="form-control" id="title" >
-                                                    <p id="for_title" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_title" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="number" class="indicatorName">Número del Contrato </label> <br>
                                                     <input type="text" name="number" class="form-control" id="number" >
-                                                    <p id="for_number" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_number" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
                                         
@@ -190,7 +190,7 @@
                                                 <div class="col-md-6">
                                                     <label for="initial_contracted_amount" class="indicatorName"> Monto Contratado Inicial </label> <br>
                                                     <input type="number" name="initial_contracted_amount" class="form-control" id="initial_contracted_amount" >
-                                                    <p id="for_initial_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_initial_contracted_amount" class="msjNotValid"  > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="provider" class="indicatorName"> Empresa </label> <br>
@@ -199,7 +199,7 @@
                                                         <option value="{{ provider.id }}"> {{ provider.title }} </option>
                                                         {% endfor %}
                                                     </select>
-                                                    <p id="for_provider" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_provider" class="msjNotValid"  > </p>
                                                 </div>
                                             </div>                                       
                                         
@@ -207,12 +207,12 @@
                                                 <div class="col-md-6">
                                                     <label for="kickoff" class="indicatorName"> Inicio de Obras Según Contrato </label> <br>
                                                     <input type="text" name="kickoff" class="form-control" id="kickoff" >
-                                                    <p id="for_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_kickoff" class="msjNotValid"  > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ending" class="indicatorName"> Fin de Obras Según Contrato </label> <br>
                                                     <input type="text" name="ending" class="form-control" id="ending" >
-                                                    <p id="for_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_ending" class="msjNotValid"  > </p>
                                                 </div>
                                             </div>                                       
                                                 
@@ -220,12 +220,12 @@
                                                 <div class="col-md-6">
                                                     <label for="down_payment" class="indicatorName"> fecha de pago anticipo </label> <br>
                                                     <input type="text" name="down_payment" class="form-control" id="down_payment" >
-                                                    <p id="for_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_down_payment" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="down_payment_amount" class="indicatorName"> monto de pago anticipo </label> <br>
                                                     <input type="number" name="down_payment_amount" class="form-control" id="down_payment_amount" >
-                                                    <p id="for_down_payment_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_down_payment_amount" class="msjNotValid" > </p>
                                                 </div>
                                             </div> 
 
@@ -233,12 +233,12 @@
                                                 <div class="col-md-6">
                                                     <label for="ext_agreement_amount" class="indicatorName"> convenio de ampliación económico </label> <br>
                                                     <input type="number" name="ext_agreement_amount" class="form-control" id="ext_agreement_amount" >
-                                                    <p id="for_ext_agreement_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_ext_agreement_amount" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="ext_agreement" class="indicatorName">  fecha de convenio ampliación de obra </label> <br>
                                                     <input type="text" name="ext_agreement" class="form-control" id="ext_agreement" >
-                                                    <p id="for_ext_agreement" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_ext_agreement" class="msjNotValid" > </p>
                                                 </div>
                                             </div> 
 
@@ -246,12 +246,12 @@
                                                 <div class="col-md-6">
                                                     <label for="final_contracted_amount" class="indicatorName"> monto contrato final </label> <br>
                                                     <input type="number" name="final_contracted_amount" class="form-control" id="final_contracted_amount" >
-                                                    <p id="for_final_contracted_amount" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_final_contracted_amount" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="total_amount_paid" class="indicatorName"> total pagado </label> <br>
                                                     <input type="number" name="total_amount_paid" class="form-control" id="total_amount_paid" >
-                                                    <p id="for_total_amount_paid" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_total_amount_paid" class="msjNotValid" > </p>
                                                 </div>
                                             </div> 
 
@@ -259,7 +259,7 @@
                                                 <div class="col-md-6">
                                                     <label for="outstanding_down_payment" class="indicatorName"> anticipo pendiente de amotizar </label> <br>
                                                     <input type="number" name="outstanding_down_payment" class="form-control" id="outstanding_down_payment"  >
-                                                    <p id="for_outstanding_down_payment" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_outstanding_down_payment" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="delivery_stage" class="indicatorName"> Estado de Entrega </label> <br>
@@ -269,7 +269,7 @@
                                                         <option value="3">Naranja</option>
                                                         <option value="4">Rojo</option>
                                                     </select>
-                                                    <p id="for_delivery_stage" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_delivery_stage" class="msjNotValid" > </p>
                                                 </div>
                                                 
                                             </div> 
@@ -278,7 +278,7 @@
                                                 <div class="col-md-12">
                                                     <label for="description" class="indicatorName"> Descripción </label> <br>
                                                     <textarea name="description" class="form-control" id="description" ></textarea>
-                                                    <p id="for_description" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_description" class="msjNotValid" > </p>
                                                 </div>
                                                 
                                             </div> 

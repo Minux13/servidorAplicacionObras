@@ -171,7 +171,7 @@
                                                 <div class="col-md-6">
                                                     <label for="title" class="indicatorName">Nombre </label> <br>
                                                     <input type="text" name="title" class="form-control" id="title" value="{{ data.title }}" >
-                                                    <p id="for_title" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_title" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="city" class="indicatorName"> Municipio </label> <br>
@@ -231,7 +231,7 @@
 
 
                                                     </select>
-                                                    <p id="for_city" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_city" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
@@ -251,7 +251,7 @@
                                                         <option value="9"  >RESTAURACIÓN</option>
                                                         <option value="10" >REHABILITACIÓN</option>
                                                     </select>
-                                                    <p id="for_category" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_category" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="department" class="indicatorName"> Departamento </label> <br>
@@ -270,7 +270,7 @@
                                                         <option value="12">CAMINOS</option>
                                                         <option value="13">ISSSTELEON</option>
                                                     </select>
-                                                    <p id="for_department" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_department" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
@@ -280,7 +280,7 @@
                                                 <div class="col-md-6">
                                                     <label for="budget" class="indicatorName"> Presupuesto </label> <br>
                                                     <input type="number" name="budget" class="form-control" id="budget" value="{{data.budget}}" >
-                                                    <p id="for_budget" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_budget" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="contract" class="indicatorName"> Contrato </label> <br>
@@ -289,7 +289,7 @@
                                                         <option value="{{ contract.id }}"> {{ contract.title }} </option>
                                                         {% endfor %}
                                                     </select>
-                                                    <p id="for_contract" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_contract" class="msjNotValid" > </p>
                                                 </div>
                                             </div>                                       
                                         
@@ -298,12 +298,12 @@
                                                 <div class="col-md-6">
                                                     <label for="planed_kickoff" class="indicatorName"> Fecha de inicio planeada </label> <br>
                                                     <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" value="{{data.planed_kickoff}}" >
-                                                    <p id="for_planed_kickoff" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="planed_ending" class="indicatorName"> Fecha de fin de obra planeada </label> <br>
                                                     <input type="text" name="planed_ending" class="form-control" id="planed_ending" value="{{data.planed_ending}}" >
-                                                    <p id="for_planed_ending" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_planed_ending" class="msjNotValid" > </p>
                                                 </div>
                                             </div>  
 
@@ -313,7 +313,7 @@
                                                 <div class="col-md-12">
                                                     <label for="description" class="indicatorName"> Descripción </label> <br>
                                                     <textarea name="description" class="form-control" id="description" >{{ data.description }}</textarea>
-                                                    <p id="for_description" style="display:none; color: #800;font-size:1.3em;" > </p>
+                                                    <p id="for_description" class="msjNotValid" > </p>
                                                 </div>
                                                 
                                             </div> 

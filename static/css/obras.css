@@ -62,7 +62,7 @@ body{
 #sidebar.active ul li a {
     padding: 10px 10px;
     text-align: center;
-    font-size: 0.85em;
+    font-size: 0.65em;
 }
 #sidebarCollapse i{   /*Button i toggle*/
     vertical-align: -2px;
@@ -123,6 +123,11 @@ body{
 }
 
 
+
+
+
+
+
 /* Links titles */
 #titleFirstLink{
     cursor: pointer;
@@ -130,18 +135,18 @@ body{
 #titleDepartment{
     cursor: pointer;
     color:#505;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
 }
 
 #titleEspecificacionObra{
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     cursor: pointer;
     color:#505;
 }
 
 
 #statusProjectName{
-    font-size: 1.4em;
+    /*font-size: 1.4em;*/
     display: inline;
     float: right;
 }
@@ -154,7 +159,7 @@ body{
 #dependency{
     padding: 5px 10px;
     height: 35px;
-    font-size: 15px;
+    /*font-size: 15px;*/
     border-radius: 5px !important;
 }
 /*#dependency:focus{
@@ -165,10 +170,10 @@ body{
 
 /*** Container ***/
 .page-title-breadcrumb a{
-    font-size: 16px;
+    /*font-size: 16px;*/
 }
 .container-fluid label{
-    font-size: 16px;
+    /*font-size: 16px;*/
 }
 #footer{
     display: inline-block;
@@ -192,7 +197,7 @@ body{
 }
 
 #obraDetailModalBody .obraField{
-    font-size: 2em;
+    /*font-size: 2em;*/
 }
 
 #obraDetailModalBody .row{
@@ -351,7 +356,7 @@ body{
 }
 #genl-legend-pie-chart .legendRebanada{
     color: #000;
-    font-size: 1.3em;
+    /*font-size: 1.3em;*/
     font-width: 400;
 }
 #genl-legend-pie-chart svg{
@@ -417,7 +422,7 @@ thead{
 
 #table-obras {
     padding: 30px 60px;
-    font-size: 15px;
+    /*font-size: 15px;*/
 }
 #obras-table-head {
     font-weight: bold;
@@ -498,13 +503,13 @@ thead{
     font-size: 15px !important;
 }
 #obra-container-body .valueField{
-    font-size: 14px !important;
+    /*font-size: 14px !important;*/
     display: block;
     font-weight: bold;
 
 }
 #obra-container-body .titleField{
-    font-size: 15px !important;
+    /*font-size: 15px !important;*/
     margin-bottom: 5px;
     display: inline-block;
     text-transform: uppercase;
@@ -522,7 +527,7 @@ thead{
 .button_pag{
     margin: 0px -1px;
     padding: 5px 12px;
-    font-size: 1.3em;
+    /*font-size: 1.3em;*/
     border: 1px solid #bbb;
     background: white;
     /* box-shadow: 0 5px 5px #777; */
@@ -609,6 +614,7 @@ hr{
     border-radius: 5px;
     font-weight: 100;
     float: inherit;
+    font-size: inherit;
 }
 .cancelButtonConfirm{
     background: #fff !important;
@@ -630,7 +636,7 @@ hr{
 }
 #modalconfirm p{
     color: #222;
-    font-size: 1.4em;
+    /*font-size: 1.4em;*/
 }
 #modalconfirm .fa-exclamation-triangle{
     color: #a55;
@@ -638,12 +644,12 @@ hr{
 
 /*Form and edit*/
 .form-control{
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     padding: 8px 13px;
 }
 .buttonsActions{
     padding: 5px 15px;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     margin: 30px 15px;
     border: solid 1px #606;
     background: #fff;
@@ -673,7 +679,7 @@ hr{
 /** List Registers **/
 #tableRegisters{
     width: 100%;
-    font-size: 1.4em;
+    /*font-size: 1.4em;*/
     margin-top: 20px;
 }
 #tableRegisters tr th{
@@ -706,7 +712,7 @@ hr{
 }
 #containerSearchButton span {
     margin: 0 6px;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
 }
 #containerAddButton{
     text-align: right;
@@ -715,7 +721,7 @@ hr{
     color: #555;
 }
 .searchFielsLabels{
-    font-size: 1.4em !important;
+    /*font-size: 1.4em !important;*/
 }
 #searchForm select{
     height: fit-content;
@@ -731,7 +737,7 @@ hr{
 /** Add Provider **/
 .obrasButtonNormal{
     padding: 5px 15px;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
     border: solid 1px #606;
     background: #fff;
     color: #606;
@@ -762,6 +768,12 @@ hr{
 .unit { position: absolute; display: block; left: 15px; top: 10px; z-index: 9; font-size: 1.4em; }
 
 
+/* Valid fields mesagges */
+.msjNotValid{
+    color: #800 !important;
+    display: none;
+}
+
 
 
 /*Fechas*/
@@ -777,7 +789,7 @@ hr{
 .notifyjs-bootstrap-base {
     opacity: 0.85 !important;
     padding: 25px 30px !important;
-    font-size: 1.4em !important;
+    /*font-size: 1.4em !important;*/
     background: linear-gradient(0deg, #636, #a6a) !important;
     opacity: 1 !important;
     color: #fff !important;
@@ -792,7 +804,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 div.ui-datepicker{
- font-size:1.4em;
+ /*font-size:1.4em;*/
 }
 
 
