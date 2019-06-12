@@ -43,9 +43,6 @@ def providers():
         queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
         url = URLFrp + queryStr
         
-        print("////////////")
-        print(url)
-        print(urlCount)
         r = requests.get( url) 
         dataRes = r.json() 
         
