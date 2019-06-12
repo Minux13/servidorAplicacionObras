@@ -28,6 +28,8 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
  
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
@@ -188,8 +190,9 @@
                                                     <p id="for_initial_contracted_amount" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="provider" class="indicatorName"> Empresa </label> <br>
-                                                    <select name="provider" class="form-control" id="provider"  >
+                                                    <label for="provider" class="indicatorName"> Proveedor </label> <br>
+                                                    <select name="provider" class="form-control" id="provider" >
+                                                        <option value="0" > Selecciona un Proveedor </option>
                                                         {% for provider in providers %}
                                                         <option value="{{ provider.id }}"> {{ provider.title }} </option>
                                                         {% endfor %}
@@ -259,6 +262,7 @@
                                                 <div class="col-md-6">
                                                     <label for="delivery_stage" class="indicatorName"> Estado de Entrega </label> <br>
                                                     <select name="delivery_stage" class="form-control" id="delivery_stage" value="{{ data.delivery_stage }}"  >
+                                                        <option value="0">Selecciona el Estado de Entega</option>
                                                         <option value="1">Verde</option>
                                                         <option value="2">Amarillo</option>
                                                         <option value="3">Naranja</option>
@@ -350,6 +354,9 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
+        
         <!-- Notify -->
         <script src="/static/js/notify.min.js"></script>
 
@@ -389,6 +396,9 @@
                 document.getElementById('delivery_stage').value = document.getElementById('delivery_stageValue').value;
                 document.getElementById('provider').value  =       document.getElementById('providerValue').value;
 
+                $('#provider').select2();
+
+
             });
 
 
@@ -403,8 +413,8 @@
                 var fieldsJson = [
                     {'id' : 'number',                   'type' : 'text'},
                     {'id' : 'title',                    'type' : 'text'},
-                    //{'id' : 'provider',               'type' : 'number'},
-                    //{'id' : 'delivery_stage',         'type' : 'number'},
+                    {'id' : 'provider',                 'type' : 'selectNumber'},
+                    {'id' : 'delivery_stage',           'type' : 'selectNumber'},
                     {'id' : 'initial_contracted_amount','type' : 'float'},
                     {'id' : 'kickoff',                  'type' : 'date'},
                     {'id' : 'ending',                   'type' : 'date'},

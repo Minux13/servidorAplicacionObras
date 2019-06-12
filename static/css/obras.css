@@ -673,7 +673,22 @@ hr{
 #addRegister{
     padding: 20px;
 }
+/* Selects */
+.select2-container--default .select2-selection--single{
+    padding: 8px 13px;
+    border: 1px solid #fff;
+    border-radius: 0px;
+    height: 39px;
+}
+.select2-container {
+    border: 1px solid #ced4da;
+    border-radius: 0px;
 
+}.select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: normal;
+}.select2-container--default .select2-selection--single .select2-selection__arrow{ 
+    height: 39px;
+}
 
 
 /** List Registers **/
@@ -785,6 +800,7 @@ hr{
 
 
 
+
 /** Notify **/
 .notifyjs-bootstrap-base {
     opacity: 0.85 !important;
@@ -812,3 +828,6 @@ div.ui-datepicker{
 #menuComponentGraphics{
     display: none;
 }
+
+
+

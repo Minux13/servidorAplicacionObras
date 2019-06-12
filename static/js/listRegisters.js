@@ -185,6 +185,11 @@ var validate={
             var idField = thisField.id;
             document.getElementById( idField ).style.border = "solid 1px #ced4da";
             document.getElementById( 'for_' + idField ).style.display = "none";
+            
+            //If is a select2 select element
+            if( $('#' + idField ).next().closest('.select2-container').length > 0 ){
+                 $('#' + idField ).next().closest('.select2-container').css('border','solid 1px #ced4da');
+            }
 
         }
 
@@ -198,6 +203,12 @@ var validate={
                 document.getElementById( idField ).style.border = "1px solid #a33";
                 document.getElementById( 'for_' + idField ).style.display = "block";
                 document.getElementById( 'for_' + idField ).innerHTML = isValide[1];
+
+                //If is a select2 select element
+                if( $('#' + idField ).next().closest('.select2-container').length ){
+                    $('#' + idField ).next().closest('.select2-container').css('border','solid 1px #a33');
+                }
+
                 send = false
             }
         }
@@ -217,6 +228,10 @@ var validate={
         var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
         if( val == '' ){return [false, 'Ingresa este campo'];}
         else if( !val.match(patt) ){return [false, 'Ingresa una fecha válida'];}
+        else{return [true];}
+    },
+    'selectNumber': function( val ){
+        if( val == '' || val == 0 ){return [false, 'Selecciona un elemento'];}
         else{return [true];}
     }
 }
