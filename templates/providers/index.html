@@ -165,7 +165,11 @@
                                 <div class="portlet-body" id="bodyTableProviders">
                                     <div class=row>
                                         <div class="col-md-6 order-1 order-md-0 ">
-                                            
+                                            <div id="containerSearchButton" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2" >
+                                                <i class="fas fa-search"></i>
+                                                <span>Buscar</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 order-0 order-md-1 ">
                                             <div id="containerAddButton">
@@ -173,6 +177,49 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+
+                                    <div class="row searchColapseFields">
+                                        <div class="col">
+                                            <div class="collapse multi-collapse" id="multiCollapseExample2">
+                                                <div id="searchForm">
+                                                    <div class=row>
+                                                        <div class="col-md-6">
+                                                            <label for="searchRegisterSelect" class="searchFielsLabels"> Buscar por: </label> <br>
+                                                            <select name="searchRegisterSelect" class="form-control" id="searchRegisterSelect"  >
+                                                                <option value="title">Nombre</option>
+                                                                <option value="description">Descripción</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="searchRegisterField" class="searchFielsLabels"> Nombre</label> <br>
+                                                            <input type="text" name="searchRegisterField" class="form-control" id="searchRegisterField"  >
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class=row>
+                                                        <div class="col-md-12">
+                                                            <div style="text-align: right;" >
+                                                                
+                                                                <button class="obrasButtonNormal" onclick="listRegisters.init();">  
+                                                                    <i class="fas fa-broom"></i> Limpiar Busqueda
+                                                                </button>
+                                                                <button class="obrasButtonNormal" onclick="listRegisters.initSearch();">  
+                                                                    <i class="fas fa-search"></i> Buscar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
 
 
                                     <table id="tableRegisters">
@@ -259,8 +306,8 @@
                     `;
                     return strTr;
                 },
-                button : function(init, numValueButton, isActive){
-                    return '<button initL="'+ init +'" onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+                button : function(init, numValueButton, isActive, searchBy, valueSearchBy){
+                    return '<button initL="'+ init +'" searchBy="'+ searchBy +'" valueSearchBy="'+ valueSearchBy +'"  onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
                 },
                 setTable : function(data){
                     
@@ -275,7 +322,7 @@
                     document.getElementById('tableRegisters').innerHTML = strTRs;
                    
                 },
-                createButtons: function( numAllRegisters ){
+                createButtons: function( numAllRegisters, filterBy, valueSearchBy ){
                     
                     var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
                     listRegisters.numberOfButtons = numOfButtons ;
@@ -285,7 +332,7 @@
                         var start = b * listRegisters.paginationStep ;
                         var numLebelButton = b + 1;
                         var isActive = b==0? 'active' : '';
-                        strAllButtons += setTag.button( start, numLebelButton, isActive )
+                        strAllButtons += setTag.button( start, numLebelButton, isActive, filterBy, valueSearchBy )
                     }
                     document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
                 }

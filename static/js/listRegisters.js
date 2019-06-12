@@ -1,15 +1,18 @@
 var listRegisters = {
-    paginationStar : 0,
-    paginationStep : 10,
-    numberOfButtons: 1,     //Mock, se actualiza cuando se reciben los datos ajax
-    isStartPage : true,
+    paginationStar  : 0,
+    paginationStep  : 10,
+    numberOfButtons : 1,     //Mock, se actualiza cuando se reciben los datos ajax
+    by              : 'id',
+    order           : 'ASC',
+    searchBy        : '',
+    valueSearchBy   : '',
     goToRegister : function(thisElement){
         var idRegister = thisElement.getAttribute('idRegister');
         var catalog = document.getElementById('catalogName').value;
         var url = '/'+ catalog +'/edit/' + idRegister;
         window.open( url ,"_self"); 
     },
-    getDataTable : function( start, step, order, orderBy, url, createBtns, searchBy, valueSearchBy ){
+    getDataTable : function( url, createBtns ){
          $.ajax({
             url: url,
             type: 'post',
@@ -20,8 +23,7 @@ var listRegisters = {
                 var numAllRegisters = res.count;
                 
                 if( createBtns ){
-                    setTag.createButtons( numAllRegisters, searchBy, valueSearchBy );
-                    listRegisters.isStartPage = false;
+                    setTag.createButtons( numAllRegisters, listRegisters.searchBy, listRegisters.valueSearchBy );
                 }
 
                 setTag.setTable(res.data)
@@ -31,12 +33,12 @@ var listRegisters = {
 
             },
 
-            data:  JSON.stringify ({'paginationStart': start,
-                                    'paginationStep' : step,
-                                    'by'             : order,
-                                    'order'          : orderBy,
-                                    'searchBy'       : searchBy,
-                                    'valueSearchBy'  : valueSearchBy
+            data:  JSON.stringify ({'paginationStart': listRegisters.paginationStar ,
+                                    'paginationStep' : listRegisters.paginationStep ,
+                                    'by'             : listRegisters.by,
+                                    'order'          : listRegisters.order,
+                                    'searchBy'       : listRegisters.searchBy,    
+                                    'valueSearchBy'  : listRegisters.valueSearchBy
                                     })
         }).done(function() {
             document.getElementById('waintingAnimation').style.display = "none";
@@ -60,11 +62,11 @@ var listRegisters = {
         document.getElementById('waintingAnimation').style.display = "block";
 
         //Set list
-        var init     =  parseInt( thisButton.getAttribute('initL') ) ;
-        var searchBy =  thisButton.getAttribute('searchBy') ? thisButton.getAttribute('searchBy') : '' ;
-        var valueSearchBy = thisButton.getAttribute('valueSearchBy') ? thisButton.getAttribute('valueSearchBy') : '' ;
         var url      =  document.getElementById('catalogName').value;
-        listRegisters.getDataTable( init, listRegisters.paginationStep, 'id', 'ASC', url, false, searchBy, valueSearchBy )
+
+        listRegisters.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
+
+        listRegisters.getDataTable( url, false )
         
         //Behavior button
         $(".button_pag").removeAttr("active");
@@ -80,17 +82,27 @@ var listRegisters = {
         var searchBy      = $('#searchRegisterSelect').val();
         var valueSearchBy = $('#searchRegisterField').val();
         var url = document.getElementById('catalogName').value;
+
+        listRegisters.paginationStar = 0;
+        listRegisters.searchBy       = $('#searchRegisterSelect').val();  
+        listRegisters.valueSearchBy  = $('#searchRegisterField').val();
         
-        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true, searchBy, valueSearchBy );
+        listRegisters.getDataTable( url, true  );
         
     },
 
     init : function(){
 
         document.getElementById('waintingAnimation').style.display = "block";
-        
+
+        //Set values for init pagination
+        listRegisters.paginationStar = 0;
+        listRegisters.searchBy       = '';  
+        listRegisters.valueSearchBy  = '';
+
         var url = document.getElementById('catalogName').value;
-        listRegisters.getDataTable( listRegisters.paginationStar, listRegisters.paginationStep, 'id', 'ASC', url, true, '', '' );
+
+        listRegisters.getDataTable(  url, true );
     }
 };
 

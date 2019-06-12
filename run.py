@@ -21,18 +21,31 @@ def providers():
     else:
         data = request.get_json()
         
-        paginationStart = data['paginationStart']
-        paginationStep  = data['paginationStep']
-        paginationBy    = data['by']
-        paginationOrder = data['order']
+        paginationStart     = data['paginationStart']
+        paginationStep      = data['paginationStep']
+        paginationBy        = data['by']
+        paginationOrder     = data['order']
+        searchBy            = data['searchBy']
+        valueSearchBy       = data['valueSearchBy']
 
         #?offset=9&limit=10&order_by=id&order=ASC
 
-        countAmount = requests.get( URLFrp + 'providers/count' ).json()['count']
 
-        queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep)  + '&order_by=' + str(paginationBy) + '&order=' + str(paginationOrder)
+        if searchBy == '':
+            urlCount = URLFrp + 'providers/count'
+            searchQuery = '' 
+        else:
+            urlCount = URLFrp + 'providers/count?' + searchBy + '=' + valueSearchBy
+            searchQuery = '&'+ searchBy +'=' + valueSearchBy
+
+
+        countAmount = requests.get( urlCount ).json()['count']
+        queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
         url = URLFrp + queryStr
         
+        print("////////////")
+        print(url)
+        print(urlCount)
         r = requests.get( url) 
         dataRes = r.json() 
         
@@ -423,4 +436,4 @@ def projectsEdit(provider_id):
 
 
 if __name__ == '__main__':
-    app.run(port=8081, debug=True)
+    app.run(port=8081, host="0.0.0.0", debug=True)
