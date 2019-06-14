@@ -8,7 +8,9 @@
         
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
+        
         <link rel="icon" href="/static/images/favi.png" type="image/gif" sizes="16x9">
+        
         
         <!--Loading JQuery UI css-->
         <link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -29,6 +31,9 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
  
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
+        
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
         
@@ -38,7 +43,6 @@
 
         <title> Contraloría y Transparencia Gubernamental Gobierno del Estado de Nuevo León </title>
     </head>
-
 
     <body class="  pace-done">
         <div class="pace  pace-inactive">
@@ -61,10 +65,9 @@
                         <img width="244" height="119" class="img-fluid" src="/static/images/escudo.png">
                     </div>
                 </div>
-                <ul class="list-unstyled components">      
+                <ul class="list-unstyled components">       
                 
-                
-                          
+                         
                     <li class="menu-element"  id="{{ menu[1]['idHTML'] }}"  {{ menu[1]['isActive'] }}  >
                         <a  href="{{ menu[1]['url'] }}" >
                             <i class="{{ menu[1]['iconClass'] }}"></i>
@@ -88,16 +91,14 @@
                             <i class="{{ menu[4]['iconClass'] }}"> </i>
                             <span class="menu-title"> {{ menu[4]['name'] }} </span>
                         </a>
-                    </li>   
+                    </li>  
                     <li class="menu-element"  id="{{ menu[5]['idHTML'] }}"  {{ menu[5]['isActive'] }} >
                         <a   href="{{ menu[5]['url'] }}" >
                             <i class="{{ menu[5]['iconClass'] }}"> </i>
                             <span class="menu-title"> {{ menu[5]['name'] }} </span>
                         </a>
                     </li>                   
-                    
-                    
-                                  
+                                    
                     
                 </ul>
             </nav>
@@ -138,16 +139,17 @@
 
 
                 <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                
                 <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
                     <ol class="breadcrumb page-breadcrumb">
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a  id="titleFirstLink" href="{{ menu[0]['url'] }}">{{ menu[0]['name'] }}</a>
+                            <a  id="titleFirstLink"  href="{{ menu[0]['url'] }}">{{ menu[0]['name'] }}</a>
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Registros  </a>
+                            <a  id="titleDepartment" > Editar {{ menu[0]['nameSingular'] }}  </a>
                         </li>                         
                     </ol>
                     <div class="clearfix">
@@ -169,16 +171,15 @@
 
 
 
-                                <div class="portlet-body">
+                                <div class="portlet-body" >
 
-                                    <div id="addRegister">
+
+                                    <div action="/" id="addRegister">
                                         <div class="form-group">
-                                            
-                                            
-                                            
+
                                             <div class="row rowAddRegister"  >
                                                 <div class="col-md-12">
-                                                    <span class="nameObraFollowUps"> Construcción y ampliación de la carreterra número 12 <span>
+                                                    <h4> Construcción y ampliación de la carreterra número 12 </h4>
                                                 </div>
 
 
@@ -187,69 +188,46 @@
 
 
                                             <div class="row rowAddRegister">
-                                                <div class="col-md-4">
-                                                    <span class="propertyProjectFollowUpsTitle"> Estatus: </span>
-                                                    <span class="propertyProjectFollowUps"> En Tiempo </span>
+                                                <div class="col-md-6">
+                                                    <label for="verified_progress" class="indicatorName"> Avance Físico </label> <br>
+                                                    <input type="number" name="verified_progress" class="form-control" id="verified_progress" value="80">
+                                                    <p id="for_verified_progress" class="msjNotValid" > </p>
                                                 </div>
-                                            
-                                                <div class="col-md-4">
-                                                    <span class="propertyProjectFollowUpsTitle"> Municipio </span>
-                                                    <span class="propertyProjectFollowUps"> Arteaga </span>
-                                                </div>                                               
-                                                
-                                                <div class="col-md-4">
-                                                    <span class="propertyProjectFollowUpsTitle"> Categoría </span>
-                                                    <span class="propertyProjectFollowUps"> Pavimentación </span>
-                                                </div>                                               
+                                                <div class="col-md-6">
+                                                    <label for="planed_kickoff" class="indicatorName"> Fecha de verificación </label> <br>
+                                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" value="06/Nov/2019" >
+                                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                                </div>
+                                               
                                             </div>                                       
                                         
                                               
                                              <div class="row rowAddRegister">
-                                                <div class="col-md-4">
-                                                    <span class="propertyProjectFollowUpsTitle"> Dependencia </span>
-                                                    <span class="propertyProjectFollowUps"> Infraestructura </span>
+                                                <div class="col-md-6">
+                                                    <label for="finalcial_advance" class="indicatorName"> Avance Financiero </label> <br>
+                                                    <input type="number" name="finalcial_advance" class="form-control" id="finalcial_advance" value="85" >
+                                                    <p id="for_finalcial_advance" class="msjNotValid" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="check_stage" class="indicatorName"> Estatus de Verificación </label> <br>
+                                                    <input type="text" name="check_stage" class="form-control" id="check_stage" value="En Tiempo" >
+                                                    <p id="for_check_stage" class="msjNotValid" > </p>
                                                 </div>
 
-                                                 <div class="col-md-4">
-                                                     <span class="propertyProjectFollowUpsTitle"> Contrato </span>
-                                                     <span class="propertyProjectFollowUps"> No. de Contrato </span>
-                                                </div>
+                                            </div>  
 
-                                            </div> 
 
+
+
+                                                                                
+
+
+                                            <div class="contentOfButtonsActions" >
+                                                <button class="buttonsActions" onclick="addRegister();">Guardar</button>
+                                            </div>
                                         </div>
                                     </div>
 
-
-                    <button style="float: right;" class="obrasButtonNormal"  onclick="window.open( '/followups/add' ,'_self');"> Agregar Registro </button>
-                    <br>
-                    <br><br>
-                    <span style="margin-left: 20px; font-size: 15px; font-weight: bold; color: #6a6a6a;"> Registros de Verificación </span>
-
-                    <table id="tableRegisters">
-
-
-                        <tbody><tr> 
-                            <th> Fecha </th> 
-                            <th> Estatus </th>  
-                            <th> Avance Físico </th> 
-                        </tr>
-                        <tr idregister="3" onclick="window.open( '/followups/addd' ,'_self');">
-                            <td> 06/Nov/2019 </td>
-                            <td> Terminada </td>
-                            <td> 100% </td>
-                        </tr>
-                        <tr idregister="3" onclick="window.open( '/followups/addd' ,'_self');">
-                            <td> 06/Nov/2019 </td>
-                            <td> En tiempo </td>
-                            <td> 80% </td>
-                        </tr>                       
-                        <tr idregister="3" onclick="window.open( '/followups/addd' ,'_self');">
-                            <td> 06/Nov/2019 </td>
-                            <td> En tiempo </td>
-                            <td> 60% </td>
-                        </tr>                                       
-                    </tbody>
 
 
 
@@ -262,49 +240,13 @@
                     </div>                            
                 </div>
 
-                    <!-- BEGIN MODAL -->
-                <div id="modalconfirm" class="modal fade" data-backdrop-limit="1" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" id="dialogConfirmModal">
-                        <div class="modal-content">
-                            <div class="modal-body" >
-                                
-                                <div id="containerModalImageZoom" style="text-align: center;">
-                                    <p id="messageconfirm">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                        Seguro que desea eliminar este elemento
-                                    </p>    
-                                    <button type="button" class="close confirmDeleteButton cancelButtonConfirm" data-dismiss="modal" aria-hidden="true"  >Cancelar</button>
-                                    <button type="button" class="close confirmDeleteButton deleteButtonConfirm" data-dismiss="modal" aria-hidden="true" onclick="DELETERegisters.send();">Eliminar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>                   
-                <!-- END MODAL -->
-        
-        
-        
-
             </div>
         </div>
-
-
         
-        <input id="planed_kickoffValue" type="hidden" value="{{ data.planed_kickoff }}" >
-        <input id="planed_endingValue" type="hidden" value="{{ data.planed_ending }}" >
-
-
-        <input id="cityValue" type="hidden"         value="{{ data.city }}" >
-        <input id="categoryValue" type="hidden"     value="{{ data.category }}" >
-        <input id="departmentValue" type="hidden"   value="{{ data.department }}" >
-        <input id="contractValue" type="hidden"     value="{{ data.contract }}" >
-
-
-        <input id="registerid" type="hidden" value="{{ data.id }}" >
+        
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
- 
 
-        
+
     
         <!-- Jquery -->
         <script src="/static/js/jquery-3.3.1.min.js"></script>
@@ -321,54 +263,40 @@
         <!-- Module of Highcharts -->
         <script src="/static/js/exporting.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
         
         <!-- Notify -->
         <script src="/static/js/notify.min.js"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        
 
-
-        <!-- Custom JS for Sistema de Obras -->
-        <script src="/static/js/obras.js"></script>
-
+        
+        
         <!-- Js for crate list -->
         <script src="/static/js/listRegisters.js"></script>
 
-
+    
         <script>
-            
+
             $(document).ready(function () {
 
                 //Button toggle for sidebar
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
-                
-                /*
-                $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
-                $( "#planed_ending" ).datepicker( datesGENL.formatPicker );
 
-
-                //Muestran las fechas que se deben ver
-                document.getElementById('planed_kickoff').value       = datesGENL.formatOrder($('#planed_kickoffValue').val() );
-                document.getElementById('planed_ending').value        = datesGENL.formatOrder($('#planed_endingValue').val() );
-
-                //Preselecciones, por que no agarra value el select
-                document.getElementById('city').value =       document.getElementById('cityValue').value ;        
-                document.getElementById('category').value =   document.getElementById('categoryValue').value ;
-                document.getElementById('department').value = document.getElementById('departmentValue').value ;
-                document.getElementById('contract').value =   document.getElementById('contractValue').value ;
-                */
-
+                $( "#project" ).select2();
 
             });
 
 
-
-            function saveRegister(){
-                                
-                var idRegister  = $('#registerid').val();
+            function addRegister() {
+                /*
                 var catalog = document.getElementById('catalogName').value;
-                var url = '/'+ catalog +'/edit/' + idRegister;
+                var url = '/'+ catalog +'/add';
 
                 //Fields for validate
                 var fieldsJson = [
@@ -380,18 +308,14 @@
                     //{'id' : 'contract',             'type' : 'text'},
                     {'id' : 'planed_kickoff',       'type' : 'date'},
                     {'id' : 'planed_ending',        'type' : 'date'},
-                    {'id' : 'description',          'type' : 'text'}
+                    {'id' : 'description',          'type' : 'text'},
                 ];
 
                 var send = validate.fields( fieldsJson );
-
-
                 
+
                 if (send){
-                    //Create json send
-                    //////Aqui si se envia el id
                     var dataJson = JSON.stringify({
-                        'id'            : idRegister,
                         'title'         : $('#title').val(),
                         'description'   : $('#description').val(),
                         'city'          : $('#city').val(),
@@ -401,12 +325,12 @@
                         'budget'        : $('#budget').val(),
                         'planed_kickoff': datesGENL.formatDateSend( $('#planed_kickoff').val() ) ,
                         'planed_ending' : datesGENL.formatDateSend( $('#planed_ending').val() ) ,
-                        'inceptor_uuid' : 'string'
+                        'inceptor_uuid' : 'string',           
                     });
-                    POSTRegister.send( url, dataJson, 'update' );
+                    
+                    POSTRegister.send( url, dataJson, 'create' );
                 }
-
-
+                */
             }
 
         </script>

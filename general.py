@@ -36,3 +36,6 @@ menuFollowUps = [
     {'name':'Avance de Obras','url':'/followups', 'idHTML':'menuComponentFollowUp' , 'iconClass':'fas fa-business-time', 'isActive':'active'     },
     {'name':'Tableros',       'url':'http://minux.pw/frontSistemaDeObras', 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':''           },
 ]
+
+
+checkStageClassColors = ['checkStage1','checkStage1','checkStage2','checkStage3','checkStage4','checkStage5','checkStage6','checkStage7']

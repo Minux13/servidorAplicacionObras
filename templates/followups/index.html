@@ -172,11 +172,7 @@
                                                 <i class="fas fa-chevron-down"></i>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 order-0 order-md-1 ">
-                                            <div id="containerAddButton">
-                                                <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar {{ menu[0]['nameSingular'] }} </button>
-                                            </div>
-                                        </div>
+    
                                     </div>
 
 
@@ -192,8 +188,7 @@
                                                         <div class="col-md-6">
                                                             <label for="searchRegisterSelect" class="searchFielsLabels"> Buscar por: </label> <br>
                                                             <select name="searchRegisterSelect" class="form-control" id="searchRegisterSelect"  >
-                                                                <option value="title">Nombre</option>
-                                                                <option value="description">Descripción</option>
+                                                                <option value="title">Contrato</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
@@ -229,12 +224,66 @@
                                     <table id="tableRegisters">
 
 
-                        <tbody><tr> <th> Obra </th>  <th> Fecha de verificación </th> </tr>
+                        <tbody><tr> 
+                            <th> Obra </th>  
+                            <th> Municipio </th> 
+                            <th> Categoría </th> 
+                            <th> Dependencia </th> 
+                            <th> Contrato </th> 
+                            <th> Estatus </th> 
+                        </tr>
                         <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
                             <td> Construcción y ampliación de la carreterra número 12 </td>
-                            <td> Fecha De Varificación </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td> <div class="checkStage1"> Terminadas </div> </td>
                         </tr>
-                    
+                             <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage1"> Terminadas </div> </td>
+                        </tr>                       <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage3"> Con Retraso </div> </td>
+                        </tr>                       <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage2"> En Tiempo </div> </td>
+                        </tr>                       <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage5"> No Iniciadas </div> </td>
+                        </tr>                        <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage"> Sin registro </div> </td>
+                        </tr>
+                        <tr idregister="3" onclick="window.open( '/followups/edit/4' ,'_self');">
+                            <td> Construcción y ampliación de la carreterra número 12 </td>
+                            <td> Arteaga </td>
+                            <td> Pavimentación </td>
+                            <td> Infraestructura </td>
+                            <td> No. de Contrato </td>
+                            <td>  <div class="checkStage1"> Terminadas </div> </td>
+                        </tr>                   
                     </tbody>
 
                                     </table>

@@ -5,8 +5,6 @@ import general
 
 app = Flask(__name__)
 
-#http://15.164.48.84/api/v1/
-#http://localhost:90/api/v1/
 URLFrp = 'http://15.164.48.84/api/v1/' 
 
 #Paginacion
@@ -493,31 +491,18 @@ def followupsAdd():
 
         return render_template( 'followups/add.html', catalog='followups', menu = general.menuFollowUps, projects = projects )
     
-    """
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
-    else:
-        data = request.get_json()
 
-        dicData = { 
-            'title'         : data['title'         ], 
-            'description'   : data['description'   ], 
-            'city'          : data['city'          ], 
-            'category'      : data['category'      ], 
-            'department'    : data['department'    ], 
-            'budget'        : data['budget'        ], 
-            'contract'      : data['contract'      ], 
-            'planed_kickoff': data['planed_kickoff'], 
-            'planed_ending' : data['planed_ending' ], 
-            'inceptor_uuid' : data['inceptor_uuid' ], 
-        }
+#Agrega followups
+@app.route('/followups/addd', methods=['GET', 'POST'])
+def followupsAddd():
 
-        dataJSON = json.dumps(dicData)
+    #Renderiza el template del formulario para agregar un 
+    if request.method == 'GET':
+        
 
-        url = URLFrp + 'projects/'
-        r = requests.post( url, data=dataJSON)
+        return render_template( 'followups/addd.html', catalog='followups', menu = general.menuFollowUps, projects = projects )
+    
 
-        return jsonify( {'status_code': r.status_code } )
-    """
 
 
 
@@ -573,3 +558,4 @@ def followupsEdit(provider_id):
 
 if __name__ == '__main__':
     app.run(port=8081, host="0.0.0.0", debug=True)
+    #app.run(host='0.0.0.0', port=80)

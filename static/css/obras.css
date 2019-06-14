@@ -644,7 +644,7 @@ hr{
 
 /*Form and edit*/
 .form-control{
-    /*font-size: 1.5em;*/
+    font-size: 0.9em;
     padding: 8px 13px;
 }
 .buttonsActions{
@@ -695,6 +695,7 @@ hr{
 #tableRegisters{
     width: 100%;
     /*font-size: 1.4em;*/
+    font-size: 0.9em;
     margin-top: 20px;
 }
 #tableRegisters tr th{
@@ -753,6 +754,7 @@ hr{
 .obrasButtonNormal{
     padding: 5px 15px;
     /*font-size: 1.5em;*/
+    font-size: 0.9em;
     border: solid 1px #606;
     background: #fff;
     color: #606;
@@ -768,6 +770,7 @@ hr{
 
 .indicatorName{
     text-transform: capitalize;
+    font-size: 0.9em;
 }
 .rowAddRegister{
     padding: 10px;
@@ -817,7 +820,74 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}input[type="number"] {
+    -moz-appearance: textfield;
 }
+
+
+
+
+
+/* Follow Ups */
+.nameObraFollowUps{
+    color: #686868;
+    font-size: 1.2em;
+}
+.propertyProjectFollowUps{
+    font-size: 0.9em;
+    color: #666;
+    font-weight: 600;
+    margin-left: 10px;
+}
+.propertyProjectFollowUpsTitle{
+    font-size: 0.9em;
+    color: #686868;
+}
+
+
+
+
+
+.contractInTable{
+    white-space: nowrap;
+}
+
+
+
+
+.checkStage1{
+    color: #777;
+    background: #ee6;
+} .checkStage2{
+    color: #fff;
+    background: #69a056;
+} .checkStage3{
+    color: #fff;
+    background: #d44;
+} .checkStage4{
+    color: #fff;
+    background: #999;
+} .checkStage5{
+    color: #fff;
+    background: #9131da;
+} .checkStage6{
+    color: #fff;
+    background: #f79646;
+} .checkStage7{
+    color: #777;
+    background: #6bd;
+}
+.checkStage1, .checkStage2, .checkStage3, .checkStage4, .checkStage5, .checkStage6 .checkStage7{
+    white-space: nowrap;
+    padding: 0px 8px;
+    border-radius: 15px;
+}
+
+
+
+
+
+
 
 div.ui-datepicker{
  /*font-size:1.4em;*/
