@@ -292,7 +292,7 @@
                                                     <label for="contract" class="indicatorName"> Contrato </label> <br>
                                                     <select name="contract" class="form-control" id="contract" >
                                                         {% for contract in contracts %}
-                                                        <option value="{{ contract.id }}"> {{ contract.title }} </option>
+                                                        <option value="{{ contract.id }}"> {{ contract.number }} </option>
                                                         {% endfor %}
                                                     </select>
                                                     <p id="for_contract" class="msjNotValid" > </p>
