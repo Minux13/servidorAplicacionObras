@@ -856,11 +856,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .checkStage1{
-    color: #777;
-    background: #ee6;
+    color: #fff;
+    background: #fad838;
 } .checkStage2{
     color: #fff;
-    background: #69a056;
+    background: #439246;
 } .checkStage3{
     color: #fff;
     background: #d44;
@@ -877,10 +877,11 @@ input[type=number]::-webkit-outer-spin-button {
     color: #777;
     background: #6bd;
 }
-.checkStage1, .checkStage2, .checkStage3, .checkStage4, .checkStage5, .checkStage6 .checkStage7{
+.checkStage1, .checkStage2, .checkStage3, .checkStage4, .checkStage5, .checkStage6, .checkStage7{
     white-space: nowrap;
     padding: 0px 8px;
     border-radius: 15px;
+    display: inline-block;
 }
 
 

@@ -433,16 +433,17 @@ def projectsEdit(provider_id):
 ########   Follow Ups   #######3
 
 #Paginacion
-@app.route('/followups', methods=['GET', 'POST'])
+@app.route('/follow_ups/projects', methods=['GET', 'POST'])
 def followups():
 
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        return render_template( 'followups/index.html', catalog='followups', menu = general.menuFollowUps, title='Avance de Obras' )
+        return render_template( 'follow_ups/index.html', catalog='/follow_ups/projects', goToLinkRegister = '/follow_ups/project', menu = general.menuFollowUps, title='Avance de Obras' )
     
     else:
         data = request.get_json()
+        
         
         paginationStart     = data['paginationStart']
         paginationStep      = data['paginationStep']
@@ -461,66 +462,91 @@ def followups():
 
 
         countAmount = requests.get( urlCount ).json()['count']
-        queryStr = 'projects/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
+        queryStr = 'projects/with_follow_up?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery 
         url = URLFrp + queryStr
-
+        
 
         r = requests.get( url) 
         dataRes = r.json() 
-        
         return jsonify( { 'data' : dataRes, 'count' : countAmount} )
 
 
-#Agrega followups
-@app.route('/followups/add', methods=['GET', 'POST'])
-def followupsAdd():
 
-    #Renderiza el template del formulario para agregar un 
+@app.route('/follow_ups/project/<int:project_id>', methods=['GET', 'POST'])
+def followUpsProject(project_id):
+
     if request.method == 'GET':
+
+        queryStr = 'projects/with_follow_up?project='+ str(project_id) 
         
-        #Obtiene todos projects para el select
-        urlCountProjects = URLFrp + 'projects/count'
-        countAmountProjects = requests.get( urlCountProjects ).json()['count']
-
-        queryStrProjects = 'projects/?offset=0&limit=' + str(countAmountProjects)
-        urlProjects = URLFrp + queryStrProjects
-
-        rProjects = requests.get( urlProjects ) 
-        projects = rProjects.json() 
+        url = URLFrp + queryStr
+        r = requests.get( url).json()
         
-
-        return render_template( 'followups/add.html', catalog='followups', menu = general.menuFollowUps, projects = projects )
+        return render_template( 'follow_ups/edit2.html', 
+                                catalog='/follow_ups/project/'+str(project_id), 
+                                menu = general.menuFollowUps, 
+                                goToLinkRegister = '/follow_ups/edit',
+                                goToAddRegister = '/follow_ups/add',
+                                dataProject = r[0],
+                                title='Avance de Obras' )
     
+    else:
+        data = request.get_json()
+        
+        paginationStart     = data['paginationStart']
+        paginationStep      = data['paginationStep']
+        paginationBy        = data['by']
+        paginationOrder     = data['order']
+        searchBy            = data['searchBy']
+        valueSearchBy       = data['valueSearchBy']
+        
+        orderList = '&order='+str(paginationOrder)
+        urlCount = URLFrp + 'follow_ups/count?project='+ str(project_id)
 
-#Agrega followups
-@app.route('/followups/addd', methods=['GET', 'POST'])
-def followupsAddd():
 
-    #Renderiza el template del formulario para agregar un 
-    if request.method == 'GET':
+        countAmount = requests.get( urlCount ).json()['count']
+        queryStr = 'follow_ups/?project='+ str(project_id) +'&offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + orderList
+        url = URLFrp + queryStr
         
 
-        return render_template( 'followups/addd.html', catalog='followups', menu = general.menuFollowUps, projects = projects )
-    
+        r = requests.get( url) 
+        dataRes = r.json() 
+        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
+        
 
 
 
-
-#Edita followups
-@app.route('/followups/edit/<int:provider_id>', methods=['GET', 'POST', 'DELETE'])
-def followupsEdit(provider_id):
+#Edita 
+@app.route('/follow_ups/edit/<int:follow_up_id>', methods=['GET', 'POST', 'DELETE'])
+def followUpsEdit(follow_up_id):
 
     #Renderiza el template del formulario para agregar un proveedor
     if request.method == 'GET':
         
-        url = URLFrp + 'projects/' + str( 3 )
+        url = URLFrp + 'follow_ups/' + str(follow_up_id)
         r = requests.get( url) 
         reqJ = r.json()
 
-        #return render_template( 'followups/edit2.html', data = reqJ, catalog = 'projects', menu = general.menuProject, contracts = contracts )
-        return render_template( 'followups/edit2.html', data = reqJ, catalog = 'followups', menu = general.menuFollowUps )
+        checkStages = 'catalogues/check_stages'
+        urlCheckStages = URLFrp + checkStages
+
+        rCheckStages = requests.get( urlCheckStages ).json()
+        
+        
+        projectUrl = 'projects/with_follow_up?project='+ str(reqJ['project']) 
+        urlProject = URLFrp + projectUrl
+        projectTitle = requests.get( urlProject).json()[0]['project_title']
+        
+        return render_template( 'follow_ups/edit_follow_up.html', 
+                                data = reqJ, 
+                                catalog = '/follow_ups/edit/', 
+                                menu = general.menuFollowUps, 
+                                contracts = contracts,
+                                checkStages = rCheckStages,
+                                projectTitle = projectTitle
+                                )
     
-    """
+
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
         data = request.get_json()
@@ -528,30 +554,91 @@ def followupsEdit(provider_id):
         idRegister = data['id']
 
         dicData = { 
-            'title'         : data['title'         ], 
-            'description'   : data['description'   ], 
-            'city'          : data['city'          ], 
-            'category'      : data['category'      ], 
-            'department'    : data['department'    ], 
-            'budget'        : data['budget'        ], 
-            'contract'      : data['contract'      ], 
-            'planed_kickoff': data['planed_kickoff'], 
-            'planed_ending' : data['planed_ending' ], 
-            'inceptor_uuid' : data['inceptor_uuid' ], 
+            'project'           : data['project'          ], 
+            'verified_progress' : data['verified_progress'], 
+            'financial_advance' : data['financial_advance'], 
+            'img_paths'         : data['img_paths'        ], 
+            'check_stage'       : data['check_stage'      ], 
+            'check_date'        : data['check_date'       ], 
+            'inceptor_uuid'     : data['inceptor_uuid'    ]
         }
 
         dataJSON = json.dumps(dicData)
 
-        url = URLFrp + 'projects/' + idRegister
+        url = URLFrp + 'follow_ups/' + idRegister
         r = requests.put( url, data=dataJSON)
 
         return jsonify( {'status_code': r.status_code} )
+
+
 
     elif request.method == 'DELETE':
         url = URLFrp + 'projects/' + str(provider_id)
         r = requests.delete( url )
         return jsonify( {'status_code': r.status_code } )
-    """
+
+
+
+#Agrega 
+@app.route('/follow_ups/add/<int:project_id>', methods=['GET', 'POST'])
+def followUpsAdd(project_id):
+
+    #Renderiza el template del formulario para agregar un proveedor
+    if request.method == 'GET':
+        
+        checkStages = 'catalogues/check_stages'
+        urlCheckStages = URLFrp + checkStages
+        rCheckStages = requests.get( urlCheckStages ).json()
+        
+        
+        projectUrl = 'projects/with_follow_up?project='+ str(project_id) 
+        urlProject = URLFrp + projectUrl
+        projectTitle = requests.get( urlProject).json()[0]['project_title']
+        
+        return render_template( 'follow_ups/add.html', 
+                                catalog = '/follow_ups/add/', 
+                                menu = general.menuFollowUps, 
+                                contracts = contracts,
+                                checkStages = rCheckStages,
+                                projectTitle = projectTitle,
+                                projectId = project_id
+                                )
+    
+
+    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
+    elif request.method == 'POST':
+        data = request.get_json()
+        
+        dicData = { 
+            'project'           : data['project'          ], 
+            'verified_progress' : data['verified_progress'], 
+            'financial_advance' : data['financial_advance'], 
+            'img_paths'         : data['img_paths'        ], 
+            'check_stage'       : data['check_stage'      ], 
+            'check_date'        : data['check_date'       ], 
+            'inceptor_uuid'     : data['inceptor_uuid'    ]
+        }
+
+        dataJSON = json.dumps(dicData)
+
+        url = URLFrp + 'follow_ups/'
+        r = requests.post( url, data=dataJSON)
+
+        return jsonify( {'status_code': r.status_code} )
+
+
+
+    elif request.method == 'DELETE':
+        url = URLFrp + 'projects/' + str(provider_id)
+        r = requests.delete( url )
+        return jsonify( {'status_code': r.status_code } )
+
+
+
+
+
+
+
 
 
 

@@ -195,6 +195,7 @@ var validate={
         for(var f in dataJson){
             var thisField = dataJson[f];
             var idField = thisField.id;
+            
             document.getElementById( idField ).style.border = "solid 1px #ced4da";
             document.getElementById( 'for_' + idField ).style.display = "none";
             
@@ -231,6 +232,20 @@ var validate={
         if( val == '' ){return [false, 'Ingresa este campo'];}
         else{return [true];}
     },
+    'int' : function( val ){
+        if( val == '' ){return [false, 'Ingresa un número válido'];}
+        else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
+        else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}
+        else{return [true];}
+    },
+    'intCent' : function( val ){
+        if( val == '' ){return [false, 'Ingresa un número válido'];}
+        else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
+        else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}
+        else if( parseFloat(val) > 100 ){return [false, 'Ingresa un número menor de 100'];}
+        else if( parseFloat(val) < 0 ){return [false, 'Ingresa un número positivo'];}
+        else{return [true];}
+    },
     'float' : function( val ){
         if( val == '' ){return [false, 'Ingresa un número válido'];}
         else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
@@ -263,8 +278,145 @@ var datesGENL = {
         return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
     },
     formatDateSend: function(dat){
+        console.log(dat);
         var dateArr = dat.split('-')
         return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var listProjectsFollowUps = {
+    paginationStar  : 0,
+    paginationStep  : 10,
+    numberOfButtons : 1,     //Mock, se actualiza cuando se reciben los datos ajax
+    by              : 'id',
+    order           : 'DESC',
+    searchBy        : '',
+    valueSearchBy   : '',
+    goToRegister : function(thisElement){
+        var idRegister = thisElement.getAttribute('idRegister');
+        var catalog = document.getElementById('goToLinkRegister').value;
+        var url = catalog +'/' + idRegister;
+        window.open( url ,"_self"); 
+    },
+    getDataTable : function( url, createBtns ){
+         $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                console.log(res);
+                var numAllRegisters = res.count;
+                
+                if( createBtns ){
+                    setTag.createButtons( numAllRegisters, listProjectsFollowUps.searchBy, listProjectsFollowUps.valueSearchBy );
+                }
+
+                setTag.setTable(res.data)
+        
+               document.getElementById('waintingAnimation').style.display = "none";
+               
+
+            },
+
+            data:  JSON.stringify ({'paginationStart': listProjectsFollowUps.paginationStar ,
+                                    'paginationStep' : listProjectsFollowUps.paginationStep ,
+                                    'by'             : listProjectsFollowUps.by,
+                                    'order'          : listProjectsFollowUps.order,
+                                    'searchBy'       : listProjectsFollowUps.searchBy,    
+                                    'valueSearchBy'  : listProjectsFollowUps.valueSearchBy
+                                    })
+        }).done(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        })
+        .fail(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        })
+        .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) ;
+       
+    },
+    linkAddRegister: function(){
+        var catalog = document.getElementById('catalogName').value;
+        var url = '/'+ catalog +'/add';
+        window.open( url ,"_self"); 
+    },
+    actionButtonPagination: function( thisButton ){
+
+        //Icono de espera
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        //Set list
+        var url      =  document.getElementById('catalogName').value;
+
+        listProjectsFollowUps.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
+
+        listProjectsFollowUps.getDataTable( url, false )
+        
+        //Behavior button
+        $(".button_pag").removeAttr("active");
+        $( thisButton ).attr('active','')
+
+    },
+    addFollowUp: function(thisElement){
+        var idProject = document.getElementById('projectId').value;
+        var catalog = document.getElementById('goToAddRegister').value;
+        var url = catalog + '/' + idProject;
+        window.open( url ,"_self"); 
+    },
+
+
+    initSearch : function() {
+        document.getElementById('waintingAnimation').style.display = "block";
+        
+        var searchBy      = $('#searchRegisterSelect').val();
+        var valueSearchBy = $('#searchRegisterField').val();
+        var url = document.getElementById('catalogName').value;
+
+        listProjectsFollowUps.paginationStar = 0;
+        listProjectsFollowUps.searchBy       = $('#searchRegisterSelect').val();  
+        listProjectsFollowUps.valueSearchBy  = $('#searchRegisterField').val();
+        
+        listProjectsFollowUps.getDataTable( url, true  );
+        
+    },
+
+    init : function(){
+
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        //Set values for init pagination
+        listProjectsFollowUps.paginationStar = 0;
+        listProjectsFollowUps.searchBy       = '';  
+        listProjectsFollowUps.valueSearchBy  = '';
+
+
+        var url = document.getElementById('catalogName').value;
+
+        listProjectsFollowUps.getDataTable(  url, true );
+    }
+};
+
+
 
