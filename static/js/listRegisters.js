@@ -238,7 +238,7 @@ var validate={
         else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}
         else{return [true];}
     },
-    'intCent' : function( val ){
+    'intCent' : function( val ){        //Entero entre el 0 y 100
         if( val == '' ){return [false, 'Ingresa un número válido'];}
         else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
         else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}

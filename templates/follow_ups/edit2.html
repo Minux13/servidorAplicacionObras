@@ -412,9 +412,10 @@
             var setTag = {
                 tr : function( dateF, verifiedProgress, check_stage, followUpsId){
                     checkStage = check_stage === null ? 'Sin registro' : checkStages[check_stage];
+                    var checkDateFormat = datesGENL.formatOrder(dateF);
                     strTr = `
                         <tr idRegister="`+ followUpsId +`" onclick="listProjectsFollowUps.goToRegister(this);" >
-                            <td> `+ dateF +` </td>
+                            <td> `+ checkDateFormat +` </td>
                             <td> `+ verifiedProgress +` %</td> 
                             <td> <div class=`+checkStagesClass[check_stage]+` >`+ checkStage +` </div></td> 
                         </tr>
@@ -428,7 +429,7 @@
                     
                     var strTRs = `
                         <tr> 
-                            <th> Fecha </th>  
+                            <th> Fecha de Verificación </th>  
                             <th> Estatus </th> 
                             <th> Avance Financiero </th> 
                         </tr>
