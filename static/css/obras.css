@@ -132,14 +132,14 @@ body{
 #titleFirstLink{
     cursor: pointer;
 }
-#titleDepartment{
+#titleDepartment, #titleProjectRegister{
     cursor: pointer;
     color:#505;
-    /*font-size: 1.5em;*/
+    font-size: 0.9em;
 }
 
 #titleEspecificacionObra{
-    /*font-size: 1.5em;*/
+    font-size: 0.9em;
     cursor: pointer;
     color:#505;
 }

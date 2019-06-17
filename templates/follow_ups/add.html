@@ -149,7 +149,11 @@
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Editar {{ menu[0]['nameSingular'] }}  </a>
+                            <a  id="titleProjectRegister" > Registro de Obras </a>
+                            &nbsp;&nbsp;
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp;&nbsp;
+                            <a  id="titleDepartment" > Agregar {{ menu[0]['nameSingular'] }}  </a>
                         </li>                         
                     </ol>
                     <div class="clearfix">
@@ -297,6 +301,10 @@
 
 
                 $( "#check_date" ).datepicker( datesGENL.formatPicker );
+
+
+                var urlTitleProjectRegister = '/follow_ups/project/' + document.getElementById('projectid').value;
+                document.getElementById('titleProjectRegister').setAttribute('href', urlTitleProjectRegister )
             });
 
 
