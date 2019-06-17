@@ -185,6 +185,7 @@
                                                     <label for="city" class="indicatorName"> Municipio </label> <br>
                                                     <select name="city" class="form-control" id="city" >
 
+                                                        <option value="0">Selecciona un Municipio--</option>
                                                         <option value="1">Abasolo</option>
                                                         <option value="2">Agualeguas</option>
                                                         <option value="3">Los Aldamas</option>
@@ -248,6 +249,7 @@
                                                 <div class="col-md-6">
                                                     <label for="category" class="indicatorName"> Categoría </label> <br>
                                                     <select name="category" class="form-control" id="category" >
+                                                        <option value="0"  >Selecciona una Categoría--</option>
                                                         <option value="1"  >AMPLIACIÓN</option>
                                                         <option value="2"  >CONSTRUCCIÓN EXISTENTE</option>
                                                         <option value="3"  >CONSTRUCCIÓN NUEVA</option>
@@ -264,6 +266,7 @@
                                                 <div class="col-md-6">
                                                     <label for="department" class="indicatorName"> Departamento </label> <br>
                                                     <select name="department" class="form-control" id="department" >
+                                                        <option value="0" >Selecciona un Departamento--</option>
                                                         <option value="1" >INFRAESTRUCTURA</option>
                                                         <option value="2" >ICIFED</option>
                                                         <option value="3" >REA</option>
@@ -293,6 +296,7 @@
                                                 <div class="col-md-6">
                                                     <label for="contract" class="indicatorName"> Contrato </label> <br>
                                                     <select name="contract" class="form-control" id="contract" >
+                                                        <option value="0"> Selecciona un Contrato-- </option>
                                                         {% for contract in contracts %}
                                                         <option value="{{ contract.id }}"> {{ contract.number }} </option>
                                                         {% endfor %}
@@ -452,11 +456,11 @@
                 //Fields for validate
                 var fieldsJson = [
                     {'id' : 'title',                'type' : 'text'},
-                    //{'id' : 'city',               'type' : 'float'},
-                    //{'id' : 'category',           'type' : 'date'},
-                    //{'id' : 'department',         'type' : 'date'},
-                    {'id' : 'budget',              'type' : 'float'},
-                    //{'id' : 'contract',             'type' : 'text'},
+                    {'id' : 'city',                 'type' : 'selectNumber'},
+                    {'id' : 'category',             'type' : 'selectNumber'},
+                    {'id' : 'department',           'type' : 'selectNumber'},
+                    {'id' : 'budget',               'type' : 'float'},
+                    {'id' : 'contract',             'type' : 'selectNumber'},
                     {'id' : 'planed_kickoff',       'type' : 'date'},
                     {'id' : 'planed_ending',        'type' : 'date'},
                     {'id' : 'description',          'type' : 'text'}
