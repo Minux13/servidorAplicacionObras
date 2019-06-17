@@ -229,16 +229,12 @@
 
 
 
-
-                                                                                
-
-
                                             <div class="contentOfButtonsActions" >
                                                 <button class="buttonsActions" onclick="saveRegister();">Guardar</button>
+                                                <button onclick="DELETEFollowUp.warning();" class="buttonsActions deleteRegisterButton"> Eliminar </button>
                                             </div>
                                         </div>
                                     </div>
-
 
 
 
@@ -250,6 +246,33 @@
                         </div>
                     </div>                            
                 </div>
+
+
+
+                <!-- BEGIN MODAL -->
+                <div id="modalconfirm" class="modal fade" data-backdrop-limit="1" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" id="dialogConfirmModal">
+                        <div class="modal-content">
+                            <div class="modal-body" >
+                                
+                                <div id="containerModalImageZoom" style="text-align: center;">
+                                    <p id="messageconfirm">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        Seguro que desea eliminar este elemento
+                                    </p>    
+                                    <button type="button" class="close confirmDeleteButton cancelButtonConfirm" data-dismiss="modal" aria-hidden="true"  >Cancelar</button>
+                                    <button type="button" class="close confirmDeleteButton deleteButtonConfirm" data-dismiss="modal" aria-hidden="true" onclick="DELETEFollowUp.send();">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                   
+                <!-- END MODAL -->
+
+
+
+
+
 
             </div>
         </div>
@@ -355,7 +378,48 @@
                 }
             }
 
+            
+            
 
+            
+            var DELETEFollowUp = {
+                messages : {
+                    'success': 'El registro fué eliminado',
+                    'fail'   : 'El registro no pudo ser eliminado'
+                },
+                warning : function warningDelete(){
+                    $('#modalconfirm').modal({ show: true });
+                    $('.modal-backdrop').removeClass("modal-backdrop");  
+                },
+                send: function(){
+                        
+                    var idRegister  = $('#registerid').val();
+                    var idProject   = $('#projectid').val();
+                    var catalog = document.getElementById('catalogName').value;
+                    var url = catalog + idRegister;
+
+                    
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function (data) {
+                            if( data.status_code >=200 && data.status_code < 300 ) {
+                                var message = DELETEFollowUp.messages.success;
+                            }else if( data.status_code >=400 && data.status_code < 600 ) {
+                                var message = DELETEFollowUp.messages.fail;
+                            }else {
+                                var message = DELETEFollowUp.messages.fail;
+                            }
+            
+                            $.notify(
+                                message, 
+                                { position:"bottom right" }
+                            );
+                        }
+                    });
+                    
+                }
+            };
         </script>
 
     </body>
