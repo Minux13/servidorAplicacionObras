@@ -30,6 +30,8 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
  
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
@@ -378,6 +380,9 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
 
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
+        
         
         
         <!-- Js for crate list -->
@@ -396,6 +401,7 @@
                 $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
                 $( "#planed_ending" ).datepicker( datesGENL.formatPicker );
 
+                $('#contract').select2();
             });
 
 

@@ -28,6 +28,8 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
  
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
@@ -397,6 +399,9 @@
         <script src="/static/js/exporting.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
         
         <!-- Notify -->
         <script src="/static/js/notify.min.js"></script>
@@ -433,6 +438,7 @@
                 document.getElementById('contract').value =   document.getElementById('contractValue').value ;
                 
 
+                $('#contract').select2();
             });
 
 
