@@ -547,7 +547,6 @@ def followUpsEdit(follow_up_id):
                                 )
     
 
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
         data = request.get_json()
         
@@ -573,7 +572,7 @@ def followUpsEdit(follow_up_id):
 
 
     elif request.method == 'DELETE':
-        url = URLFrp + 'projects/' + str(provider_id)
+        url = URLFrp + 'follow_ups/' + str(follow_up_id)
         r = requests.delete( url )
         return jsonify( {'status_code': r.status_code } )
 
@@ -625,13 +624,6 @@ def followUpsAdd(project_id):
         r = requests.post( url, data=dataJSON)
 
         return jsonify( {'status_code': r.status_code} )
-
-
-
-    elif request.method == 'DELETE':
-        url = URLFrp + 'projects/' + str(provider_id)
-        r = requests.delete( url )
-        return jsonify( {'status_code': r.status_code } )
 
 
 
