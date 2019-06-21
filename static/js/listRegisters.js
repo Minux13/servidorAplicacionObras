@@ -565,28 +565,65 @@ var POSTFollowUps = {
 
 
 var imagesFollowUps = {
-    tagImg : function(url){
+    tagImg : function(url, imageName, num){
         
         var tag = `
-            <img src="`+ url +`" style="width:100%; height: auto;" >
+            <div class="row" id="rowImage`+ num +`" >
+                <div class="col-md-4">
+                    <img src="`+ url +`" style="width:100%; height: auto;" >
+                </div>
+                <div class="col-md-4">
+                    <span idToDelete="rowImage`+ num +`" imageName="`+ imageName +`" style="position:absolute; top: 40%;color:#88f;cursor: pointer;" onclick="imagesFollowUps.removeImage(this);"> Eliminar imagen</span>
+                </div>
+            </div>
         `;
         return tag;
+    },
+    inputFileChange : function(){
+        var files = document.getElementById('file').files;
+        console.log(files);
+        
+        var filesTag = '';
+        for(var f = 0; f < files.length; f++){
+                
+            filesTag += '<span style="margin-left:10px;">'+ files[f].name +'</span><br>';
+            console.log(  files[f] );
+        }
+        document.getElementById('nameFileUpload').innerHTML = filesTag;
     },
     init : function(){
         var images = document.getElementById("img_paths").value;
         var pathUrl = document.getElementById("pathUrl").value;
 
-        var imagesArr = images.split(',');
+        var imagesArr = images.split('|');
 
         var strImages = "";
         for(var i in imagesArr){
             var urlImage = pathUrl + imagesArr[i];
-            strImages += imagesFollowUps.tagImg( urlImage );
+            strImages += imagesFollowUps.tagImg( urlImage, imagesArr[i], i );
         }
         
         if( images ){
             document.getElementById('containerImagesFollowUp').innerHTML= strImages;
         }
+    },
+    removeImage : function(thisE){
+        var idToDelete = thisE.getAttribute('idToDelete');
+        var imageName  = thisE.getAttribute('imageName');
+        
+        var imgPaths = document.getElementById('img_paths').value;
+        
+        var newImgPaths = imgPaths.replace( imageName, '');
+        
+        var newImgPaths = newImgPaths.replace('||','|');
+        var newImgPaths = newImgPaths.replace(/\|$/,'');
+        var newImgPaths = newImgPaths.replace(/^\|/,'');
+
+        document.getElementById('img_paths').value = newImgPaths;
+        
+        console.log(document.getElementById('img_paths').value);
+
+        document.getElementById(idToDelete).remove();
     }
 }
 
@@ -777,7 +814,7 @@ var listStatusProjects = {
     
     createRow: function(numProject, nameProject, cityProject, categoriaProject, dependency, idProject, idStatus ){
         var stringTag = `
-         <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listProjects.goToDetail(this)" >
+         <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
 
              <div class="col-md-12">
                  <div class="valueee nameObraTable">
@@ -821,7 +858,7 @@ var listStatusProjects = {
     sizeRowsPagination : 10,
     arrayTagsHTML : [],
     buttonTag : function(init, numValueButton, isActive){
-        return '<button initL="'+ init +'" onclick="listProjects.actionPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+        return '<button initL="'+ init +'" onclick="listStatusProjects.actionPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
     },
     createAllButtons: function(){   //It runs only once when the buttons are created
 
@@ -843,7 +880,7 @@ var listStatusProjects = {
 
         //List of projects
         var init =  parseInt( thisButton.getAttribute('initL') ) ;
-        listProjects.setRowsPagination( init )
+        listStatusProjects.setRowsPagination( init )
         
         //Behavior button
         $(".button_pag").removeAttr("active");
@@ -957,12 +994,88 @@ var listStatusProjects = {
     goToDetail : function ( thisTag ){
 
         var idObra = thisTag.getAttribute("idProject");
-        var dependency = thisTag.getAttribute("dependency");
-        var idStatus = thisTag.getAttribute("idStatus");
-        var url = "./info2.html#" + dependency + ',' + idStatus + ',' + idObra  ;
+        var urlLink = document.getElementById('urlLink').value;
+        var url = urlLink + idObra ;
         window.open( url ,"_self");   
     }
 }
+
+
+
+
+
+
+
+
+
+var projectDetail = {
+    init: function(){
+        var projectId = document.getElementById('projectId').value;
+        var catalog = document.getElementById('catalogName').value;
+        var url = catalog + projectId;
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                
+                var projectFiels = res.data[0];
+                var contractFiels = res.contract;
+                console.log(res);
+
+            document.getElementById('nameDepartment').innerHTML = projectFiels.project_title ;
+
+            document.getElementById("municipioField").innerHTML                             = citiesNL[projectFiels.city_id]            ;
+            document.getElementById("categoriaField").innerHTML                             = projectFiels.category                            ;
+            document.getElementById("empresaField").innerHTML                               = res.provider.title       ;
+            document.getElementById("monto_contratoField").innerHTML                        = contractFiels.final_contracted_amount       ;
+            document.getElementById("termino_obra_segun_contratoField").innerHTML           = contractFiels.ending       ;
+            document.getElementById("monto_contrato_finalField").innerHTML                  = contractFiels.final_contracted_amount       ;
+            document.getElementById("numero_contratoField").innerHTML                       = contractFiels.number       ;
+            document.getElementById("inicio_obra_segun_contratoField").innerHTML            = contractFiels.kickoff       ;
+            document.getElementById("fecha_pago_anticipoField").innerHTML                   = contractFiels.down_payment       ;
+            document.getElementById("monto_anticipoField").innerHTML                        = contractFiels.down_payment_amount       ;
+            document.getElementById("anticipo_pendiente_amortizarField").innerHTML          = contractFiels.outstanding_down_payment       ;
+            document.getElementById("convenio_ampliacion_economicoField").innerHTML         = contractFiels.ext_agreement_amount       ;
+            document.getElementById("fecha_convenio_ampliacion_obraField").innerHTML        = contractFiels.ext_agreement       ;
+            document.getElementById("total_pagadoField").innerHTML                          = contractFiels.total_amount_paid       ;
+            document.getElementById("fecha_de_verificacion_contraloriaField").innerHTML     = projectFiels.check_date    ;
+            document.getElementById("estatus_verificado_por_la_contraloriaField").innerHTML = $('#checkState' + projectFiels.check_stage).val() ;
+            //document.getElementById("entregada_al_beneficiarioField").innerHTML             = valueEntregada_al_beneficiario            ;
+
+            
+
+            var financialAvance = projectFiels.financial_advance + '%';
+            document.getElementById('avance_financieroField').innerHTML = financialAvance ;
+            $("#avance_financieroField").css('width', financialAvance );
+            
+            var verifiedProgress = projectFiels.verified_progress + '%';
+            document.getElementById('avance_fisico_verificado_contraloriaField').innerHTML = verifiedProgress ;
+            $("#avance_fisico_verificado_contraloriaField").css('width', verifiedProgress );
+
+
+
+                document.getElementById('waintingAnimation').style.display = "none";
+                
+
+            }
+
+        }).done(function() { document.getElementById('waintingAnimation').style.display = "none";
+        }) .fail(function() { document.getElementById('waintingAnimation').style.display = "none";
+        }) .always(function() { document.getElementById('waintingAnimation').style.display = "none"; }) ;
+
+    }
+    
+}
+
+
+
+
+
+
+
 
 
 

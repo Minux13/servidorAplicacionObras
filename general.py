@@ -42,8 +42,8 @@ menuGraphics = [
     {'name':'Proveedores',    'url':'/providers', 'idHTML':'menuComponentProviders', 'iconClass':'fas fa-ethernet'     , 'isActive':''           },
     {'name':'Contratos',      'url':'/contracts', 'idHTML':'menuComponentContracts', 'iconClass':'fas fa-file-contract', 'isActive':''           },
     {'name':'Obras',          'url':'/projects' , 'idHTML':'menuComponentProjects' , 'iconClass':'fas fa-hard-hat'     , 'isActive':''           },
-    {'name':'Avance de Obras','url':'/follow_ups/projects', 'idHTML':'menuComponentFollowUp' , 'iconClass':'fas fa-business-time', 'isActive':'active'     },
-    {'name':'Tableros',       'url':'http://minux.pw/frontSistemaDeObras', 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':''           },
+    {'name':'Avance de Obras','url':'/follow_ups/projects', 'idHTML':'menuComponentFollowUp' , 'iconClass':'fas fa-business-time', 'isActive':''     },
+    {'name':'Tableros',       'url':'http://minux.pw/frontSistemaDeObras', 'idHTML':'menuComponentGraphics' , 'iconClass':'fas fa-chart-pie'    , 'isActive':'active'           },
 ]
 
 checkStageClassColors = ['checkStage1','checkStage1','checkStage2','checkStage3','checkStage4','checkStage5','checkStage6','checkStage7']

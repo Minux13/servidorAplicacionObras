@@ -229,7 +229,7 @@
 
 
                                             <div class="row rowAddRegister">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <div id="containerImagesFollowUp">
                                                     
                                                     </div>
@@ -244,7 +244,8 @@
                                                         <button class="btnUp">Subir imagen <i class="fas fa-upload"></i> </button>
                                                         <input type="file" name="file[]" multiple="" id="file">
                                                     </div>
-                                                    <p id="for_financial_advance" class="msjNotValid" > </p>
+                                                    <div id="nameFileUpload" style="display: inline-block;vertical-align: 1em;"></div>
+                                                    <p id="for_file" class="msjNotValid" > </p>
 
                                                 </div>
                                             </div> 
@@ -371,6 +372,11 @@
                 
                 $( "#check_date" ).datepicker( datesGENL.formatPicker );
 
+                $("#file").change(function() {
+                    imagesFollowUps.inputFileChange();
+                });
+
+                imagesFollowUps.inputFileChange();
 
                 var urlTitleProjectRegister = '/follow_ups/project/' + document.getElementById('projectid').value;
                 document.getElementById('titleProjectRegister').setAttribute('href', urlTitleProjectRegister )
