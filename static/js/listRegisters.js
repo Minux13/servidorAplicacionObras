@@ -289,28 +289,7 @@ var datesGENL = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////// Follow Up
 
 
 var listProjectsFollowUps = {
@@ -587,7 +566,7 @@ var POSTFollowUps = {
 
 var imagesFollowUps = {
     tagImg : function(url){
-        console.log(url);
+        
         var tag = `
             <img src="`+ url +`" style="width:100%; height: auto;" >
         `;
@@ -610,3 +589,438 @@ var imagesFollowUps = {
         }
     }
 }
+
+
+
+
+
+/////// Graphics
+
+var plotsChart = {
+    init : function(){
+        var idDependency = document.getElementById('dependencySelect').value;
+        plotsChart.getData(idDependency)
+    },
+    getData : function (idDependency ){
+        
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        $.ajax({
+            url: '/graphics',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                
+                var values = plotsChart.setJsonChart(res.data);
+                
+                var options = plotsChart.optionsChart(values)
+
+                document.getElementById('waintingAnimation').style.display = "none";
+                
+                chart = Highcharts.chart('genl-pie-chart', options);
+   	            chart.series[0].setData(values);
+
+            },
+
+            data:  JSON.stringify ({'dependency': idDependency })
+
+        }).done(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .fail(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) ;
+
+    },
+    setJsonChart : function( resp ){
+        var values = [];
+        for(var i in resp){
+            var stat = resp[i];
+            values.push( {
+                name : stat.stage,   
+                y: stat.count,
+                color: plotsChart.colors[ stat.id ]
+            } )
+        }
+        
+        return values;
+    },
+    optionsChart : function(data){
+
+        var numTotales = 0; //Sum of all obras for titulo
+        for(var dd in data){
+            numTotales += parseInt(data[dd].y);
+        }
+        
+            
+        var widthWindow = jQuery(window).width()
+
+
+        if(widthWindow < 600){
+            var chartDataLabel = false;                
+            var chartShowInLegend = true;
+        }else{
+            var chartDataLabel = true;
+            var chartShowInLegend = false;
+        }
+        
+
+
+        var options = {
+   	        chart: {
+   	    	    type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                },
+                /*events: {
+                    render: function () {
+                        var enableDataLabel = setLegendsChart(data);
+                        console.log(this);
+                        this.series[0].plotOptions.dataLabels.enabled = enableDataLabel
+                    }
+                } */   
+   	    	},
+   	    	title: {
+   	            text: 'TOTAL DE OBRAS ' + numTotales
+   	    	},
+   	    	tooltip: {
+   	            pointFormat: '<b>{point.percentage:.1f} %</b>'
+   	    	},
+   	    	plotOptions: {
+   	    	    pie: {
+   	    		    allowPointSelect: true,
+   	    		    cursor: 'pointer',
+                    depth: 35,
+                    showInLegend: chartShowInLegend,
+   	                point: {
+   	                    events: {
+   	                        click: function () {
+                                var dependency= $('#dependencySelect').val();
+                                var urlLink = $('#urlLink').val();
+                                var url = urlLink + dependency + "/" + this.x + 1;
+                                window.open( url ,"_self");   
+   	                        },
+                            legendItemClick: function(){
+                                this.slice(null);
+                                return false;
+                            }
+   	                    }
+   	                },									    
+   	    		    dataLabels: {
+   	    		        enabled: chartDataLabel,
+   	    		        color: '#000000',
+   	    		        connectorColor: '#000000',
+   	    		        format: '<b>{point.name}</b>: {point.y:.0f}'
+   	                }
+   	    	    }
+   	        },
+            legend: {
+                useHTML: true,
+                labelFormatter: function () {
+                    console.log(this);
+                    bb=this
+                    var a = this.percentage
+                    var styleText = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px;"  '
+                    var nameO = '<span '+ styleText +'>' + this.name + '</span>    </tspan>'
+                    var yValue = this.y === null ? 0 : this.y;
+                    var pYO = '<span '+ styleText +'>' + yValue + '</span>  </tspan>'
+
+                    var decimals = 0;
+                    if( (this.percentage*100)%100 == 0 ){ decimals=0; }else if( (this.percentage*10)%10 == 1 ){ decimals=1; }else{decimals=2}
+
+                    var percentO = '<span '+ styleText +'>' + this.percentage.toFixed(decimals) + '%</span>  '
+
+                    if( yValue === 0 ){
+                        this.options.color = "#777"
+                        this.legendGroup.element.style.display = "none"
+                        return null;
+                    }
+                    
+                    var re = this.y === null ? null : pYO + nameO +  percentO ;
+                    return re;
+                }
+            },
+            credits: {
+                enabled: false
+            },		
+   	    	series: [{
+   	    	    data: []
+   	    	}]
+   	    };
+        
+        return options;
+    },
+    colors : [
+        '',
+        "#EEEE00",
+        "#009900",
+        "#C70000",
+        "#999999",
+        "#663399",
+        "#EE6600",
+        "#79ccec"
+    ]
+}
+
+
+
+
+
+/////////////// List Status Projects by Dependency
+
+
+var listStatusProjects = {
+    
+    createRow: function(numProject, nameProject, cityProject, categoriaProject, dependency, idProject, idStatus ){
+        var stringTag = `
+         <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listProjects.goToDetail(this)" >
+
+             <div class="col-md-12">
+                 <div class="valueee nameObraTable">
+                    ` + nameProject + `
+                 </div>
+                 <div class="row  municipioYCategoria" >
+                     <div class="col-md-6">
+                         <div class="obramunicipiooo" ><i class="fas fa-map"></i> </div>
+                         <div class="valueee ">
+                            ` + cityProject + `
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="obracategoriaaa" ><i class="fas fa-industry"></i> </div>
+                         <div class="valueee ">
+                            ` + categoriaProject + `
+                         </div>
+                     </div>
+                  </div>
+             </div>
+         </div>
+         `;
+        return stringTag;
+    },
+    namesAsociatesProjects : ['',
+        'INFRAESTRUCTURA',
+        'ICIFED',
+        'REA',
+        'SADM',
+        'SSNL',
+        'CODETUR',
+        'CODEFRONT',
+        'FIDEPROES',
+        'DIF',
+        'FUNDIDORA',
+        'CONALEP',
+        'CAMINOS',
+        'ISSSTELEON',
+        'Total'
+    ],
+    sizeRowsPagination : 10,
+    arrayTagsHTML : [],
+    buttonTag : function(init, numValueButton, isActive){
+        return '<button initL="'+ init +'" onclick="listProjects.actionPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+    },
+    createAllButtons: function(){   //It runs only once when the buttons are created
+
+        var numProjects = listStatusProjects.arrayTagsHTML.length;
+        var numProjecstShow = listStatusProjects.sizeRowsPagination;
+        var numButtons = Math.ceil(numProjects/numProjecstShow);
+        
+        var strAllButtons = '';
+        for(var b=0; b<numButtons; b++ ){
+            var init = b * listStatusProjects.sizeRowsPagination;
+            var numValueButton = b + 1;
+            var isActive = b==0? 'active' : '';
+            strAllButtons += listStatusProjects.buttonTag( init, numValueButton, isActive )
+        }
+        document.getElementById('buttons_pagination').innerHTML = strAllButtons;
+        
+    },
+    actionPagination: function( thisButton ){
+
+        //List of projects
+        var init =  parseInt( thisButton.getAttribute('initL') ) ;
+        listProjects.setRowsPagination( init )
+        
+        //Behavior button
+        $(".button_pag").removeAttr("active");
+        $( thisButton ).attr('active','')
+
+    },
+    setRowsPagination: function(init){  //Sets and show the list of projects visible
+        var size = listStatusProjects.sizeRowsPagination;
+        var stringList = '';
+        for( var i=init; i<(init+size); i++ ){
+            stringList += listStatusProjects.arrayTagsHTML[i] ? listStatusProjects.arrayTagsHTML[i] : '' ;
+        }
+        document.getElementById('table-obras').innerHTML = stringList;
+    },
+    initList: function (  ){
+        var dependency = document.getElementById('dependencyId').value;
+        var idStatus = document.getElementById('statusId').value;
+
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        var url = '/projects_follow_ups/'+ dependency +'/' + idStatus;
+
+
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                
+                var rows = res.data;
+                console.log(res);
+                for (var i in rows) {
+                    listStatusProjects.arrayTagsHTML.push( listStatusProjects.createRow( i+1, 
+                                                                             rows[i].project_title, 
+                                                                             citiesNL[ rows[i].city_id ], 
+                                                                             rows[i].category, 
+                                                                             dependency, 
+                                                                             rows[i].project_id,
+                                                                             idStatus ));
+                }
+                
+                listStatusProjects.setRowsPagination( 0 );
+                listStatusProjects.createAllButtons();
+
+                document.getElementById('waintingAnimation').style.display = "none";
+                
+
+            }
+
+            //data:  JSON.stringify ({'dependency': idDependency })
+
+        }).done(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .fail(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) ;
+       
+
+
+        return 
+
+        $.getJSON( urlJson , function(data) {
+
+            var rows = jsonPath(data, "$.[?( @.id_estado_obra=='"+idStatus+"')]");
+
+            //Create array of elemts HTML 
+            for (var i=0;i<rows.length;i++) {
+                listProjects.arrayTagsHTML.push( listProjects.createRow( i+1, 
+                                                                         rows[i].obra, 
+                                                                         rows[i].municipio, 
+                                                                         rows[i].categoria, 
+                                                                         dependency, 
+                                                                         rows[i].id_obra,
+                                                                         idStatus ));
+            }
+            
+            listProjects.setRowsPagination( 0 );
+            listProjects.createAllButtons();
+
+
+            document.getElementById('titleDepartment').innerHTML = listProjects.namesAsociatesProjects[dependency]
+            document.getElementById('nameDepartment').innerHTML = listProjects.namesAsociatesProjects[dependency]
+            
+            document.getElementById('titleFirstLink').setAttribute('href','./');
+
+
+            var styleTitulo = 'color:' + statusProjectsSettings[idStatus].color +'; background:'+ statusProjectsSettings[idStatus].background + ';';
+            document.getElementById('headerListProjects').style.color = statusProjectsSettings[idStatus].color;
+            document.getElementById('headerListProjects').style.background = statusProjectsSettings[idStatus].background;
+            document.getElementById('statusProjectName').innerHTML = statusProjectsSettings[idStatus].name ;
+
+
+            //Set and save this url
+            listProjects.thisHashUrl = dependency + ',' + idStatus;
+        
+        }).done(function() { ; })
+          .fail(function( jqxhr, textStatus, error ) {
+            var err = textStatus + " // " + error;
+            console.log( "Request Failed: " + err );
+            console.log(jqxhr);
+        })
+        .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        })
+    },
+    thisHashUrl : '',
+    goToDetail : function ( thisTag ){
+
+        var idObra = thisTag.getAttribute("idProject");
+        var dependency = thisTag.getAttribute("dependency");
+        var idStatus = thisTag.getAttribute("idStatus");
+        var url = "./info2.html#" + dependency + ',' + idStatus + ',' + idObra  ;
+        window.open( url ,"_self");   
+    }
+}
+
+
+
+
+
+
+
+var citiesNL = [
+'',
+'Abasolo',
+'Agualeguas',
+'Los Aldamas',
+'Allende',
+'Anahuac',
+'Apodaca',
+'Aramberri',
+'Bustamante',
+'Cadereyta Jimenez',
+'Carmen',
+'Cerralvo',
+'Cienega de Flores',
+'China',
+'Dr. Arroyo',
+'Dr. Coss',
+'Dr. Gonzalez',
+'Galeana',
+'Garcia',
+'San Pedro Garza Garcia',
+'Gral. Bravo',
+'Gral. Escobedo',
+'Gral. Teran',
+'Gral. Trevi',
+'Gral. Zaragoza',
+'Gral. Zuazua',
+'Guadalupe',
+'Los Herreras',
+'Higueras',
+'Hualahuises',
+'Iturbide',
+'Juarez',
+'Lampazos de Naranjo',
+'Linares',
+'Marin',
+'Melchor Ocampo',
+'Mier y Noriega',
+'Mina',
+'Montemorelos',
+'Monterrey',
+'Paras',
+'Pesqueria',
+'Los Ramones',
+'Rayones',
+'Sabinas Hidalgo',
+'Salinas Victoria',
+'San Nicolas de los Garza',
+'Hidalgo',
+'Santa Catarina',
+'Santiago',
+'Vallecillo',
+'Villaldama'
+]
