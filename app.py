@@ -5,7 +5,8 @@ import general
 
 app = Flask(__name__)
 
-URLFrp = 'http://15.164.48.84/api/v1/' 
+#URLFrp = 'http://15.164.48.84/api/v1/' 
+URLFrp = 'http://192.168.0.176:5000/api/v1/' 
 
 #Paginacion
 @app.route('/providers', methods=['GET', 'POST'])
@@ -543,7 +544,8 @@ def followUpsEdit(follow_up_id):
                                 menu = general.menuFollowUps, 
                                 contracts = contracts,
                                 checkStages = rCheckStages,
-                                projectTitle = projectTitle
+                                projectTitle = projectTitle,
+                                pathUrl = URLFrp + 'attachments/'
                                 )
     
 
@@ -567,7 +569,7 @@ def followUpsEdit(follow_up_id):
         url = URLFrp + 'follow_ups/' + idRegister
         r = requests.put( url, data=dataJSON)
 
-        return jsonify( {'status_code': r.status_code} )
+        return jsonify( {'status_code': r.status_code, 'follow_up_id': follow_up_id } )
 
 
 
@@ -604,7 +606,6 @@ def followUpsAdd(project_id):
                                 )
     
 
-    #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
         data = request.get_json()
         
@@ -623,12 +624,115 @@ def followUpsAdd(project_id):
         url = URLFrp + 'follow_ups/'
         r = requests.post( url, data=dataJSON)
 
-        return jsonify( {'status_code': r.status_code} )
+        rowJson = json.loads(r.content)
+        
+        return jsonify( {'status_code': r.status_code, 'follow_up_id': rowJson['id'] } )
+
+
+
+
+@app.route('/save_image_followups/<int:follow_ups_id>', methods=['POST'])
+def saveImageFollowUps(follow_ups_id):
+
+    url = URLFrp + 'follow_ups/'+ str(follow_ups_id) +'/attachment'
+    
+    #print(request.files)
+    r = requests.post(url, files=request.files)
+
+    
+    return jsonify( {'status_code': r.status_code} )
 
 
 
 
 
+
+########  Grafica ########
+@app.route('/graphics', methods=['GET', 'POST'])
+def graphics():
+
+    #Renderiza el template de la lista de proveedores
+    if request.method == 'GET':
+        
+        departments = requests.get( URLFrp + 'catalogues/departments' ).json()
+
+        return render_template( 'graphics/index.html', catalog='graphics', menu = general.menuGraphics, departments = departments )
+    
+    else:
+        data = request.get_json()
+        
+        dependency = data['dependency']
+
+        queryStr = 'projects/stages?department=' + str(dependency)
+        url = URLFrp + queryStr
+
+        r = requests.get( url) 
+        dataRes = r.json() 
+        
+        return jsonify( { 'data' : dataRes } )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####  Catalogos  ####
+
+@app.route('/getAllContracts', methods=['POST'])
+def getAllContracts():
+
+    #Obtiene todos contracts para el select
+    urlCountContracts = URLFrp + 'contracts/count'
+    countAmountContracts = requests.get( urlCountContracts ).json()['count']
+
+    queryStrContracts = 'contracts/?offset=0&limit=' + str(countAmountContracts)
+    urlContracts = URLFrp + queryStrContracts
+
+    rContracts = requests.get( urlContracts ) 
+    contracts = rContracts.json() 
+    
+    return jsonify(contracts)
+
+
+@app.route('/getAllProjects', methods=['POST'])
+def getAllProjects():
+
+    #Obtiene todos projects para el select
+    urlCountContracts = URLFrp + 'projects/count'
+    countAmountContracts = requests.get( urlCountContracts ).json()['count']
+
+    queryStrContracts = 'projects/?offset=0&limit=' + str(countAmountContracts)
+    urlContracts = URLFrp + queryStrContracts
+
+    rContracts = requests.get( urlContracts ) 
+    contracts = rContracts.json() 
+    
+    return jsonify(contracts)
+
+
+@app.route('/getAllCategories', methods=['POST'])
+def getAllCategories():
+
+    #Obtiene todos projects para el select
+    url = URLFrp + 'catalogues/categories'
+
+    rContracts = requests.get( url ) 
+    contracts = rContracts.json() 
+    
+    return jsonify(contracts)
 
 
 

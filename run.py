@@ -661,31 +661,15 @@ def graphics():
     else:
         data = request.get_json()
         
-        dependency     = data['dependency']
-        paginationStep      = data['paginationStep']
-        paginationBy        = data['by']
-        paginationOrder     = data['order']
-        searchBy            = data['searchBy']
-        valueSearchBy       = data['valueSearchBy']
-        
+        dependency = data['dependency']
 
-        if searchBy == '':
-            urlCount = URLFrp + 'projects/count'
-            searchQuery = '' 
-        else:
-            urlCount = URLFrp + 'projects/count?' + searchBy + '=' + valueSearchBy
-            searchQuery = '&'+ searchBy +'=' + valueSearchBy
-
-
-        countAmount = requests.get( urlCount ).json()['count']
-        queryStr = 'projects/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
+        queryStr = 'projects/stages?department=' + str(dependency)
         url = URLFrp + queryStr
-
 
         r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
+        return jsonify( { 'data' : dataRes } )
 
 
 
