@@ -5,8 +5,7 @@ import general
 
 app = Flask(__name__)
 
-#URLFrp = 'http://15.164.48.84/api/v1/' 
-URLFrp = 'http://192.168.0.176:5000/api/v1/' 
+URLFrp = 'http://15.164.48.84/api/v1/' 
 
 #Paginacion
 @app.route('/providers', methods=['GET', 'POST'])
@@ -656,7 +655,11 @@ def graphics():
         
         departments = requests.get( URLFrp + 'catalogues/departments' ).json()
 
-        return render_template( 'graphics/index.html', catalog='graphics', menu = general.menuGraphics, departments = departments )
+        return render_template( 'graphics/index.html', 
+                                catalog='graphics', 
+                                menu = general.menuGraphics, 
+                                departments = departments, 
+                                urlLink= '/projects_follow_ups/' )
     
     else:
         data = request.get_json()
@@ -670,6 +673,27 @@ def graphics():
         dataRes = r.json() 
         
         return jsonify( { 'data' : dataRes } )
+
+
+@app.route('/projects_follow_ups/<int:deparment_id>/<int:status_id>', methods=['GET', 'POST'])
+def projectsFollowUps(deparment_id, status_id):
+
+    #Renderiza el template de la lista de proveedores
+    if request.method == 'GET':
+        
+
+        return render_template( 'graphics/list.html', catalog='graphics', menu = general.menuGraphics, dependencyId=deparment_id, statusId= status_id   )
+    
+    else:
+
+        queryStr = 'projects/with_follow_up?stage=' + str(status_id) + '&department=' + str(deparment_id)
+        url = URLFrp + queryStr
+
+        r = requests.get( url) 
+        dataRes = r.json() 
+        
+        return jsonify( { 'data' : dataRes } )
+
 
 
 
