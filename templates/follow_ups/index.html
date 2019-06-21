@@ -29,6 +29,9 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
  
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
+ 
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
         
@@ -187,13 +190,16 @@
                                                     <div class=row>
                                                         <div class="col-md-6">
                                                             <label for="searchRegisterSelect" class="searchFielsLabels"> Buscar por: </label> <br>
-                                                            <select name="searchRegisterSelect" class="form-control" id="searchRegisterSelect"  >
-                                                                <option value="category">Contrato</option>
+                                                            <select name="searchRegisterSelect" onchange="listProjectsFollowUps.changeSarchSelect()" class="form-control" id="searchRegisterSelect"  >
+                                                                <option value="category" selected >Categoría</option>
+                                                                <option value="project">Obra</option>
+                                                                <option value="contract">Contrato</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="searchRegisterField" class="searchFielsLabels"> Nombre</label> <br>
-                                                            <input type="text" name="searchRegisterField" class="form-control" id="searchRegisterField"  >
+                                                            <select name="searchRegisterField" class="form-control" id="searchRegisterField"  >
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <br>
@@ -267,6 +273,9 @@
         <script src="/static/js/highcharts-3d.js"></script>
         <!-- Module of Highcharts -->
         <script src="/static/js/exporting.js"></script>
+        
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
         
         <script src="/static/js/obras.js"></script>
 

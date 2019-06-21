@@ -227,12 +227,22 @@
 
                                             </div>  
 
-                                             <div class="row rowAddRegister">
+
+                                            <div class="row rowAddRegister">
+                                                <div class="col-md-4">
+                                                    <div id="containerImagesFollowUp">
+                                                    
+                                                    </div>
+                                                </div>
+                                            </div> 
+
+
+                                            <div class="row rowAddRegister">
                                                 <div class="col-md-12">
 
                                                     <div class="upload-btn-wrapper">
                                                         <button class="btnUp">Subir imagen <i class="fas fa-upload"></i> </button>
-                                                        <input type="file" name="myfile" id="uploadImage">
+                                                        <input type="file" name="file[]" multiple="" id="file">
                                                     </div>
                                                     <p id="for_financial_advance" class="msjNotValid" > </p>
 
@@ -299,6 +309,9 @@
         
         <input id="check_stage_value" type="hidden" value="{{ data.check_stage }}" >
         <input id="check_date_value" type="hidden" value="{{ data.check_date }}" >
+        <input id="img_paths" type="hidden" value="{{ data.img_paths }}" >
+        <input id="pathUrl" type="hidden" value="{{ pathUrl }}" >
+
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
 
         <input id="projectid" type="hidden" value="{{ data.project }}" >
@@ -351,6 +364,10 @@
 
                 //Preselecciones, por que no agarra value el select
                 document.getElementById('check_stage').value =       document.getElementById('check_stage_value').value ;        
+
+                //Set images
+                imagesFollowUps.init();
+                
                 
                 $( "#check_date" ).datepicker( datesGENL.formatPicker );
 
@@ -369,6 +386,8 @@
                 var catalog = document.getElementById('catalogName').value;
                 var url = catalog + idRegister;
 
+
+                
                 //Fields for validate
                 var fieldsJson = [
                     {'id' : 'verified_progress',  'type' : 'intCent'},
@@ -387,13 +406,13 @@
                         'project'           : idProject,
                         'verified_progress' : $('#verified_progress').val(),
                         'financial_advance' : $('#financial_advance').val(),
-                        'img_paths'         : '',
+                        'img_paths'         : $('#img_paths').val(),
                         'check_stage'       : $('#check_stage').val(),
                         'check_date'        : datesGENL.formatDateSend( $('#check_date').val() ),
                         'inceptor_uuid'     : ''
                     });
-                    console.log(dataJson);
-                    POSTRegister.send( url, dataJson, 'update' );
+
+                    POSTFollowUps.send( url, dataJson, 'update' );
                 }
             }
 

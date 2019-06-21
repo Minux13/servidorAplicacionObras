@@ -231,7 +231,7 @@
 
                                                     <div class="upload-btn-wrapper">
                                                         <button class="btnUp">Subir imagen <i class="fas fa-upload"></i> </button>
-                                                        <input type="file" name="myfile" id="uploadImage">
+                                                        <input type="file" name="file[]" multiple="" id="file">
                                                     </div>
                                                     <p id="for_financial_advance" class="msjNotValid" > </p>
 
@@ -347,8 +347,8 @@
                         'check_date'        : datesGENL.formatDateSend( $('#check_date').val() ),
                         'inceptor_uuid'     : ''
                     });
-                    console.log(dataJson);
-                    POSTRegister.send( url, dataJson, 'update' );
+                    
+                    POSTFollowUps.send( url, dataJson, 'update' );
                 }
             }
 

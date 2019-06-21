@@ -278,11 +278,20 @@ var datesGENL = {
         return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
     },
     formatDateSend: function(dat){
-        console.log(dat);
         var dateArr = dat.split('-')
         return dateArr[2] +'-'+ dateArr[1] +'-' + dateArr[0];
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -325,7 +334,7 @@ var listProjectsFollowUps = {
             dataType: 'json',
             contentType: 'application/json',
             success: function (res) {
-                console.log(res);
+                
                 var numAllRegisters = res.count;
                 
                 if( createBtns ){
@@ -357,6 +366,53 @@ var listProjectsFollowUps = {
         }) ;
        
     },
+    projects: false,
+    categories: false,
+    contracts: false,
+    setOptionsSelect: function(catalogo, res){
+        var optionsTag = ""
+        console.log(catalogo);
+        if(catalogo == 'contract'){
+            for( var opt in res ){
+                optionsTag += '<option value="'+ res[opt].id +'"> '+ res[opt].number +' </option>'
+            }
+        }else {
+            for( var opt in res ){
+                optionsTag += '<option value="'+ res[opt].id +'"> '+ res[opt].title +' </option>'
+            }
+        }
+        document.getElementById('searchRegisterField').innerHTML = optionsTag;
+        document.getElementById('waintingAnimation').style.display = "none";
+        
+        $('.select2-container').css('width','100%');
+        
+
+    },
+    getAllOptionsForSelect: function( url, catalogo){
+        
+        //Si contiene un arreglo no hace la paticion
+        if( listProjectsFollowUps[catalogo] ){ 
+            listProjectsFollowUps.setOptionsSelect( catalogo, listProjectsFollowUps[catalogo]);
+            return 0; 
+        }
+        
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+
+                $('#searchRegisterField').select2();
+
+                listProjectsFollowUps[catalogo] = res;
+                listProjectsFollowUps.setOptionsSelect( catalogo,res);
+
+            }
+        }).done(function() { document.getElementById('waintingAnimation').style.display = "none"; })
+        .fail(function() { document.getElementById('waintingAnimation').style.display = "none"; })
+        .always(function() { document.getElementById('waintingAnimation').style.display = "none"; }) ;       
+    },
     linkAddRegister: function(){
         var catalog = document.getElementById('catalogName').value;
         var url = '/'+ catalog +'/add';
@@ -386,7 +442,18 @@ var listProjectsFollowUps = {
         window.open( url ,"_self"); 
     },
 
+    changeSarchSelect: function(){
 
+        if( document.getElementById('searchRegisterSelect') ){ ;}else{return;}
+
+        document.getElementById('waintingAnimation').style.display = "block";
+        
+        var searchBy = document.getElementById('searchRegisterSelect').value;
+        if(searchBy == 'project'){ listProjectsFollowUps.getAllOptionsForSelect( '/getAllProjects','project' ) }
+        else if(searchBy == 'contract'){ listProjectsFollowUps.getAllOptionsForSelect( '/getAllContracts','contract'  ) }
+        //else (searchBy == 'category'){ listProjectsFollowUps.getAllOptionsForSelect( '/getAllCategories','categories' ) }
+        else { listProjectsFollowUps.getAllOptionsForSelect( '/getAllCategories','category' ) }
+    },
     initSearch : function() {
         document.getElementById('waintingAnimation').style.display = "block";
         
@@ -410,13 +477,136 @@ var listProjectsFollowUps = {
         listProjectsFollowUps.paginationStar = 0;
         listProjectsFollowUps.searchBy       = '';  
         listProjectsFollowUps.valueSearchBy  = '';
-
-
+        
+        
         var url = document.getElementById('catalogName').value;
 
+
         listProjectsFollowUps.getDataTable(  url, true );
+        
+        listProjectsFollowUps.changeSarchSelect();
+
     }
 };
 
 
+//Para las secciones de agragar o editar             
+var POSTFollowUps = {
+    messages : {
+        'update': {
+            'success': 'El registro fué actualizado',
+            'fail'   : 'El registro no pudo ser actualizado'
+        },
+        'create': {
+            'success': 'El registro fué agregado',
+            'fail'   : 'El registro no pudo ser agregado'
+        }
+    },
+    messageForShow : "",
+    send: function( url, dataJson, msj ){
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                if( data.status_code >=200 && data.status_code < 300 ) {
 
+                    var sendImage = false;
+                    POSTFollowUps.messageForShow = POSTFollowUps.messages[msj].success;
+                    var dataFile = new FormData();
+                    jQuery.each(jQuery('#file')[0].files, function(i, file) {
+                        sendImage = true;
+                        var ext = '';
+                        if(file.type == 'image/png' ){ 
+                            ext = '.png';    
+                        }else if( file.type == 'image/jpeg' ){
+                            ext = '.jpg';    
+                        }else{
+                            sendImage = false;
+                            POSTFollowUps.messageForShow = "Ingresa un formato de imagen válido"
+                        }
+                        var d = new Date();
+                        var n = d.getTime();
+                        dataFile.append(n+i+ext, file);
+                    });
+
+                    if( !sendImage ){
+                        $.notify(
+                            POSTFollowUps.messageForShow, 
+                            { position:"bottom right"}
+                        );
+
+                        return 0;
+                    }
+
+                    
+                    jQuery.ajax({
+                        url: '/save_image_followups/' + data.follow_up_id ,
+                        data: dataFile,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        method: 'POST',
+                        type: 'POST', // For jQuery < 1.9
+                        success: function(data){
+                            //var message = POSTRegister.messages[msj].success;
+
+                            if( data.status_code >=200 && data.status_code < 300 ) {
+                                POSTFollowUps.messageForShow = POSTFollowUps.messages[msj].success;
+                            }else {
+                                POSTFollowUps.messageForShow = "La imagen no pudo ser actualizada";
+                            }
+
+                            $.notify(
+                                POSTFollowUps.messageForShow, 
+                                { position:"bottom right"}
+                            );
+
+                        }
+                    });
+
+                }else {
+                    POSTFollowUps.messageForShow = POSTFollowUps.messages[msj].fail;
+                    $.notify(
+                        POSTFollowUps.messageForShow, 
+                        { position:"bottom right"}
+                    );
+                }
+
+            },
+            data: dataJson
+        });               
+    }
+} 
+
+
+
+
+
+var imagesFollowUps = {
+    tagImg : function(url){
+        console.log(url);
+        var tag = `
+            <img src="`+ url +`" style="width:100%; height: auto;" >
+        `;
+        return tag;
+    },
+    init : function(){
+        var images = document.getElementById("img_paths").value;
+        var pathUrl = document.getElementById("pathUrl").value;
+
+        var imagesArr = images.split(',');
+
+        var strImages = "";
+        for(var i in imagesArr){
+            var urlImage = pathUrl + imagesArr[i];
+            strImages += imagesFollowUps.tagImg( urlImage );
+        }
+        
+        if( images ){
+            document.getElementById('containerImagesFollowUp').innerHTML= strImages;
+        }
+    }
+}
