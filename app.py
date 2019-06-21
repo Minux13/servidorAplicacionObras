@@ -682,7 +682,12 @@ def projectsFollowUps(deparment_id, status_id):
     if request.method == 'GET':
         
 
-        return render_template( 'graphics/list.html', catalog='graphics', menu = general.menuGraphics, dependencyId=deparment_id, statusId= status_id   )
+        return render_template( 'graphics/list.html', 
+                                catalog='projects_follow_ups', 
+                                menu = general.menuGraphics, 
+                                dependencyId=deparment_id, 
+                                statusId= status_id,
+                                urlLink = '/project_detail/'   )
     
     else:
 
@@ -695,6 +700,33 @@ def projectsFollowUps(deparment_id, status_id):
         return jsonify( { 'data' : dataRes } )
 
 
+@app.route('/project_detail/<int:project_id>', methods=['GET', 'POST'])
+def projectDetail(project_id):
+
+    #Renderiza el template de la lista de proveedores
+    if request.method == 'GET':
+
+        checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
+
+        return render_template( 'graphics/detail.html', 
+                                catalog='/project_detail/', 
+                                menu = general.menuGraphics, 
+                                projectId= project_id,
+                                checkStates = checkStates  )
+    
+    else:
+
+        queryStr = 'projects/with_follow_up?project=' + str(project_id)
+        url = URLFrp + queryStr
+        r = requests.get( url) 
+        dataRes = r.json() 
+        
+        contractId = dataRes[0]['contract_id']
+
+        contracts = requests.get( URLFrp + 'contracts/' + str(contractId) ).json()
+        provider = requests.get( URLFrp + 'providers/' + str(contracts['provider']) ).json()
+       
+        return jsonify( { 'data' : dataRes, 'contract': contracts, 'provider': provider } )
 
 
 
