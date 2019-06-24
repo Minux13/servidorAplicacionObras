@@ -132,7 +132,7 @@ body{
 #titleFirstLink{
     cursor: pointer;
 }
-#titleDepartment, #titleProjectRegister{
+#titleDepartment, #titleProjectRegister, #titleSecondLink, #titleThirdLink{
     cursor: pointer;
     color:#505;
     font-size: 0.9em;
@@ -150,7 +150,9 @@ body{
     display: inline;
     float: right;
 }
-
+.titleDetailProject{
+    margin-bottom: 15px !important;
+}
 
 
 
