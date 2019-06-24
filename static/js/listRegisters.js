@@ -569,7 +569,7 @@ var imagesFollowUps = {
         
         var tag = `
             <div class="row" id="rowImage`+ num +`" >
-                <div class="col-md-4">
+                <div class="col-md-3 col-sm-4">
                     <img src="`+ url +`" style="width:100%; height: auto;" >
                 </div>
                 <div class="col-md-4">
@@ -638,6 +638,7 @@ var plotsChart = {
         var idDependency = document.getElementById('dependencySelect').value;
         plotsChart.getData(idDependency)
     },
+    chart : '',
     getData : function (idDependency ){
         
         document.getElementById('waintingAnimation').style.display = "block";
@@ -655,8 +656,8 @@ var plotsChart = {
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 
-                chart = Highcharts.chart('genl-pie-chart', options);
-   	            chart.series[0].setData(values);
+                plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
+   	            //plotsChart.chart.series[0].setData(values);
 
             },
 
@@ -678,6 +679,7 @@ var plotsChart = {
             values.push( {
                 name : stat.stage,   
                 y: stat.count,
+                x: stat.id,
                 color: plotsChart.colors[ stat.id ]
             } )
         }
@@ -738,7 +740,8 @@ var plotsChart = {
    	                        click: function () {
                                 var dependency= $('#dependencySelect').val();
                                 var urlLink = $('#urlLink').val();
-                                var url = urlLink + dependency + "/" + this.x + 1;
+                                var statusIdNum = parseInt(this.x);
+                                var url = urlLink + dependency + "/" + statusIdNum ;
                                 window.open( url ,"_self");   
    	                        },
                             legendItemClick: function(){
@@ -785,7 +788,7 @@ var plotsChart = {
                 enabled: false
             },		
    	    	series: [{
-   	    	    data: []
+   	    	    data: data
    	    	}]
    	    };
         
@@ -807,12 +810,19 @@ var plotsChart = {
 
 
 
-/////////////// List Status Projects by Dependency
+/////////////// Listado de obras filtrado por el estatus y la dependencia
 
 
 var listStatusProjects = {
     
-    createRow: function(numProject, nameProject, cityProject, categoriaProject, dependency, idProject, idStatus ){
+    paginationStar  : 0,
+    paginationStep  : 10,
+    numberOfButtons : 1,     //Mock, se actualiza cuando se reciben los datos ajax
+    by              : 'id',
+    order           : 'ASC',
+    searchBy        : '',
+    valueSearchBy   : '',
+    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus ){
         var stringTag = `
          <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
 
@@ -855,56 +865,24 @@ var listStatusProjects = {
         'ISSSTELEON',
         'Total'
     ],
-    sizeRowsPagination : 10,
-    arrayTagsHTML : [],
     buttonTag : function(init, numValueButton, isActive){
         return '<button initL="'+ init +'" onclick="listStatusProjects.actionPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
     },
-    createAllButtons: function(){   //It runs only once when the buttons are created
-
-        var numProjects = listStatusProjects.arrayTagsHTML.length;
-        var numProjecstShow = listStatusProjects.sizeRowsPagination;
-        var numButtons = Math.ceil(numProjects/numProjecstShow);
-        
-        var strAllButtons = '';
-        for(var b=0; b<numButtons; b++ ){
-            var init = b * listStatusProjects.sizeRowsPagination;
-            var numValueButton = b + 1;
-            var isActive = b==0? 'active' : '';
-            strAllButtons += listStatusProjects.buttonTag( init, numValueButton, isActive )
+    setList: function(rows, dependency, idStatus){
+        var strTagRows = '';
+        for (var i in rows) {
+            strTagRows += ( listStatusProjects.createRow( rows[i].project_title, 
+                                                          citiesNL[ rows[i].city_id ], 
+                                                          rows[i].category, 
+                                                          dependency, 
+                                                          rows[i].project_id,
+                                                          idStatus ));
         }
-        document.getElementById('buttons_pagination').innerHTML = strAllButtons;
         
+        document.getElementById('table-obras').innerHTML = strTagRows;
+         
     },
-    actionPagination: function( thisButton ){
-
-        //List of projects
-        var init =  parseInt( thisButton.getAttribute('initL') ) ;
-        listStatusProjects.setRowsPagination( init )
-        
-        //Behavior button
-        $(".button_pag").removeAttr("active");
-        $( thisButton ).attr('active','')
-
-    },
-    setRowsPagination: function(init){  //Sets and show the list of projects visible
-        var size = listStatusProjects.sizeRowsPagination;
-        var stringList = '';
-        for( var i=init; i<(init+size); i++ ){
-            stringList += listStatusProjects.arrayTagsHTML[i] ? listStatusProjects.arrayTagsHTML[i] : '' ;
-        }
-        document.getElementById('table-obras').innerHTML = stringList;
-    },
-    initList: function (  ){
-        var dependency = document.getElementById('dependencyId').value;
-        var idStatus = document.getElementById('statusId').value;
-
-        document.getElementById('waintingAnimation').style.display = "block";
-
-        var url = '/projects_follow_ups/'+ dependency +'/' + idStatus;
-
-
-
+    getDataList: function ( url, dependency, idStatus ){
         $.ajax({
             url: url,
             type: 'post',
@@ -913,26 +891,29 @@ var listStatusProjects = {
             success: function (res) {
                 
                 var rows = res.data;
-                console.log(res);
-                for (var i in rows) {
-                    listStatusProjects.arrayTagsHTML.push( listStatusProjects.createRow( i+1, 
-                                                                             rows[i].project_title, 
-                                                                             citiesNL[ rows[i].city_id ], 
-                                                                             rows[i].category, 
-                                                                             dependency, 
-                                                                             rows[i].project_id,
-                                                                             idStatus ));
-                }
                 
-                listStatusProjects.setRowsPagination( 0 );
-                listStatusProjects.createAllButtons();
+                //Para haber entrado tiene que tener al menos un registro
+                document.getElementById('titleSecondLink').innerHTML = rows[0].department;
+
+                    
+                //listStatusProjects.setList(rows, dependency, idStatus)
+                //listStatusProjects.createAllButtons();
+                
+                listStatusProjects.setArrayList(rows, dependency, idStatus);
+                listStatusProjects.paginationJS();
+                listStatusProjects.buttons.create();
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 
 
-            }
-
-            //data:  JSON.stringify ({'dependency': idDependency })
+            },
+            data:  JSON.stringify ({'paginationStart': listStatusProjects.paginationStar ,
+                                    'paginationStep' : listStatusProjects.paginationStep ,
+                                    'by'             : listStatusProjects.by,
+                                    'order'          : listStatusProjects.order,
+                                    'searchBy'       : listStatusProjects.searchBy,    
+                                    'valueSearchBy'  : listStatusProjects.valueSearchBy
+                                    })
 
         }).done(function() {
             document.getElementById('waintingAnimation').style.display = "none";
@@ -942,61 +923,114 @@ var listStatusProjects = {
             document.getElementById('waintingAnimation').style.display = "none";
         }) ;
        
-
-
-        return 
-
-        $.getJSON( urlJson , function(data) {
-
-            var rows = jsonPath(data, "$.[?( @.id_estado_obra=='"+idStatus+"')]");
-
-            //Create array of elemts HTML 
-            for (var i=0;i<rows.length;i++) {
-                listProjects.arrayTagsHTML.push( listProjects.createRow( i+1, 
-                                                                         rows[i].obra, 
-                                                                         rows[i].municipio, 
-                                                                         rows[i].categoria, 
-                                                                         dependency, 
-                                                                         rows[i].id_obra,
-                                                                         idStatus ));
-            }
-            
-            listProjects.setRowsPagination( 0 );
-            listProjects.createAllButtons();
-
-
-            document.getElementById('titleDepartment').innerHTML = listProjects.namesAsociatesProjects[dependency]
-            document.getElementById('nameDepartment').innerHTML = listProjects.namesAsociatesProjects[dependency]
-            
-            document.getElementById('titleFirstLink').setAttribute('href','./');
-
-
-            var styleTitulo = 'color:' + statusProjectsSettings[idStatus].color +'; background:'+ statusProjectsSettings[idStatus].background + ';';
-            document.getElementById('headerListProjects').style.color = statusProjectsSettings[idStatus].color;
-            document.getElementById('headerListProjects').style.background = statusProjectsSettings[idStatus].background;
-            document.getElementById('statusProjectName').innerHTML = statusProjectsSettings[idStatus].name ;
-
-
-            //Set and save this url
-            listProjects.thisHashUrl = dependency + ',' + idStatus;
-        
-        }).done(function() { ; })
-          .fail(function( jqxhr, textStatus, error ) {
-            var err = textStatus + " // " + error;
-            console.log( "Request Failed: " + err );
-            console.log(jqxhr);
-        })
-        .always(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        })
     },
-    thisHashUrl : '',
-    goToDetail : function ( thisTag ){
+    arrayList: [],
+    setArrayList: function(rows, dependency, idStatus){
+        var arrList = [];
+        for (var i in rows) {
+            arrList.push(listStatusProjects.createRow( rows[i].project_title, 
+                                                       citiesNL[ rows[i].city_id ], 
+                                                       rows[i].category, 
+                                                       dependency, 
+                                                       rows[i].project_id,
+                                                       idStatus )
+            );
+        }
+        listStatusProjects.arrayList = arrList;
+    },
+    paginationJS: function(){
+        
+        var init = listStatusProjects.paginationStar;
+        //Crea la lista desde init 
+        var limit = init + listStatusProjects.paginationStep;
+        var strList = '';
+        for(var l = init; l < limit; l++){
+            if(listStatusProjects.arrayList[l]){
+                strList += listStatusProjects.arrayList[l];
+            }
+        }
+        document.getElementById('table-obras').innerHTML = strList;
 
+    },
+    buttons: {
+        tagHTML : function(init, numValueButton, isActive, searchBy, valueSearchBy){
+            return '<button initL="'+ init +'"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+        },
+        create : function(){
+            var numOfButtons = Math.ceil( listStatusProjects.arrayList.length/listStatusProjects.paginationStep ) ;
+            //listRegisters.numberOfButtons = numOfButtons ;
+            
+            var strAllButtons = '';
+            for(var b=0; b< numOfButtons ; b++ ){
+                var start = b * listStatusProjects.paginationStep ;
+                var numLabelButton = b + 1;
+                var isActive = b==0? 'active' : '';
+                strAllButtons += listStatusProjects.buttons.tagHTML( start, numLabelButton, isActive)
+            }
+            document.getElementById('buttons_pagination').innerHTML = strAllButtons;                   
+        },
+        action: function( thisButton ){
+            listStatusProjects.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
+            listStatusProjects.paginationJS();
+
+            //Behavior button
+            $(".button_pag").removeAttr("active");
+            $( thisButton ).attr('active','')
+
+        }
+    },
+    /*buttons : {
+        actionClick : function(thisButton){
+            //Icono de espera
+            document.getElementById('waintingAnimation').style.display = "block";
+
+            //Set list
+            var url      =  document.getElementById('catalogName').value;
+
+            listRegisters.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
+
+            listRegisters.getDataTable( url, false )
+            
+            //Behavior button
+            $(".button_pag").removeAttr("active");
+            $( thisButton ).attr('active','')
+        },
+        tagHTML : function(init, numValueButton, isActive, searchBy, valueSearchBy){
+            return '<button initL="'+ init +'" searchBy="'+ searchBy +'" valueSearchBy="'+ valueSearchBy +'"  onclick="listStatusProjects.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+        },
+        create : function( numAllRegisters, filterBy, valueSearchBy ){
+            
+            var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
+            listRegisters.numberOfButtons = numOfButtons ;
+            
+            var strAllButtons = '';
+            for(var b=0; b< numOfButtons ; b++ ){
+                var start = b * listRegisters.paginationStep ;
+                var numLebelButton = b + 1;
+                var isActive = b==0? 'active' : '';
+                strAllButtons += setTag.button( start, numLebelButton, isActive, filterBy, valueSearchBy )
+            }
+            document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
+        }
+
+    },*/
+    goToDetail : function ( thisTag ){
         var idObra = thisTag.getAttribute("idProject");
         var urlLink = document.getElementById('urlLink').value;
         var url = urlLink + idObra ;
         window.open( url ,"_self");   
+    },
+    initList: function(){
+        
+        var dependency = document.getElementById('dependencyId').value;
+        var idStatus = document.getElementById('statusId').value;
+
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        var url = '/projects_follow_ups/'+ dependency +'/' + idStatus;
+
+        listStatusProjects.getDataList( url, dependency, idStatus )
+
     }
 }
 
@@ -1013,6 +1047,8 @@ var projectDetail = {
         var projectId = document.getElementById('projectId').value;
         var catalog = document.getElementById('catalogName').value;
         var url = catalog + projectId;
+        
+
 
         $.ajax({
             url: url,
@@ -1023,39 +1059,59 @@ var projectDetail = {
                 
                 var projectFiels = res.data[0];
                 var contractFiels = res.contract;
-                console.log(res);
 
-            document.getElementById('nameDepartment').innerHTML = projectFiels.project_title ;
+                document.getElementById('nameDepartment').innerHTML = projectFiels.project_title ;
 
-            document.getElementById("municipioField").innerHTML                             = citiesNL[projectFiels.city_id]            ;
-            document.getElementById("categoriaField").innerHTML                             = projectFiels.category                            ;
-            document.getElementById("empresaField").innerHTML                               = res.provider.title       ;
-            document.getElementById("monto_contratoField").innerHTML                        = contractFiels.final_contracted_amount       ;
-            document.getElementById("termino_obra_segun_contratoField").innerHTML           = contractFiels.ending       ;
-            document.getElementById("monto_contrato_finalField").innerHTML                  = contractFiels.final_contracted_amount       ;
-            document.getElementById("numero_contratoField").innerHTML                       = contractFiels.number       ;
-            document.getElementById("inicio_obra_segun_contratoField").innerHTML            = contractFiels.kickoff       ;
-            document.getElementById("fecha_pago_anticipoField").innerHTML                   = contractFiels.down_payment       ;
-            document.getElementById("monto_anticipoField").innerHTML                        = contractFiels.down_payment_amount       ;
-            document.getElementById("anticipo_pendiente_amortizarField").innerHTML          = contractFiels.outstanding_down_payment       ;
-            document.getElementById("convenio_ampliacion_economicoField").innerHTML         = contractFiels.ext_agreement_amount       ;
-            document.getElementById("fecha_convenio_ampliacion_obraField").innerHTML        = contractFiels.ext_agreement       ;
-            document.getElementById("total_pagadoField").innerHTML                          = contractFiels.total_amount_paid       ;
-            document.getElementById("fecha_de_verificacion_contraloriaField").innerHTML     = projectFiels.check_date    ;
-            document.getElementById("estatus_verificado_por_la_contraloriaField").innerHTML = $('#checkState' + projectFiels.check_stage).val() ;
-            //document.getElementById("entregada_al_beneficiarioField").innerHTML             = valueEntregada_al_beneficiario            ;
+                document.getElementById("municipioField").innerHTML                             = citiesNL[projectFiels.city_id]            ;
+                document.getElementById("categoriaField").innerHTML                             = projectFiels.category                            ;
+                document.getElementById("empresaField").innerHTML                               = res.provider.title       ;
+                document.getElementById("monto_contratoField").innerHTML                        = contractFiels.final_contracted_amount       ;
+                document.getElementById("termino_obra_segun_contratoField").innerHTML           = datesGENL.formatOrder(contractFiels.ending);
+                document.getElementById("monto_contrato_finalField").innerHTML                  = contractFiels.final_contracted_amount       ;
+                document.getElementById("numero_contratoField").innerHTML                       = contractFiels.number       ;
+                document.getElementById("inicio_obra_segun_contratoField").innerHTML            = datesGENL.formatOrder(contractFiels.kickoff);
+                document.getElementById("fecha_pago_anticipoField").innerHTML                   = datesGENL.formatOrderTime(contractFiels.down_payment);
+                document.getElementById("monto_anticipoField").innerHTML                        = contractFiels.down_payment_amount       ;
+                document.getElementById("anticipo_pendiente_amortizarField").innerHTML          = contractFiels.outstanding_down_payment       ;
+                document.getElementById("convenio_ampliacion_economicoField").innerHTML         = contractFiels.ext_agreement_amount       ;
+                document.getElementById("fecha_convenio_ampliacion_obraField").innerHTML        = datesGENL.formatOrder(contractFiels.ext_agreement);
+                document.getElementById("total_pagadoField").innerHTML                          = contractFiels.total_amount_paid       ;
+                document.getElementById("fecha_de_verificacion_contraloriaField").innerHTML     = projectFiels.check_date    ;
+                document.getElementById("estatus_verificado_por_la_contraloriaField").innerHTML = $('#checkState' + projectFiels.check_stage).val() ;
+                //document.getElementById("entregada_al_beneficiarioField").innerHTML             = valueEntregada_al_beneficiario            ;
 
-            
+                
 
-            var financialAvance = projectFiels.financial_advance + '%';
-            document.getElementById('avance_financieroField').innerHTML = financialAvance ;
-            $("#avance_financieroField").css('width', financialAvance );
-            
-            var verifiedProgress = projectFiels.verified_progress + '%';
-            document.getElementById('avance_fisico_verificado_contraloriaField').innerHTML = verifiedProgress ;
-            $("#avance_fisico_verificado_contraloriaField").css('width', verifiedProgress );
+                var financialAvance = projectFiels.financial_advance + '%';
+                document.getElementById('avance_financieroField').innerHTML = financialAvance ;
+                $("#avance_financieroField").css('width', financialAvance );
+                
+                var verifiedProgress = projectFiels.verified_progress + '%';
+                document.getElementById('avance_fisico_verificado_contraloriaField').innerHTML = verifiedProgress ;
+                $("#avance_fisico_verificado_contraloriaField").css('width', verifiedProgress );
+
+                
+                var urlBeforeImage = document.getElementById('pathUrl').value;
+                var imgsPaths = projectFiels.img_paths.split('|');
+
+                var strWhitTagImages = '';
+                for( var i in imgsPaths ){
+                    if( imgsPaths[i] ){
+                        strWhitTagImages += '<img src="'+ urlBeforeImage + imgsPaths[i] + '" class="imagesInfoDetail">'
+                    }
+                }
+                document.getElementById('registro_fotograficoField').innerHTML = strWhitTagImages;
 
 
+                var map = L.map('map').setView([25.6761633,-100.2952764], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                L.marker([25.6761633,-100.2952764]).addTo(map)
+                setTimeout(function(){map._onResize()}, 1000);
+
+
+                projectDetail.setTitlesLinks( projectFiels );
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 
@@ -1066,8 +1122,16 @@ var projectDetail = {
         }) .fail(function() { document.getElementById('waintingAnimation').style.display = "none";
         }) .always(function() { document.getElementById('waintingAnimation').style.display = "none"; }) ;
 
+    },
+    setTitlesLinks: function(data){
+        
+        var pathPagePreg = document.getElementById('pagePrev').value;
+        var department   = data.department_id;
+        var check_status = data.check_stage;
+
+        document.getElementById('titleSecondLink').innerHTML = data.department;
+        document.getElementById('titleSecondLink').setAttribute('href', pathPagePreg + department + '/' + check_status );
     }
-    
 }
 
 
