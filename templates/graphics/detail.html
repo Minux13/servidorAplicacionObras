@@ -28,6 +28,9 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         
+               
+        <!-- Map Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
  
         <!-- CSS for Lato family font -->
         <link href="/static/css/cssLaton.css" rel="stylesheet">
@@ -146,7 +149,16 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a   id="titleFirstLink"> {{ menu[0]['name'] }} </a>
+                            <a   id="titleFirstLink" href="{{ pagePrevPrev }}" > {{ menu[0]['name'] }} </a>
+                            &nbsp;
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp;
+                            <a   id="titleSecondLink">  </a>
+                            &nbsp;
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp;
+                            <a   id="titleThirdLink"> Detalle </a>
+
 
                         </li>                         
                     </ol>
@@ -167,7 +179,7 @@
 
 
 
-                                <div class="portlet-header">
+                                <div class="portlet-header titleDetailProject" >
                                     <div class="caption" style="padding: 10px;" id="nameDepartment">
                                     </div>
                                     <div class="tools">
@@ -490,7 +502,28 @@
 
             </div>
         </div>
-
+        
+        
+        <!-- BEGIN SECOND MODAL TABLE -->
+        <div id="modalInfoObra" class="modal fade" data-backdrop-limit="1" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modal2Title"></h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body" id="obraDetailModalBody">
+        
+                        <div id="containerModalImageZoom" style="text-align: center;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                   
+        <!-- END SECOND MODAL TABLE -->
+        
+        
+        
         <div class="lds-roller"  id="waintingAnimation" >
             <div> </div>
             <div> </div>
@@ -505,6 +538,10 @@
         <input id="projectId" type="hidden" value="{{ projectId }}" >
         
         <input id="catalogName" type="hidden" value="{{ catalog }}" >
+        
+        <input id="pathUrl" type="hidden" value="{{ pathUrl }}" >
+        
+        <input id="pagePrev" type="hidden" value="{{ pagePrev }}" >
         
         {% for cs in checkStates %}
         <input id="checkState{{cs.id}}" type="hidden" value="{{ cs.title }}" >
@@ -529,6 +566,8 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
 
+        <!-- Map Leaflet -->
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 
         <!-- Js for crate list -->
         <script src="/static/js/listRegisters.js"></script>
