@@ -42,6 +42,7 @@ def projectsFollowUps(deparment_id, status_id):
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
+        checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
 
         return render_template( 'graphics/list.html', 
                                 catalog='projects_follow_ups', 
@@ -49,6 +50,7 @@ def projectsFollowUps(deparment_id, status_id):
                                 dependencyId=deparment_id, 
                                 statusId= status_id,
                                 pagePrev = '/graphics',
+                                checkStates = checkStates,
                                 urlLink = '/project_detail/'   )
     
     else:
