@@ -25,9 +25,15 @@ def graphicsList():
     else:
         data = request.get_json()
         
-        dependency = data['dependency']
+        dependency = data['dependency'] 
 
-        queryStr = 'projects/stages?department=' + str(dependency)
+        print('%%%%%%%%%%%%%%%%')
+        
+        strDepQuery = '?department=' + str(dependency) if dependency != '0' else ''
+
+        print(strDepQuery)
+
+        queryStr = 'projects/stages' + strDepQuery
         url = URLFrp + queryStr
 
         r = requests.get( url) 
@@ -58,8 +64,11 @@ def projectsFollowUps(deparment_id, status_id):
         
         paginationStart     = data['paginationStart']
 
+        
+        dependency = '' if deparment_id == 0 else '&department=' + str(deparment_id)
+
         #queryStr = 'projects/with_follow_up?check_stage=' + str(status_id) + '&department=' + str(deparment_id) + '&offset=' + str(1000000)
-        queryStr = 'projects/with_follow_up?check_stage=' + str(status_id) + '&department=' + str(deparment_id) + '&limit=' + str(10000000)
+        queryStr = 'projects/with_follow_up?check_stage=' + str(status_id) + dependency + '&limit=' + str(10000000)
         url = URLFrp + queryStr
         r = requests.get( url) 
         dataRes = r.json() 

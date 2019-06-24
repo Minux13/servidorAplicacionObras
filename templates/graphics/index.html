@@ -183,8 +183,8 @@
                                         <div class="col-md-4 col-sm-6">
                                             <label for="message-text" class="col-form-label"><b>Dependencia:</b></label>
                                             <select id="dependencySelect" class="form-control " required="">
-                                                <option value="0">--Seleccione una Dependencia--</option>
-                                                <option value="14">TOTAL</option>
+                                                <option value="">--Seleccione una Dependencia--</option>
+                                                <option value="0">TOTAL</option>
                                                 {% for department in departments %}
                                                 <option value="{{ department.id }}"> {{ department.title }} </option>
                                                 {% endfor %}                                                
@@ -264,7 +264,7 @@
                     plotsChart.init();
               	});
 
-                if(document.getElementById('dependencySelect').value != 0){
+                if( document.getElementById('dependencySelect').value != '' ){
                     plotsChart.init();
                 }
             });
