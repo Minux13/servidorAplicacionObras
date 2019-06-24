@@ -849,22 +849,6 @@ var listStatusProjects = {
          `;
         return stringTag;
     },
-    namesAsociatesProjects : ['',
-        'INFRAESTRUCTURA',
-        'ICIFED',
-        'REA',
-        'SADM',
-        'SSNL',
-        'CODETUR',
-        'CODEFRONT',
-        'FIDEPROES',
-        'DIF',
-        'FUNDIDORA',
-        'CONALEP',
-        'CAMINOS',
-        'ISSSTELEON',
-        'Total'
-    ],
     buttonTag : function(init, numValueButton, isActive){
         return '<button initL="'+ init +'" onclick="listStatusProjects.actionPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
     },
@@ -895,13 +879,18 @@ var listStatusProjects = {
                 //Para haber entrado tiene que tener al menos un registro
                 document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
-                    
+                console.log(rows);
                 //listStatusProjects.setList(rows, dependency, idStatus)
                 //listStatusProjects.createAllButtons();
                 
                 listStatusProjects.setArrayList(rows, dependency, idStatus);
                 listStatusProjects.paginationJS();
                 listStatusProjects.buttons.create();
+
+
+                //document.getElementById('headerListProjects').style.color = statusProjectsSettings[idStatus].color;
+                document.getElementById('headerListProjects').style.borderBottom = plotsChart.colors[idStatus] + ' 2px solid';
+                document.getElementById('nameStatusProjectTitle').innerHTML = 'Obras ' + document.getElementById('checkState'+idStatus).value;
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 

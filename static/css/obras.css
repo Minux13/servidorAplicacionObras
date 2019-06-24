@@ -443,6 +443,7 @@ thead{
 }
 .valueee{
     display: inline;
+    font-size: 0.9em;
 }
 
 .d-sm-inline {
@@ -463,6 +464,11 @@ thead{
 }
 .tableAll:hover{
     box-shadow: 0 8px 10px #aaa !important;
+}
+#nameStatusProjectTitle{
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 0.9em;
 }
 
 #table-obras {
