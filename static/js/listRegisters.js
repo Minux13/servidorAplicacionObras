@@ -130,16 +130,12 @@ var POSTRegister = {
             success: function (data) {
                 if( data.status_code >=200 && data.status_code < 300 ) {
                     var message = POSTRegister.messages[msj].success;
-                }else if( data.status_code >=400 && data.status_code < 600 ) {
-                    var message = POSTRegister.messages[msj].fail;
                 }else {
                     var message = POSTRegister.messages[msj].fail;
                 }
 
-                $.notify(
-                    message, 
-                    { position:"bottom right"}
-                );
+                notifyRegisters.set( 'true', message );
+                window.location.href = document.getElementById('titleFirstLink').href;
             },
             data: dataJson
         });               
@@ -168,16 +164,12 @@ var DELETERegisters = {
             success: function (data) {
                 if( data.status_code >=200 && data.status_code < 300 ) {
                     var message = DELETERegisters.messages.success;
-                }else if( data.status_code >=400 && data.status_code < 600 ) {
-                    var message = DELETERegisters.messages.fail;
                 }else {
                     var message = DELETERegisters.messages.fail;
                 }
 
-                $.notify(
-                    message, 
-                    { position:"bottom right" }
-                );
+                notifyRegisters.set( 'true', message );
+                window.location.href = document.getElementById('titleFirstLink').href;
             }
         });
     
@@ -1133,7 +1125,24 @@ var projectDetail = {
 
 
 
-
+var notifyRegisters = {
+    set: function( showMessage, message ){
+        localStorage.setItem("showMessage", showMessage );
+        localStorage.setItem("message", message );
+    },
+    show: function(){
+        if ( localStorage.getItem('showMessage') == 'true' ){
+            var message = localStorage.getItem('message');
+            console.log("rrrrrrrr");
+            $.notify(
+                message, 
+                { position:"bottom right"}
+            );
+        }
+        localStorage.setItem("showMessage", 'false' );
+        localStorage.setItem("message", '' );
+    }
+}
 
 
 var citiesNL = [

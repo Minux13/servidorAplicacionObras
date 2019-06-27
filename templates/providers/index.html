@@ -277,7 +277,8 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
-
+        <!-- Notify -->
+        <script src="/static/js/notify.min.js"></script>
 
         <!-- Js for crate list -->
         <script src="/static/js/listRegisters.js"></script>
@@ -294,6 +295,9 @@
 
                 //Comienza los procedimientos para la lista de proveedores
                 listRegisters.init();
+                
+                //Cuando se modifica un registro y regresa a este listado muestra el mensaje
+                notifyRegisters.show();
             });
 
 
