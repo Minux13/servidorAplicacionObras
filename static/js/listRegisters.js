@@ -518,11 +518,9 @@ var POSTFollowUps = {
                     });
 
                     if( !sendImage ){
-                        $.notify(
-                            POSTFollowUps.messageForShow, 
-                            { position:"bottom right"}
-                        );
-
+                        notifyRegisters.set( 'true', POSTFollowUps.messageForShow );
+                        window.location.href = document.getElementById('titleProjectRegister').href;
+                 
                         return 0;
                     }
 
@@ -543,21 +541,18 @@ var POSTFollowUps = {
                             }else {
                                 POSTFollowUps.messageForShow = "La imagen no pudo ser actualizada";
                             }
-
-                            $.notify(
-                                POSTFollowUps.messageForShow, 
-                                { position:"bottom right"}
-                            );
+                            
+                            notifyRegisters.set( 'true', POSTFollowUps.messageForShow );
+                            window.location.href = document.getElementById('titleProjectRegister').href;
 
                         }
                     });
 
                 }else {
                     POSTFollowUps.messageForShow = POSTFollowUps.messages[msj].fail;
-                    $.notify(
-                        POSTFollowUps.messageForShow, 
-                        { position:"bottom right"}
-                    );
+                    
+                    notifyRegisters.set( 'true', POSTFollowUps.messageForShow );
+                    window.location.href = document.getElementById('titleProjectRegister').href;
                 }
 
             },
