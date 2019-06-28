@@ -403,9 +403,9 @@
                 ];
 
                 var send = validate.fields( fieldsJson );
-
+                var sendImage = validate.image( 'file' )
  
-                if (send){
+                if (send && sendImage){
                     //////Aqui si se envia el id
                     var dataJson = JSON.stringify({
                         'id'                : idRegister,

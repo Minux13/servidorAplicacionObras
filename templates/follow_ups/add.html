@@ -342,9 +342,10 @@
                 ];
 
                 var send = validate.fields( fieldsJson );
+                var sendImage = validate.image( 'file' )
 
  
-                if (send){
+                if (send && sendImage){
                     var dataJson = JSON.stringify({
                         'project'           : idProject,
                         'verified_progress' : $('#verified_progress').val(),
