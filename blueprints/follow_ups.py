@@ -107,11 +107,15 @@ def followUpsEdit(follow_up_id):
         urlCheckStages = URLFrp + checkStages
 
         rCheckStages = requests.get( urlCheckStages ).json()
-        
-        
-        projectUrl = 'projects/with_follow_up?project='+ str(reqJ['project']) 
-        urlProject = URLFrp + projectUrl
-        projectTitle = requests.get( urlProject).json()[0]['project_title']
+        print(reqJ)
+        if reqJ['id'] != None:
+            projectUrl = 'projects/with_follow_up?project='+ str(reqJ['project']) 
+            urlProject = URLFrp + projectUrl
+            projectTitle = requests.get( urlProject).json()[0]['project_title']
+            displaNoneFields = ''
+        else:
+            displaNoneFields = 'display:none;'
+            projectTitle = 'El registro no existe'
         
         return render_template( 'follow_ups/edit_follow_up.html', 
                                 data = reqJ, 
@@ -119,7 +123,8 @@ def followUpsEdit(follow_up_id):
                                 menu = menuFollowUps, 
                                 checkStages = rCheckStages,
                                 projectTitle = projectTitle,
-                                pathUrl = URLFrp + 'attachments/'
+                                pathUrl = URLFrp + 'attachments/',
+                                displaNoneFields = displaNoneFields
                                 )
     
 

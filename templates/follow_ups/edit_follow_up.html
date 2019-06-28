@@ -149,11 +149,11 @@
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
-                            <a  id="titleProjectRegister" > Registro de Obras </a>
+                            <a  id="titleProjectRegister"  style="{{ displaNoneFields }}" > Registro de Obras </a>
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Editar {{ menu[0]['nameSingular'] }}  </a>
+                            <a  id="titleDepartment"   style="{{ displaNoneFields }}" > Editar {{ menu[0]['nameSingular'] }}  </a>
 
                         </li>                         
                     </ol>
@@ -180,15 +180,13 @@
 
 
                                     <div action="/" id="addRegister">
-                                        <div class="form-group">
+                                        <div class="col-md-12">
+                                            <h4> {{ projectTitle }} </h4>
+                                        </div>
+
+                                        <div class="form-group" style="{{ displaNoneFields }}" >
 
                                             <div class="row rowAddRegister"  >
-                                                <div class="col-md-12">
-                                                    <h4> {{ projectTitle }} </h4>
-                                                </div>
-
-
-
                                             </div>
 
 
