@@ -261,8 +261,8 @@ var validate={
             if( file.type == 'image/png' || file.type == 'image/jpeg'  ){ 
                 ;
             }else{
-                document.getElementById( 'for_' + idField ).style.display = "block";
-                document.getElementById( 'for_' + idField ).innerHTML = 'Ingresa un formato de imagen válido';
+                document.getElementById( 'for_' + id ).style.display = "block";
+                document.getElementById( 'for_' + id ).innerHTML = 'Ingresa un formato de imagen válido';
                 sendForm = false;
             }
         });
@@ -358,7 +358,6 @@ var listProjectsFollowUps = {
     contracts: false,
     setOptionsSelect: function(catalogo, res){
         var optionsTag = ""
-        console.log(catalogo);
         if(catalogo == 'contract'){
             for( var opt in res ){
                 optionsTag += '<option value="'+ res[opt].id +'"> '+ res[opt].number +' </option>'
@@ -497,7 +496,6 @@ var POSTFollowUps = {
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                console.log(data);
                 if( data.status_code >=200 && data.status_code < 300 ) {
 
                     var sendImage = false;
@@ -589,13 +587,11 @@ var imagesFollowUps = {
     },
     inputFileChange : function(){
         var files = document.getElementById('file').files;
-        console.log(files);
         
         var filesTag = '';
         for(var f = 0; f < files.length; f++){
                 
             filesTag += '<span style="margin-left:10px;">'+ files[f].name +'</span><br>';
-            console.log(  files[f] );
         }
         document.getElementById('nameFileUpload').innerHTML = filesTag;
     },
@@ -629,7 +625,6 @@ var imagesFollowUps = {
 
         document.getElementById('img_paths').value = newImgPaths;
         
-        console.log(document.getElementById('img_paths').value);
 
         document.getElementById(idToDelete).remove();
     }
@@ -726,7 +721,6 @@ var plotsChart = {
                 /*events: {
                     render: function () {
                         var enableDataLabel = setLegendsChart(data);
-                        console.log(this);
                         this.series[0].plotOptions.dataLabels.enabled = enableDataLabel
                     }
                 } */   
@@ -769,7 +763,6 @@ var plotsChart = {
             legend: {
                 useHTML: true,
                 labelFormatter: function () {
-                    console.log(this);
                     bb=this
                     var a = this.percentage
                     var styleText = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px;"  '
@@ -887,7 +880,6 @@ var listStatusProjects = {
                 //Para haber entrado tiene que tener al menos un registro
                 document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
-                console.log(rows);
                 //listStatusProjects.setList(rows, dependency, idStatus)
                 //listStatusProjects.createAllButtons();
                 
