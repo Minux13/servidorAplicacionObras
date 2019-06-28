@@ -455,10 +455,8 @@
                                 var message = DELETEFollowUp.messages.fail;
                             }
             
-                            $.notify(
-                                message, 
-                                { position:"bottom right" }
-                            );
+                            notifyRegisters.set( 'true', message );
+                            window.location.href = document.getElementById('titleProjectRegister').href;
                         }
                     });
                     
