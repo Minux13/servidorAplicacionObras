@@ -105,6 +105,13 @@ def projectsEdit(provider_id):
         r = requests.get( url) 
         reqJ = r.json()
 
+        if reqJ['id'] == None:
+            displayExistRegister = "display:none;"
+            titleDontExist = 'El registro no existe'
+        else:
+            displayExistRegister = ""
+            titleDontExist = ''
+        
         #Obtiene todos contracts para el select
         urlCountContracts = URLFrp + 'contracts/count'
         countAmountContracts = requests.get( urlCountContracts ).json()['count']
@@ -115,7 +122,14 @@ def projectsEdit(provider_id):
         rContracts = requests.get( urlContracts ) 
         contracts = rContracts.json() 
         
-        return render_template( 'projects/edit.html', data = reqJ, catalog = 'projects', menu = menuProject, contracts = contracts )
+        return render_template( 'projects/edit.html', 
+                                data = reqJ, 
+                                catalog = 'projects', 
+                                menu = menuProject, 
+                                contracts = contracts,
+                                displayExistRegister = displayExistRegister,
+                                titleDontExist = titleDontExist
+                        )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
