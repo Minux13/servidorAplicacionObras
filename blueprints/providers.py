@@ -88,7 +88,20 @@ def providersEdit(provider_id):
         r = requests.get( url) 
         reqJ = r.json()
 
-        return render_template( 'providers/edit.html', data = reqJ, catalog = 'providers', menu = menuProvider )
+        if reqJ['id'] == None:
+            displayExistRegister = "display:none;"
+            titleDontExist = 'El registro no existe'
+        else:
+            displayExistRegister = ""
+            titleDontExist = ''
+
+        return render_template( 'providers/edit.html', 
+                                data = reqJ, 
+                                catalog = 'providers', 
+                                menu = menuProvider, 
+                                displayExistRegister = displayExistRegister,
+                                titleDontExist = titleDontExist
+                                )
     
     elif request.method == 'POST':
         data = request.get_json()
