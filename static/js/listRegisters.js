@@ -252,6 +252,22 @@ var validate={
     'selectNumber': function( val ){
         if( val == '' || val == 0 ){return [false, 'Selecciona un elemento'];}
         else{return [true];}
+    },
+
+    'image': function( id ){
+        var sendForm = true;
+        document.getElementById( 'for_' + id ).style.display = "none";
+        jQuery.each(jQuery('#' + id)[0].files, function(i, file) {
+            if( file.type == 'image/png' || file.type == 'image/jpeg'  ){ 
+                ;
+            }else{
+                document.getElementById( 'for_' + idField ).style.display = "block";
+                document.getElementById( 'for_' + idField ).innerHTML = 'Ingresa un formato de imagen válido';
+                sendForm = false;
+            }
+        });
+
+        return sendForm;
     }
 }
 
@@ -1133,7 +1149,6 @@ var notifyRegisters = {
     show: function(){
         if ( localStorage.getItem('showMessage') == 'true' ){
             var message = localStorage.getItem('message');
-            console.log("rrrrrrrr");
             $.notify(
                 message, 
                 { position:"bottom right"}
