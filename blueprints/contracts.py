@@ -115,6 +115,14 @@ def contractsEdit(provider_id):
         url = URLFrp + 'contracts/' + str(provider_id)
         r = requests.get( url) 
         reqJ = r.json()
+        
+        if reqJ['id'] == None:
+            displayExistRegister = "display:none;"
+            titleDontExist = 'El registro no existe'
+        else:
+            displayExistRegister = ""
+            titleDontExist = ''
+
 
         #Obtiene todos providers
         urlCountProviders = URLFrp + 'providers/count'
@@ -128,7 +136,14 @@ def contractsEdit(provider_id):
         
         
 
-        return render_template( 'contracts/edit.html', data = reqJ, catalog = 'contracts', menu = menuContract, providers = providers )
+        return render_template( 'contracts/edit.html', 
+                                data = reqJ, 
+                                catalog = 'contracts', 
+                                menu = menuContract, 
+                                providers = providers,
+                                displayExistRegister = displayExistRegister,
+                                titleDontExist = titleDontExist
+                        )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     elif request.method == 'POST':
