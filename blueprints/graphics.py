@@ -27,11 +27,7 @@ def graphicsList():
         
         dependency = data['dependency'] 
 
-        print('%%%%%%%%%%%%%%%%')
-        
         strDepQuery = '?department=' + str(dependency) if dependency != '0' else ''
-
-        print(strDepQuery)
 
         queryStr = 'projects/stages' + strDepQuery
         url = URLFrp + queryStr

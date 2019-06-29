@@ -30,10 +30,10 @@ def followupsList():
         
 
         if searchBy == '':
-            urlCount = URLFrp + 'projects/count'
+            urlCount = URLFrp + 'projects/with_follow_up/count'
             searchQuery = '' 
         else:
-            urlCount = URLFrp + 'projects/count?' + searchBy + '=' + valueSearchBy
+            urlCount = URLFrp + 'projects/with_follow_up/count?' + searchBy + '=' + valueSearchBy
             searchQuery = '&'+ searchBy +'=' + valueSearchBy
 
 
@@ -107,7 +107,6 @@ def followUpsEdit(follow_up_id):
         urlCheckStages = URLFrp + checkStages
 
         rCheckStages = requests.get( urlCheckStages ).json()
-        print(reqJ)
         if reqJ['id'] != None:
             projectUrl = 'projects/with_follow_up?project='+ str(reqJ['project']) 
             urlProject = URLFrp + projectUrl
