@@ -367,6 +367,11 @@
                 $( "#ext_agreement" ).datepicker( datesGENL.formatPicker );
 
                 $('#provider').select2();
+
+                
+                document.getElementById('initial_contracted_amount').onchange = sumInicialAmountConvenio;
+                document.getElementById('ext_agreement_amount').onchange = sumInicialAmountConvenio;
+
             });
 
 
@@ -419,6 +424,18 @@
                     POSTRegister.send( url, dataJson, 'create' );
                 }
             
+            }
+
+
+            function sumInicialAmountConvenio(){
+        
+                var ica = document.getElementById('initial_contracted_amount').value;
+                var ega = document.getElementById('ext_agreement_amount').value;
+
+                if( parseFloat(ica) && parseFloat(ega)  ){
+                    document.getElementById('final_contracted_amount').value = parseFloat(ica) + parseFloat(ega);
+                }
+                
             }
 
         </script>
