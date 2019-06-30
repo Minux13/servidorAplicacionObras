@@ -230,11 +230,11 @@ var validate={
         else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}
         else{return [true];}
     },
-    'intCent' : function( val ){        //Entero entre el 0 y 100
+    'intMil' : function( val ){        //Entero entre el 0 y 100
         if( val == '' ){return [false, 'Ingresa un número válido'];}
         else if( isNaN( val ) ){return [false, 'Ingresa un número válido'];}
         else if( parseFloat(val)%1 != 0 ){return [false, 'Ingresa un entero'];}
-        else if( parseFloat(val) > 100 ){return [false, 'Ingresa un número menor de 100'];}
+        else if( parseFloat(val) > 9999 ){return [false, 'Ingresa un número menor de 10000'];}
         else if( parseFloat(val) < 0 ){return [false, 'Ingresa un número positivo'];}
         else{return [true];}
     },
