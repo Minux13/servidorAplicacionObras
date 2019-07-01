@@ -700,9 +700,10 @@ var plotsChart = {
             var chartShowInLegend = true;
         }else{
             var chartDataLabel = true;
-            var chartShowInLegend = false;
+            var chartShowInLegend = true;
         }
         
+        var titleTextPev = 'TOTAL DE OBRAS ';
 
 
         var options = {
@@ -713,15 +714,22 @@ var plotsChart = {
                     alpha: 45,
                     beta: 0
                 },
-                /*events: {
+                events: {
                     render: function () {
-                        var enableDataLabel = setLegendsChart(data);
-                        this.series[0].plotOptions.dataLabels.enabled = enableDataLabel
+                        try{
+                            if( plotsChart.chart ){
+                                var totalProjectsVisible = plotsChart.chart.series[0].total;
+                                plotsChart.chart.setTitle({ text: titleTextPev + totalProjectsVisible } )
+                            }
+                        }
+                        catch(e){
+                            ;
+                        }
                     }
-                } */   
+                }
    	    	},
    	    	title: {
-   	            text: 'TOTAL DE OBRAS ' + numTotales
+   	            text: titleTextPev + numTotales
    	    	},
    	    	tooltip: {
    	            pointFormat: '<b>{point.percentage:.1f} %</b>'
@@ -740,11 +748,10 @@ var plotsChart = {
                                 var statusIdNum = parseInt(this.x);
                                 var url = urlLink + dependency + "/" + statusIdNum ;
                                 window.open( url ,"_self");   
-   	                        },
+   	                        }/*,
                             legendItemClick: function(){
-                                this.slice(null);
-                                return false;
-                            }
+                                console.log(this.series.total);                                
+                            }*/
    	                    }
    	                },									    
    	    		    dataLabels: {
@@ -761,9 +768,11 @@ var plotsChart = {
                     bb=this
                     var a = this.percentage
                     var styleText = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px;"  '
-                    var nameO = '<span '+ styleText +'>' + this.name + '</span>    </tspan>'
+                    var styleTextS = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 0px; font-weight:600;"  '
+                    var styleTextN = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px; font-weight:bold;"  '
+                    var nameO = '<span '+ styleTextS +'>' + this.name + '</span>  '
                     var yValue = this.y === null ? 0 : this.y;
-                    var pYO = '<span '+ styleText +'>' + yValue + '</span>  </tspan>'
+                    var pYO = '<span '+ styleTextN +'>' + yValue + '</span> '
 
                     var decimals = 0;
                     if( (this.percentage*100)%100 == 0 ){ decimals=0; }else if( (this.percentage*10)%10 == 1 ){ decimals=1; }else{decimals=2}
@@ -776,7 +785,7 @@ var plotsChart = {
                         return null;
                     }
                     
-                    var re = this.y === null ? null : pYO + nameO +  percentO ;
+                    var re = this.y === null ? null : percentO + nameO + ': ' + pYO ;
                     return re;
                 }
             },
@@ -1096,6 +1105,13 @@ var projectDetail = {
 
 
                 projectDetail.setTitlesLinks( projectFiels );
+
+
+                $("#monto_anticipoField").digits();
+                $("#monto_contratoField").digits();
+                $("#convenio_ampliacion_economicoField").digits();
+                $("#monto_contrato_finalField").digits();
+                $("#total_pagadoField").digits();
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 

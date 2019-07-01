@@ -24,6 +24,9 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
         
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
+ 
         <!-- Fonts Google -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -191,7 +194,13 @@
                                             </select>
                                             <div class="invalid-feedback">Debe seleccionar una dependencia</div>
                                         </div>
-                                       </div>
+                                        <div class="col">
+                                            <div style="text-align:right;">
+                                                <button type="button" data-toggle="modal" data-target="#modalSearch" style="bottom: 0px; position: absolute; right: 0px; margin-right: 10px;background:transparent; border: solid 1px #ccc; padding: 7px 15px; color: #666;">Búsqueda Avanzada <i class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div id="genl-pie-chart" style="width: 100%; height:400px">
                                     </div>
                                     <div id="genl-legend-pie-chart" style="color: #444">
@@ -210,6 +219,136 @@
 
             </div>
         </div>
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalSearch" role="dialog">
+            <div class="modal-dialog">
+          
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="" style="padding-left: 14px;font-size: 1em;">Búsqueda Avanzada</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row rowAddRegister"  >
+                                <div class="col-md-12">
+                                    <label for="title" class="indicatorName">Contratista </label> <br>
+                                    <input type="text" name="title" class="form-control" id="title" >
+                                    <p id="for_title" class="msjNotValid" > </p>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="city" class="indicatorName"> Municipio </label> <br>
+                                    <select name="city" class="form-control" id="city" >
+
+                                        <option value="0">--Selecciona un Municipio--</option>
+                                        <option value="1">Abasolo</option>
+                                        <option value="2">Agualeguas</option>
+                                        <option value="3">Los Aldamas</option>
+                                        <option value="4">Allende</option>
+                                        <option value="5">Anahuac</option>
+                                        <option value="6">Apodaca</option>
+                                        <option value="7">Aramberri</option>
+                                        <option value="8">Bustamante</option>
+                                        <option value="9">Cadereyta Jimenez</option>
+                                        <option value="10">Carmen</option>
+                                        <option value="11">Cerralvo</option>
+                                        <option value="12">Cienega de Flores</option>
+                                        <option value="13">China</option>
+                                        <option value="14">Dr. Arroyo</option>
+                                        <option value="15">Dr. Coss</option>
+                                        <option value="16">Dr. Gonzalez</option>
+                                        <option value="17">Galeana</option>
+                                        <option value="18">Garcia</option>
+                                        <option value="19">San Pedro Garza Garcia</option>
+                                        <option value="20">Gral. Bravo</option>
+                                        <option value="21">Gral. Escobedo</option>
+                                        <option value="22">Gral. Teran</option>
+                                        <option value="23">Gral. Trevi</option>
+                                        <option value="24">Gral. Zaragoza</option>
+                                        <option value="25">Gral. Zuazua</option>
+                                        <option value="26">Guadalupe</option>
+                                        <option value="27">Los Herreras</option>
+                                        <option value="28">Higueras</option>
+                                        <option value="29">Hualahuises</option>
+                                        <option value="30">Iturbide</option>
+                                        <option value="31">Juarez</option>
+                                        <option value="32">Lampazos de Naranjo</option>
+                                        <option value="33">Linares</option>
+                                        <option value="34">Marin</option>
+                                        <option value="35">Melchor Ocampo</option>
+                                        <option value="36">Mier y Noriega</option>
+                                        <option value="37">Mina</option>
+                                        <option value="38">Montemorelos</option>
+                                        <option value="39">Monterrey</option>
+                                        <option value="40">Paras</option>
+                                        <option value="41">Pesqueria</option>
+                                        <option value="42">Los Ramones</option>
+                                        <option value="43">Rayones</option>
+                                        <option value="44">Sabinas Hidalgo</option>
+                                        <option value="45">Salinas Victoria</option>
+                                        <option value="46">San Nicolas de los Garza</option>
+                                        <option value="47">Hidalgo</option>
+                                        <option value="48">Santa Catarina</option>
+                                        <option value="49">Santiago</option>
+                                        <option value="50">Vallecillo</option>
+                                        <option value="51">Villaldama</option>
+
+                                    </select>
+                                    <p id="for_city" class="msjNotValid" > </p>
+                                </div>
+                            </div>
+                            
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <label for="p" class="indicatorName"> Estatus </label> <br>
+                                    <select name="ff" class="form-control" id="cityf" >
+                                        <option value="0">--Selecciona un Estatus--</option>
+                                        <option value="1">TERMINADAS</option>
+                                        <option value="2">EN TIEMPO</option>
+                                        <option value="3">CON RETRASO</option>
+                                        <option value="4">RESCINDIDAS</option>
+                                        <option value="5">NO INICIADAS</option>
+                                        <option value="6">CON AVANCE FINANCIERO MAYOR AL FÍSICO</option>
+                                        <option value="7">DE FUERZA CIVIL, POLICÍA  Y PENALES</option>
+                                    </select>
+
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div> 
+
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <label for="planed_kickoff" class="indicatorName"> Fecha de inicio  </label> <br>
+                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" >
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div> 
+                            
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <input type="submit" name="planed_kickoff" class="obrasButtonNormal" id="planed_kickoff" value="Buscar" style="width:auto;float: right; padding: 8px 30px;" >
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div> 
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            
+            </div>
+        </div>
+
+
+
+
 
         <div class="lds-roller"  id="waintingAnimation" >
             <div> </div>
@@ -242,6 +381,9 @@
         <!-- Module of Highcharts -->
         <script src="/static/js/exporting.js"></script>
         
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
+        
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
         
@@ -258,6 +400,9 @@
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
                 });
+                
+                $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
+                $('#city').select2();
             
                 //Select the dependency 
                 $('#dependencySelect').on('change', function() {

@@ -932,3 +932,8 @@ div.ui-datepicker{
 
 
 
+/* Graphics */
+#modalSearch .select2{
+    width: 100% !important;
+    font-size: 0.9em;
+}
