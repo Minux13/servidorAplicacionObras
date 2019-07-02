@@ -235,12 +235,27 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            
                             <div class="row rowAddRegister"  >
                                 <div class="col-md-12">
-                                    <label for="city" class="indicatorName"> Municipio </label> <br>
+                                    <label for="departmentSearch" class="col-form-label modalSearchLabel">Dependencia:</label>
+                                    <select id="departmentSearch" class="form-control " >
+                                        <option value="">--Seleccione una Dependencia--</option>
+                                        {% for department in departments %}
+                                        <option value="{{ department.id }}"> {{ department.title }} </option>
+                                        {% endfor %}                                                
+                                    </select>
+                                    <div class="invalid-feedback">Debe seleccionar una dependencia</div>
+                                </div>
+                            </div>
+
+
+                            <div class="row rowAddRegister"  >
+                                <div class="col-md-12">
+                                    <label for="city" class="indicatorName modalSearchLabel"> Municipio </label> <br>
                                     <select name="city" class="form-control" id="city" >
 
-                                        <option value="0">--Selecciona un Municipio--</option>
+                                        <option value="">--Selecciona un Municipio--</option>
                                         <option value="1">Abasolo</option>
                                         <option value="2">Agualeguas</option>
                                         <option value="3">Los Aldamas</option>
@@ -300,9 +315,9 @@
                             
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
-                                    <label for="p" class="indicatorName"> Estatus </label> <br>
-                                    <select name="ff" class="form-control" id="cityf" >
-                                        <option value="0">--Selecciona un Estatus--</option>
+                                    <label for="check_stage" class="indicatorName modalSearchLabel"> Estatus </label> <br>
+                                    <select name="check_stage" class="form-control" id="check_stage" >
+                                        <option value="">--Selecciona un Estatus--</option>
                                         <option value="1">TERMINADAS</option>
                                         <option value="2">EN TIEMPO</option>
                                         <option value="3">CON RETRASO</option>
@@ -312,13 +327,13 @@
                                         <option value="7">DE FUERZA CIVIL, POLICÍA  Y PENALES</option>
                                     </select>
 
-                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                    <p id="for_check_stage" class="msjNotValid" > </p>
                                 </div>
                             </div> 
 
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
-                                    <label for="planed_kickoff" class="indicatorName"> Fecha de inicio  </label> <br>
+                                    <label for="planed_kickoff" class="indicatorName modalSearchLabel"> Fecha de inicio  </label> <br>
                                     <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" >
                                     <p id="for_planed_kickoff" class="msjNotValid" > </p>
                                 </div>
@@ -326,16 +341,15 @@
 
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
-                                    <label for="title" class="indicatorName">Contratista </label> <br>
-                                    <input type="text" name="title" class="form-control" id="title" >
-                                    <p id="for_title" class="msjNotValid" > </p>
+                                    <label for="provider" class="indicatorName modalSearchLabel">Contratista </label> <br>
+                                    <input type="text" name="provider" class="form-control" id="provider" >
+                                    <p id="for_provider" class="msjNotValid" > </p>
                                 </div>
                             </div> 
                             
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
-                                    <input type="submit" name="planed_kickoff" class="obrasButtonNormal" id="planed_kickoff" value="Buscar" style="width:auto;float: right; padding: 8px 30px;" >
-                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                    <input type="submit" class="obrasButtonNormal" value="Buscar" onclick="plotsChart.search();" style="width:auto;float: right; padding: 8px 30px;" >
                                 </div>
                             </div> 
 

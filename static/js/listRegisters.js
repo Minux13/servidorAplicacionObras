@@ -632,12 +632,29 @@ var imagesFollowUps = {
 /////// Graphics
 
 var plotsChart = {
+    department    : '',
+    check_stage   : '',
+    city          : '',
+    year          : '',
+    category      : '',
+    funding       : '',
+    program       : '',
+    adjudication  : '',
+    filterSeveral : false,
     init : function(){
-        var idDependency = document.getElementById('dependencySelect').value;
-        plotsChart.getData(idDependency)
+
+        this.department   = document.getElementById('dependencySelect').value;
+        this.check_stage  = "";
+        this.city         = "";
+        this.year         = "";
+        this.funding      = "";
+        this.program      = "";
+        this.adjudication = "";
+        
+        plotsChart.getData()
     },
     chart : '',
-    getData : function (idDependency ){
+    getData : function (){
         
         document.getElementById('waintingAnimation').style.display = "block";
 
@@ -649,9 +666,11 @@ var plotsChart = {
             success: function (res) {
                 
                 var values = plotsChart.setJsonChart(res.data);
-                
                 var options = plotsChart.optionsChart(values)
-
+                console.log(res);
+                
+                $('#modalSearch').modal('hide');
+                
                 document.getElementById('waintingAnimation').style.display = "none";
                 
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
@@ -659,7 +678,15 @@ var plotsChart = {
 
             },
 
-            data:  JSON.stringify ({'dependency': idDependency })
+            data:  JSON.stringify ({'department'    : plotsChart.department.toString(),
+                                    'city'          : plotsChart.city.toString(),
+                                    'year'          : plotsChart.year.toString(),
+                                    'check_stage'   : plotsChart.check_stage.toString(),
+                                    'category'      : plotsChart.category.toString(),
+                                    'adjudication'  : plotsChart.adjudication.toString(),
+                                    'funding'       : plotsChart.funding.toString(),
+                                    'program'       : plotsChart.program.toString(),
+                                   })
 
         }).done(function() {
             document.getElementById('waintingAnimation').style.display = "none";
@@ -671,15 +698,33 @@ var plotsChart = {
 
     },
     setJsonChart : function( resp ){
+        var countStages = ['',0,0,0,0,0,0,0]
         var values = [];
+
+        var namesStages = [ '',
+            "TERMINADAS",
+            "EN TIEMPO",
+            "CON RETRASO",
+            "RESCINDIDAS",
+            "NO INICIADAS",
+            "CON AVANCE FINANCIERO MAYOR AL FÍSICO",
+            "DE FUERZA CIVIL, POLICÍA  Y PENALES"
+        ]
+
         for(var i in resp){
             var stat = resp[i];
-            values.push( {
-                name : stat.stage,   
-                y: stat.count,
-                x: stat.id,
-                color: plotsChart.colors[ stat.id ]
-            } )
+            countStages[stat.check_stage]++;
+        }
+
+        for( var s = 1; s<=7; s++ ){
+            if( countStages[s] > 0 ){    
+                values.push( {
+                    name : namesStages[s],   
+                    y: countStages[s],
+                    x: s,
+                    color: plotsChart.colors[ s ]
+                } )
+            }
         }
         
         return values;
@@ -798,6 +843,18 @@ var plotsChart = {
    	    };
         
         return options;
+    },
+    search: function(){
+        this.department   = document.getElementById('departmentSearch').value;
+        this.check_stage  = document.getElementById('check_stage').value;
+        this.city         = document.getElementById('city').value;
+        //this.year         = document.getElementById('year').value;
+        //this.funding      = document.getElementById('funding').value;
+        //this.program      = document.getElementById('program').value;
+        //this.adjudication = document.getElementById('adjudication').value;
+
+        plotsChart.getData();
+
     },
     colors : [
         '',

@@ -937,3 +937,8 @@ div.ui-datepicker{
     width: 100% !important;
     font-size: 0.9em;
 }
+.modalSearchLabel{
+    font-weight: 400;
+    font-size: 0.86em;
+    color: #555;
+}

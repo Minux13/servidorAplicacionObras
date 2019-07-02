@@ -25,13 +25,26 @@ def graphicsList():
     else:
         data = request.get_json()
         
-        dependency = data['dependency'] 
+        #Cuando la dependencia es 0 devuelve sin todos los proyectos
+        #strDepQuery = '?department=' + str(dependency) if dependency != '0' else ''
 
-        strDepQuery = '?department=' + str(dependency) if dependency != '0' else ''
-
-        queryStr = 'projects/stages' + strDepQuery
-        url = URLFrp + queryStr
-
+        #queryStr = 'projects/stages' + strDepQuery
+        #url = URLFrp + queryStr
+        #r = requests.get( url) 
+        #dataRes = r.json() 
+        
+        empty_follow_ups = '?empty_follow_ups=0'
+        limit        = '&limit=1000000'
+        department   = '&department=' + data['department'] if data['department'] != '' else ''
+        check_stage  = '&check_stage=' + data['check_stage'] if data['check_stage'] != '' else ''
+        city         = '&city=' + data['city'] if data['city'] != '' else ''
+        year         = '&year=' + data['year'] if data['year'] != '' else ''
+        funding      = '&funding=' + data['funding'] if data['funding'] != '' else ''
+        program      = '&program=' + data['program'] if data['program'] != '' else ''
+        adjudication = '&adjudication=' + data['adjudication'] if data['adjudication'] != '' else ''
+        print(data['department'])
+        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + funding
+        print(url)
         r = requests.get( url) 
         dataRes = r.json() 
         
