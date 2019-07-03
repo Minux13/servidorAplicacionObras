@@ -15,74 +15,113 @@ def graphicsList():
     if request.method == 'GET':
         
         departments = requests.get( URLFrp + 'catalogues/departments' ).json()
+        providers = requests.get( URLFrp + 'providers/?limit=10000000&order_by=title' ).json()
 
         return render_template( 'graphics/index.html', 
                                 catalog='graphics', 
                                 menu = menuGraphics, 
                                 departments = departments, 
-                                urlLink= '/projects_follow_ups/' )
+                                providers = providers,
+                                urlLink= '/projects_follow_ups' )
     
     else:
         data = request.get_json()
-        
-        #Cuando la dependencia es 0 devuelve sin todos los proyectos
-        #strDepQuery = '?department=' + str(dependency) if dependency != '0' else ''
+        print(data)
 
-        #queryStr = 'projects/stages' + strDepQuery
-        #url = URLFrp + queryStr
-        #r = requests.get( url) 
-        #dataRes = r.json() 
-        
         empty_follow_ups = '?empty_follow_ups=0'
         limit        = '&limit=1000000'
-        department   = '&department=' + data['department'] if data['department'] != '' else ''
-        check_stage  = '&check_stage=' + data['check_stage'] if data['check_stage'] != '' else ''
-        city         = '&city=' + data['city'] if data['city'] != '' else ''
-        year         = '&year=' + data['year'] if data['year'] != '' else ''
-        funding      = '&funding=' + data['funding'] if data['funding'] != '' else ''
-        program      = '&program=' + data['program'] if data['program'] != '' else ''
+        department   = '&department='   + data['department']   if data['department']   != '' else ''
+        check_stage  = '&check_stage='  + data['check_stage']  if data['check_stage']  != '' else ''
+        city         = '&city='         + data['city']         if data['city']         != '' else ''
+        year         = '&start_date='   + data['year']         if data['year']         != '' else ''
+        provider     = '&provider='     + data['provider']     if data['provider']     != '' else ''
+        funding      = '&funding='      + data['funding']      if data['funding']      != '' else ''
+        program      = '&program='      + data['program']      if data['program']      != '' else ''
         adjudication = '&adjudication=' + data['adjudication'] if data['adjudication'] != '' else ''
-        print(data['department'])
-        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + funding
+        
+        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + year + provider + funding + program + adjudication
         print(url)
+        
         r = requests.get( url) 
         dataRes = r.json() 
         
         return jsonify( { 'data' : dataRes } )
 
 
-@bp.route('/projects_follow_ups/<int:deparment_id>/<int:status_id>', methods=['GET', 'POST'])
-def projectsFollowUps(deparment_id, status_id):
+@bp.route('/projects_follow_ups', methods=['GET', 'POST'])
+def projectsFollowUps():
 
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
+        departmentId   = request.args.get('department')
+        statusId       = request.args.get('status')
+        cityId         = request.args.get('city') 
+        yearId         = request.args.get('year') 
+        providerId     = request.args.get('provider') 
+        fundingId      = request.args.get('funding')
+        programId      = request.args.get('program')
+        adjudicationId = request.args.get('adjudication')
+        
+        print(departmentId  )
+        print(statusId      )
+        print(cityId        )
+        print(yearId        )
+        print(providerId    )
+        print(fundingId     )
+        print(programId     )
+        print(adjudicationId)
+
         checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
 
         return render_template( 'graphics/list.html', 
-                                catalog='projects_follow_ups', 
-                                menu = menuGraphics, 
-                                dependencyId=deparment_id, 
-                                statusId= status_id,
-                                pagePrev = '/graphics',
-                                checkStates = checkStates,
-                                urlLink = '/project_detail/'   )
+                                catalog        ='projects_follow_ups', 
+                                menu           = menuGraphics, 
+                                dependencyId   = departmentId, 
+                                statusId       = statusId,
+                                cityId         = cityId,
+                                yearId         = yearId,        
+                                providerId     = providerId,    
+                                fundingId      = fundingId,     
+                                programId      = programId,     
+                                adjudicationId = adjudicationId,
+                                pagePrev       = '/graphics',
+                                checkStates    = checkStates,
+                                urlLink        = '/project_detail/'   )
     
     else:
         data = request.get_json()
         
-        paginationStart     = data['paginationStart']
+        paginationStart = str(data['paginationStart'])
+        departmentId    = str(data['department'])
+        statusId        = str(data['status'])
+        cityId          = str(data['city'])
+        yearId          = str(data['year'])
+        providerId      = str(data['provider'])
+        fundingId       = str(data['funding'])
+        programId       = str(data['program'])
+        adjudicationId  = str(data['adjudication'])
 
-        
-        dependency = '' if deparment_id == 0 else '&department=' + str(deparment_id)
 
-        #queryStr = 'projects/with_follow_up?check_stage=' + str(status_id) + '&department=' + str(deparment_id) + '&offset=' + str(1000000)
-        queryStr = 'projects/with_follow_up?check_stage=' + str(status_id) + dependency + '&limit=' + str(10000000)
-        url = URLFrp + queryStr
+        empty_follow_ups = '?empty_follow_ups=0'
+        offset       = '&offset='       + paginationStart
+        department   = '&department='   + departmentId   if departmentId     != '' else ''
+        check_stage  = '&check_stage='  + statusId       if statusId         != '' else ''
+        city         = '&city='         + cityId         if cityId           != '' else ''
+        year         = '&start_date='   + yearId         if yearId           != '' else ''
+        provider     = '&provider='     + providerId     if providerId       != '' else ''
+        funding      = '&funding='      + fundingId      if fundingId        != '' else ''
+        program      = '&program='      + programId      if programId        != '' else ''
+        adjudication = '&adjudication=' + adjudicationId if adjudicationId   != '' else ''
+
+        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
+        urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
+        print(url)
         r = requests.get( url) 
+        rC = requests.get( urlCount) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes } )
+        return jsonify( { 'data' : dataRes, 'count' : rC.json() } )
 
 
 @bp.route('/project_detail/<int:project_id>', methods=['GET', 'POST'])

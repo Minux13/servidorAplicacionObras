@@ -636,22 +636,37 @@ var plotsChart = {
     check_stage   : '',
     city          : '',
     year          : '',
-    category      : '',
+    provider      : '',
     funding       : '',
     program       : '',
     adjudication  : '',
-    filterSeveral : false,
     init : function(){
+        plotsChart.getData()
+    },
+    setChartSelect: function(){
 
         this.department   = document.getElementById('dependencySelect').value;
-        this.check_stage  = "";
-        this.city         = "";
-        this.year         = "";
-        this.funding      = "";
-        this.program      = "";
-        this.adjudication = "";
+        this.check_stage  = '';
+        this.city         = '';
+        this.year         = '';
+        this.funding      = '';
+        this.program      = '';
+        this.adjudication = '';
         
         plotsChart.getData()
+    },   
+    search: function(){
+        this.department   = document.getElementById('departmentSearch').value;
+        this.check_stage  = document.getElementById('check_stage').value;
+        this.city         = document.getElementById('city').value;
+        this.year         = document.getElementById('year').value;
+        this.provider     = document.getElementById('provider').value;
+        this.funding      = document.getElementById('funding').value;
+        this.program      = document.getElementById('program').value;
+        this.adjudication = document.getElementById('adjudication').value;
+
+        plotsChart.getData();
+
     },
     chart : '',
     getData : function (){
@@ -667,7 +682,6 @@ var plotsChart = {
                 
                 var values = plotsChart.setJsonChart(res.data);
                 var options = plotsChart.optionsChart(values)
-                console.log(res);
                 
                 $('#modalSearch').modal('hide');
                 
@@ -680,9 +694,9 @@ var plotsChart = {
 
             data:  JSON.stringify ({'department'    : plotsChart.department.toString(),
                                     'city'          : plotsChart.city.toString(),
-                                    'year'          : plotsChart.year.toString(),
                                     'check_stage'   : plotsChart.check_stage.toString(),
-                                    'category'      : plotsChart.category.toString(),
+                                    'year'          : plotsChart.year.toString(),
+                                    'provider'      : plotsChart.provider.toString(),
                                     'adjudication'  : plotsChart.adjudication.toString(),
                                     'funding'       : plotsChart.funding.toString(),
                                     'program'       : plotsChart.program.toString(),
@@ -788,10 +802,22 @@ var plotsChart = {
    	                point: {
    	                    events: {
    	                        click: function () {
-                                var dependency= $('#dependencySelect').val();
                                 var urlLink = $('#urlLink').val();
+
+                                var department = plotsChart.department;
                                 var statusIdNum = parseInt(this.x);
-                                var url = urlLink + dependency + "/" + statusIdNum ;
+                                var city = plotsChart.city ;
+                                var queryString = '?department=' + department;
+                                queryString += '&status=' + statusIdNum;
+                                queryString += '&city=' + city;
+
+                                queryString += '&year='         + plotsChart.year;
+                                queryString += '&provider='     + plotsChart.provider;
+                                queryString += '&funding='      + plotsChart.funding;
+                                queryString += '&program='      + plotsChart.program;
+                                queryString += '&adjudication=' + plotsChart.adjudication;
+                                var url = urlLink + queryString ;
+                                console.log(url);
                                 window.open( url ,"_self");   
    	                        }/*,
                             legendItemClick: function(){
@@ -844,18 +870,6 @@ var plotsChart = {
         
         return options;
     },
-    search: function(){
-        this.department   = document.getElementById('departmentSearch').value;
-        this.check_stage  = document.getElementById('check_stage').value;
-        this.city         = document.getElementById('city').value;
-        //this.year         = document.getElementById('year').value;
-        //this.funding      = document.getElementById('funding').value;
-        //this.program      = document.getElementById('program').value;
-        //this.adjudication = document.getElementById('adjudication').value;
-
-        plotsChart.getData();
-
-    },
     colors : [
         '',
         "#EEEE00",
@@ -879,11 +893,16 @@ var listStatusProjects = {
     
     paginationStar  : 0,
     paginationStep  : 10,
-    numberOfButtons : 1,     //Mock, se actualiza cuando se reciben los datos ajax
     by              : 'id',
     order           : 'ASC',
-    searchBy        : '',
-    valueSearchBy   : '',
+    department      : '',
+    statusId        : '',
+    city            : '',
+    year            : '',
+    provider        : '',
+    funding         : '',
+    program         : '',
+    adjudication    : '',
     createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus ){
         var stringTag = `
          <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
@@ -928,7 +947,7 @@ var listStatusProjects = {
         document.getElementById('table-obras').innerHTML = strTagRows;
          
     },
-    getDataList: function ( url, dependency, idStatus ){
+    getDataList: function ( url ){
         $.ajax({
             url: url,
             type: 'post',
@@ -939,19 +958,13 @@ var listStatusProjects = {
                 var rows = res.data;
                 
                 //Para haber entrado tiene que tener al menos un registro
-                document.getElementById('titleSecondLink').innerHTML = rows[0].department;
+                //***document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
-                //listStatusProjects.setList(rows, dependency, idStatus)
-                //listStatusProjects.createAllButtons();
-                
-                listStatusProjects.setArrayList(rows, dependency, idStatus);
-                listStatusProjects.paginationJS();
-                listStatusProjects.buttons.create();
+                listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
+                listStatusProjects.buttons.create( res.count.count );
 
-
-                //document.getElementById('headerListProjects').style.color = statusProjectsSettings[idStatus].color;
-                document.getElementById('headerListProjects').style.borderBottom = plotsChart.colors[idStatus] + ' 2px solid';
-                document.getElementById('nameStatusProjectTitle').innerHTML = 'Obras ' + document.getElementById('checkState'+idStatus).value;
+                document.getElementById('headerListProjects').style.borderBottom = plotsChart.colors[listStatusProjects.statusId] + ' 2px solid';
+                document.getElementById('nameStatusProjectTitle').innerHTML = res.count.count + ' Obras ' + document.getElementById('checkState'+listStatusProjects.statusId).value;
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 
@@ -961,8 +974,14 @@ var listStatusProjects = {
                                     'paginationStep' : listStatusProjects.paginationStep ,
                                     'by'             : listStatusProjects.by,
                                     'order'          : listStatusProjects.order,
-                                    'searchBy'       : listStatusProjects.searchBy,    
-                                    'valueSearchBy'  : listStatusProjects.valueSearchBy
+                                    'department'     : listStatusProjects.department,
+                                    'status'         : listStatusProjects.statusId,
+                                    'city'           : listStatusProjects.city,
+                                    'year'           : listStatusProjects.year,
+                                    'provider'       : listStatusProjects.provider,
+                                    'funding'        : listStatusProjects.funding,
+                                    'program'        : listStatusProjects.program,
+                                    'adjudication'   : listStatusProjects.adjudication
                                     })
 
         }).done(function() {
@@ -974,42 +993,12 @@ var listStatusProjects = {
         }) ;
        
     },
-    arrayList: [],
-    setArrayList: function(rows, dependency, idStatus){
-        var arrList = [];
-        for (var i in rows) {
-            arrList.push(listStatusProjects.createRow( rows[i].project_title, 
-                                                       citiesNL[ rows[i].city_id ], 
-                                                       rows[i].category, 
-                                                       dependency, 
-                                                       rows[i].project_id,
-                                                       idStatus )
-            );
-        }
-        listStatusProjects.arrayList = arrList;
-    },
-    paginationJS: function(){
-        
-        var init = listStatusProjects.paginationStar;
-        //Crea la lista desde init 
-        var limit = init + listStatusProjects.paginationStep;
-        var strList = '';
-        for(var l = init; l < limit; l++){
-            if(listStatusProjects.arrayList[l]){
-                strList += listStatusProjects.arrayList[l];
-            }
-        }
-        document.getElementById('table-obras').innerHTML = strList;
-
-    },
     buttons: {
-        tagHTML : function(init, numValueButton, isActive, searchBy, valueSearchBy){
+        tagHTML : function(init, numValueButton, isActive ){
             return '<button initL="'+ init +'"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
         },
-        create : function(){
-            var numOfButtons = Math.ceil( listStatusProjects.arrayList.length/listStatusProjects.paginationStep ) ;
-            //listRegisters.numberOfButtons = numOfButtons ;
-            
+        create : function( numRegisters ){
+            var numOfButtons = Math.ceil( numRegisters/listStatusProjects.paginationStep ) ;
             var strAllButtons = '';
             for(var b=0; b< numOfButtons ; b++ ){
                 var start = b * listStatusProjects.paginationStep ;
@@ -1020,8 +1009,15 @@ var listStatusProjects = {
             document.getElementById('buttons_pagination').innerHTML = strAllButtons;                   
         },
         action: function( thisButton ){
+
             listStatusProjects.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
-            listStatusProjects.paginationJS();
+        
+            document.getElementById('waintingAnimation').style.display = "block";
+            
+            var url = '/projects_follow_ups';
+
+            listStatusProjects.getDataList( url )
+
 
             //Behavior button
             $(".button_pag").removeAttr("active");
@@ -1029,41 +1025,6 @@ var listStatusProjects = {
 
         }
     },
-    /*buttons : {
-        actionClick : function(thisButton){
-            //Icono de espera
-            document.getElementById('waintingAnimation').style.display = "block";
-
-            //Set list
-            var url      =  document.getElementById('catalogName').value;
-
-            listRegisters.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
-
-            listRegisters.getDataTable( url, false )
-            
-            //Behavior button
-            $(".button_pag").removeAttr("active");
-            $( thisButton ).attr('active','')
-        },
-        tagHTML : function(init, numValueButton, isActive, searchBy, valueSearchBy){
-            return '<button initL="'+ init +'" searchBy="'+ searchBy +'" valueSearchBy="'+ valueSearchBy +'"  onclick="listStatusProjects.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
-        },
-        create : function( numAllRegisters, filterBy, valueSearchBy ){
-            
-            var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
-            listRegisters.numberOfButtons = numOfButtons ;
-            
-            var strAllButtons = '';
-            for(var b=0; b< numOfButtons ; b++ ){
-                var start = b * listRegisters.paginationStep ;
-                var numLebelButton = b + 1;
-                var isActive = b==0? 'active' : '';
-                strAllButtons += setTag.button( start, numLebelButton, isActive, filterBy, valueSearchBy )
-            }
-            document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
-        }
-
-    },*/
     goToDetail : function ( thisTag ){
         var idObra = thisTag.getAttribute("idProject");
         var urlLink = document.getElementById('urlLink').value;
@@ -1072,14 +1033,21 @@ var listStatusProjects = {
     },
     initList: function(){
         
-        var dependency = document.getElementById('dependencyId').value;
-        var idStatus = document.getElementById('statusId').value;
+        this.department     = document.getElementById('dependencyId').value;
+        this.statusId       = document.getElementById('statusId').value;
+        this.city           = document.getElementById('cityId').value;
+        this.year           = document.getElementById('yearId').value;
+        this.provider       = document.getElementById('providerId').value;
+        this.funding        = document.getElementById('fundingId').value;
+        this.program        = document.getElementById('programId').value;
+        this.adjudication   = document.getElementById('adjudicationId').value;
+
 
         document.getElementById('waintingAnimation').style.display = "block";
 
-        var url = '/projects_follow_ups/'+ dependency +'/' + idStatus;
+        var url = '/projects_follow_ups';
 
-        listStatusProjects.getDataList( url, dependency, idStatus )
+        listStatusProjects.getDataList( url )
 
     }
 }

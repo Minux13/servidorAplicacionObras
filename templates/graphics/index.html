@@ -187,7 +187,7 @@
                                             <label for="message-text" class="col-form-label"><b>Dependencia:</b></label>
                                             <select id="dependencySelect" class="form-control " required="">
                                                 <option value="">--Seleccione una Dependencia--</option>
-                                                <option value="0">TOTAL</option>
+                                                <option value="">TOTAL</option>
                                                 {% for department in departments %}
                                                 <option value="{{ department.id }}"> {{ department.title }} </option>
                                                 {% endfor %}                                                
@@ -277,8 +277,8 @@
                                         <option value="19">San Pedro Garza Garcia</option>
                                         <option value="20">Gral. Bravo</option>
                                         <option value="21">Gral. Escobedo</option>
-                                        <option value="22">Gral. Teran</option>
-                                        <option value="23">Gral. Trevi</option>
+                                        <option value="22">Gral. Terán</option>
+                                        <option value="23">Gral. Treviño</option>
                                         <option value="24">Gral. Zaragoza</option>
                                         <option value="25">Gral. Zuazua</option>
                                         <option value="26">Guadalupe</option>
@@ -333,8 +333,14 @@
 
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
-                                    <label for="planed_kickoff" class="indicatorName modalSearchLabel"> Fecha de inicio  </label> <br>
-                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" >
+                                    <label for="year" class="indicatorName modalSearchLabel"> Año  </label> <br>
+                                    <select name="year" class="form-control" id="year" >
+                                        <option value="">--Selecciona un Año--</option>
+                                        <option value="">2016</option>
+                                        <option value="">2017</option>
+                                        <option value="">2018</option>
+                                        <option value="">2019</option>
+                                    </select>
                                     <p id="for_planed_kickoff" class="msjNotValid" > </p>
                                 </div>
                             </div> 
@@ -342,11 +348,52 @@
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
                                     <label for="provider" class="indicatorName modalSearchLabel">Contratista </label> <br>
-                                    <input type="text" name="provider" class="form-control" id="provider" >
+                                    <select name="provider" class="form-control" id="provider" >
+                                        <option value="">--Seleccione un Contratista--</option>
+                                        {% for provider in providers %}
+                                        <option value="{{ provider.id }}"> {{ provider.title }} </option>
+                                        {% endfor %}
+                                    </select>
                                     <p id="for_provider" class="msjNotValid" > </p>
                                 </div>
                             </div> 
+
+
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <label for="adjudication" class="indicatorName modalSearchLabel"> Proceso de Adjudicación </label> <br>
+                                    <select name="adjudication" class="form-control" id="adjudication" >
+                                        <option value="">--Selecciona un Proceso de Adjudicación--</option>
+                                        <option value="">Licitación Pública</option>
+                                        <option value="">Adjudicación Directa</option>
+                                        <option value="">Invitación Restringida</option>
+                                    </select>
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div>
                             
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <label for="funding" class="indicatorName modalSearchLabel"> Tipo de Fondo  </label> <br>
+                                    <select name="funding" class="form-control" id="funding" >
+                                        <option value="">--Selecciona un Tipo de Fondo--</option>
+                                        <option value="">Federales</option>
+                                        <option value="">Estatales</option>
+                                    </select>
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div>
+
+                            <div class="row rowAddRegister">
+                                <div class="col-md-12">
+                                    <label for="program" class="indicatorName modalSearchLabel"> Programa </label> <br>
+                                    <select name="program" class="form-control" id="program" >
+                                        <option value="">--Selecciona el Programa--</option>
+                                    </select>
+                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                </div>
+                            </div>
+
                             <div class="row rowAddRegister">
                                 <div class="col-md-12">
                                     <input type="submit" class="obrasButtonNormal" value="Buscar" onclick="plotsChart.search();" style="width:auto;float: right; padding: 8px 30px;" >
@@ -420,15 +467,16 @@
                 
                 $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
                 $('#city').select2();
+                $('#provider').select2();
             
                 //Select the dependency 
                 $('#dependencySelect').on('change', function() {
-                    plotsChart.init();
+                    plotsChart.setChartSelect();
               	});
 
-                if( document.getElementById('dependencySelect').value != '' ){
+                /*if( document.getElementById('dependencySelect').value != '' ){
                     plotsChart.init();
-                }
+                }*/
             });
 
         </script>
