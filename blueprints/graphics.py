@@ -26,7 +26,6 @@ def graphicsList():
     
     else:
         data = request.get_json()
-        print(data)
 
         empty_follow_ups = '?empty_follow_ups=0'
         limit        = '&limit=1000000'
@@ -40,8 +39,6 @@ def graphicsList():
         adjudication = '&adjudication=' + data['adjudication'] if data['adjudication'] != '' else ''
         
         url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + year + provider + funding + program + adjudication
-        print(url)
-        
         r = requests.get( url) 
         dataRes = r.json() 
         
@@ -63,15 +60,6 @@ def projectsFollowUps():
         programId      = request.args.get('program')
         adjudicationId = request.args.get('adjudication')
         
-        print(departmentId  )
-        print(statusId      )
-        print(cityId        )
-        print(yearId        )
-        print(providerId    )
-        print(fundingId     )
-        print(programId     )
-        print(adjudicationId)
-
         checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
 
         return render_template( 'graphics/list.html', 
@@ -116,7 +104,6 @@ def projectsFollowUps():
 
         url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
         urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
-        print(url)
         r = requests.get( url) 
         rC = requests.get( urlCount) 
         dataRes = r.json() 
