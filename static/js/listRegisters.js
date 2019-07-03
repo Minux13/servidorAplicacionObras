@@ -1137,6 +1137,7 @@ var projectDetail = {
                 $("#convenio_ampliacion_economicoField").digits();
                 $("#monto_contrato_finalField").digits();
                 $("#total_pagadoField").digits();
+                $("#anticipo_pendiente_amortizarField").digits();
 
                 document.getElementById('waintingAnimation').style.display = "none";
                 
