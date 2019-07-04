@@ -29,14 +29,14 @@ def graphicsList():
 
         empty_follow_ups = '?empty_follow_ups=0'
         limit        = '&limit=1000000'
-        department   = '&department='   + data['department']   if data['department']   != '' else ''
-        check_stage  = '&check_stage='  + data['check_stage']  if data['check_stage']  != '' else ''
-        city         = '&city='         + data['city']         if data['city']         != '' else ''
-        year         = '&start_date='   + data['year']         if data['year']         != '' else ''
-        provider     = '&provider='     + data['provider']     if data['provider']     != '' else ''
-        funding      = '&funding='      + data['funding']      if data['funding']      != '' else ''
-        program      = '&program='      + data['program']      if data['program']      != '' else ''
-        adjudication = '&adjudication=' + data['adjudication'] if data['adjudication'] != '' else ''
+        department   = '&department='          + data['department']   if data['department']   != '' else ''
+        check_stage  = '&check_stage='         + data['check_stage']  if data['check_stage']  != '' else ''
+        city         = '&city='                + data['city']         if data['city']         != '' else ''
+        year         = '&contract_start_date=' + data['year']         if data['year']         != '' else ''
+        provider     = '&provider='            + data['provider']     if data['provider']     != '' else ''
+        funding      = '&funding='             + data['funding']      if data['funding']      != '' else ''
+        program      = '&program='             + data['program']      if data['program']      != '' else ''
+        adjudication = '&adjudication='        + data['adjudication'] if data['adjudication'] != '' else ''
         
         url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + year + provider + funding + program + adjudication
         r = requests.get( url) 
@@ -92,15 +92,15 @@ def projectsFollowUps():
 
 
         empty_follow_ups = '?empty_follow_ups=0'
-        offset       = '&offset='       + paginationStart
-        department   = '&department='   + departmentId   if departmentId     != '' else ''
-        check_stage  = '&check_stage='  + statusId       if statusId         != '' else ''
-        city         = '&city='         + cityId         if cityId           != '' else ''
-        year         = '&start_date='   + yearId         if yearId           != '' else ''
-        provider     = '&provider='     + providerId     if providerId       != '' else ''
-        funding      = '&funding='      + fundingId      if fundingId        != '' else ''
-        program      = '&program='      + programId      if programId        != '' else ''
-        adjudication = '&adjudication=' + adjudicationId if adjudicationId   != '' else ''
+        offset       = '&offset='               + paginationStart
+        department   = '&department='           + departmentId   if departmentId     != '' else ''
+        check_stage  = '&check_stage='          + statusId       if statusId         != '' else ''
+        city         = '&city='                 + cityId         if cityId           != '' else ''
+        year         = '&contract_start_date='  + yearId         if yearId           != '' else ''
+        provider     = '&provider='             + providerId     if providerId       != '' else ''
+        funding      = '&funding='              + fundingId      if fundingId        != '' else ''
+        program      = '&program='              + programId      if programId        != '' else ''
+        adjudication = '&adjudication='         + adjudicationId if adjudicationId   != '' else ''
 
         url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
         urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
