@@ -93,6 +93,9 @@ def contractsAdd():
             'final_contracted_amount'    : data['final_contracted_amount'  ], 
             'total_amount_paid'          : data['total_amount_paid'        ], 
             'outstanding_down_payment'   : data['outstanding_down_payment' ], 
+            'adjudication'               : data['adjudication'             ], 
+            'funding'                    : data['funding'                  ], 
+            'program'                    : data['program'                  ], 
             "inceptor_uuid"              : "string"
         }
 
@@ -167,6 +170,9 @@ def contractsEdit(provider_id):
             'final_contracted_amount'    : data['final_contracted_amount'  ], 
             'total_amount_paid'          : data['total_amount_paid'        ], 
             'outstanding_down_payment'   : data['outstanding_down_payment' ], 
+            'adjudication'               : data['adjudication'             ], 
+            'funding'                    : data['funding'                  ], 
+            'program'                    : data['program'                  ], 
             "inceptor_uuid"              : "string"
         }
 

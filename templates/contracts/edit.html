@@ -285,33 +285,33 @@
 
                                             <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Proceso de Adjudicación </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Proceso de Adjudicación--</option>
-                                                        <option value="">Licitación Pública</option>
-                                                        <option value="">Adjudicación Directa</option>
-                                                        <option value="">Invitación Restringida</option>
+                                                    <label for="adjudication" class="indicatorName"> Proceso de Adjudicación </label> <br>
+                                                    <select name="adjudication" class="form-control" id="adjudication"  >
+                                                        <option value="0">--Selecciona el Proceso de Adjudicación--</option>
+                                                        <option value="1">Licitación Pública</option>
+                                                        <option value="2">Adjudicación Directa</option>
+                                                        <option value="3">Invitación Restringida</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_adjudication" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Tipo de Fondo </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Tipo de Fondo--</option>
-                                                        <option value="">Federal</option>
-                                                        <option value="">Estatal</option>
+                                                    <label for="funding" class="indicatorName"> Tipo de Fondo </label> <br>
+                                                    <select name="funding" class="form-control" id="funding"  >
+                                                        <option value="0">--Selecciona el Tipo de Fondo--</option>
+                                                        <option value="1">Federal</option>
+                                                        <option value="2">Estatal</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_funding" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
                                             <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Programa </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Programa--</option>
+                                                    <label for="program" class="indicatorName"> Programa </label> <br>
+                                                    <select name="program" class="form-control" id="program"  >
+                                                        <option value="0">--Selecciona el Programa--</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_program" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
@@ -375,6 +375,9 @@
         <input id="ext_agreementValue" type="hidden" value="{{ data.ext_agreement }}" >
         <input id="providerValue" type="hidden" value="{{ data.provider }}" >
         <input id="delivery_stageValue" type="hidden" value="{{ data.delivery_stage }}" >
+        <input id="adjudicationValue" type="hidden" value="{{ data.adjudication if data.adjudication != None else 0 }}" >
+        <input id="fundingValue" type="hidden" value="{{ data.funding if data.funding != None else 0 }}" >
+        <input id="programValue" type="hidden" value="{{ data.program if data.program != None else 0 }}" >
 
 
         
@@ -441,7 +444,10 @@
 
                 //Preselecciones, por que no agarra value el select
                 document.getElementById('delivery_stage').value = document.getElementById('delivery_stageValue').value;
-                document.getElementById('provider').value  =       document.getElementById('providerValue').value;
+                document.getElementById('provider').value       = document.getElementById('providerValue').value;
+                document.getElementById('adjudication').value   = document.getElementById('adjudicationValue').value;
+                document.getElementById('funding').value        = document.getElementById('fundingValue').value;
+                document.getElementById('program').value        = document.getElementById('programValue').value;
 
                 $('#provider').select2();
 
@@ -496,6 +502,9 @@
                         'ext_agreement_amount'      : $('#ext_agreement_amount').val(),               
                         'final_contracted_amount'   : $('#final_contracted_amount').val(),            
                         'total_amount_paid'         : $('#total_amount_paid').val(),                  
+                        'adjudication'              : $('#adjudication').val(),                  
+                        'funding'                   : $('#funding').val(),                  
+                        'program'                   : $('#program').val(),                  
                         'outstanding_down_payment'  : $('#outstanding_down_payment').val(),
                     });
                     POSTRegister.send( url, dataJson, 'update' );

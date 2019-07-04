@@ -287,33 +287,33 @@
 
                                             <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Proceso de Adjudicación </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Proceso de Adjudicación--</option>
-                                                        <option value="">Licitación Pública</option>
-                                                        <option value="">Adjudicación Directa</option>
-                                                        <option value="">Invitación Restringida</option>
+                                                    <label for="adjudication" class="indicatorName"> Proceso de Adjudicación </label> <br>
+                                                    <select name="adjudication" class="form-control" id="adjudication"  >
+                                                        <option value="0">--Selecciona el Proceso de Adjudicación--</option>
+                                                        <option value="1">Licitación Pública</option>
+                                                        <option value="2">Adjudicación Directa</option>
+                                                        <option value="3">Invitación Restringida</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_adjudication" class="msjNotValid" > </p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Tipo de Fondo </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Tipo de Fondo--</option>
-                                                        <option value="">Federal</option>
-                                                        <option value="">Estatal</option>
+                                                    <label for="funding" class="indicatorName"> Tipo de Fondo </label> <br>
+                                                    <select name="funding" class="form-control" id="funding"  >
+                                                        <option value="0">--Selecciona el Tipo de Fondo--</option>
+                                                        <option value="1">Federal</option>
+                                                        <option value="2">Estatal</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_funding" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
                                             <div class="row rowAddRegister">
                                                 <div class="col-md-6">
-                                                    <label for="" class="indicatorName"> Programa </label> <br>
-                                                    <select name="" class="form-control" id=""  >
-                                                        <option value="">--Selecciona el Programa--</option>
+                                                    <label for="program" class="indicatorName"> Programa </label> <br>
+                                                    <select name="program" class="form-control" id="program"  >
+                                                        <option value="0">--Selecciona el Programa--</option>
                                                     </select>
-                                                    <p id="" class="msjNotValid" > </p>
+                                                    <p id="for_program" class="msjNotValid" > </p>
                                                 </div>
                                             </div>
 
@@ -410,8 +410,8 @@
                 $('#provider').select2();
 
                 
-                document.getElementById('initial_contracted_amount').onchange = sumInicialAmountConvenio;
-                document.getElementById('ext_agreement_amount').onchange = sumInicialAmountConvenio;
+                document.getElementById('initial_contracted_amount').onkeyup = sumInicialAmountConvenio;
+                document.getElementById('ext_agreement_amount').onkeyup = sumInicialAmountConvenio;
 
             });
 
@@ -459,6 +459,9 @@
                         'ext_agreement_amount'      : $('#ext_agreement_amount').val(),               
                         'final_contracted_amount'   : $('#final_contracted_amount').val(),            
                         'total_amount_paid'         : $('#total_amount_paid').val(),                  
+                        'adjudication'              : $('#adjudication').val(),                  
+                        'funding'                   : $('#funding').val(),                  
+                        'program'                   : $('#program').val(),                  
                         'outstanding_down_payment'  : $('#outstanding_down_payment').val(),           
                     });
 
