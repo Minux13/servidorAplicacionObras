@@ -971,16 +971,15 @@ var listStatusProjects = {
                 
                 var rows = res.data;
                 
-                //Para haber entrado tiene que tener al menos un registro
                 //***document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
                 listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
                 listStatusProjects.buttons.create( res.count.count );
 
-                document.getElementById('headerListProjects').style.borderBottom = plotsChart.colors[listStatusProjects.statusId] + ' 2px solid';
-                document.getElementById('nameStatusProjectTitle').innerHTML = res.count.count + ' Obras ' + document.getElementById('checkState'+listStatusProjects.statusId).value;
+                $('#headerListProjects').css("borderBottom", plotsChart.colors[listStatusProjects.statusId] + ' 2px solid');
+                $('#nameStatusProjectTitle').html(res.count.count + ' Obras ' + $('#checkState'+listStatusProjects.statusId).val());
 
-                document.getElementById('waintingAnimation').style.display = "none";
+                $('#waintingAnimation').css("display", "none");
                 
 
             },
@@ -999,11 +998,11 @@ var listStatusProjects = {
                                     })
 
         }).done(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
+            $('#waintingAnimation').css("display", "none");
         }) .fail(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
+            $('#waintingAnimation').css("display", "none");
         }) .always(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
+            $('#waintingAnimation').css("display", "none");
         }) ;
        
     },
@@ -1013,6 +1012,9 @@ var listStatusProjects = {
         },
         create : function( numRegisters ){
             var numOfButtons = Math.ceil( numRegisters/listStatusProjects.paginationStep ) ;
+            
+           // if(numOfButtons <= 1 ){return ;}
+
             var strAllButtons = '';
             for(var b=0; b< numOfButtons ; b++ ){
                 var start = b * listStatusProjects.paginationStep ;
@@ -1020,13 +1022,13 @@ var listStatusProjects = {
                 var isActive = b==0? 'active' : '';
                 strAllButtons += listStatusProjects.buttons.tagHTML( start, numLabelButton, isActive)
             }
-            document.getElementById('buttons_pagination').innerHTML = strAllButtons;                   
+            $('#buttons_pagination').html(strAllButtons);
         },
         action: function( thisButton ){
 
             listStatusProjects.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
         
-            document.getElementById('waintingAnimation').style.display = "block";
+            $('#waintingAnimation').css("display", "block");
             
             var url = '/projects_follow_ups';
 
@@ -1057,7 +1059,7 @@ var listStatusProjects = {
         this.adjudication   = document.getElementById('adjudicationId').value;
 
 
-        document.getElementById('waintingAnimation').style.display = "block";
+        $('#waintingAnimation').css("display", "block");
 
         var url = '/projects_follow_ups';
 
