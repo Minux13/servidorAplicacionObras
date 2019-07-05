@@ -903,7 +903,7 @@ var listStatusProjects = {
     funding         : '',
     program         : '',
     adjudication    : '',
-    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, departmentName ){
+    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName ){
         var stringTag = `
          <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
 
@@ -913,18 +913,24 @@ var listStatusProjects = {
                  </div>
                  <div class="row  municipioYCategoria" >
                     <div class="col-md-4">
+                         <div class="obracategoriaaa" > <i class="fas fa-file-signature"></i>  </div>
+                         <div class="valueee ">
+                            ` + contractNumber + `
+                         </div>
+                     </div>
+                    <div class="col-md-2">
                          <div class="obracategoriaaa" ><i class="fas fa-building"></i> </div>
                          <div class="valueee ">
                             ` + departmentName + `
                          </div>
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                          <div class="obramunicipiooo" ><i class="fas fa-map"></i> </div>
                          <div class="valueee ">
                             ` + cityProject + `
                          </div>
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                          <div class="obracategoriaaa" ><i class="fas fa-industry"></i> </div>
                          <div class="valueee ">
                             ` + categoriaProject + `
@@ -948,6 +954,7 @@ var listStatusProjects = {
                                                           dependency, 
                                                           rows[i].project_id,
                                                           idStatus,
+                                                          rows[i].contract_number,
                                                           rows[i].department ));
         }
         
