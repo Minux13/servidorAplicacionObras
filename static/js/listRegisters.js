@@ -673,7 +673,7 @@ var plotsChart = {
     },
     initStackCities : function(){
 
-        this.department   = '';
+        this.department   = $('#dependencySelect').val();
         this.check_stage  = '';
         this.city         = '';
         this.year         = '';
@@ -703,7 +703,7 @@ var plotsChart = {
                 $('#genl-pie-chart').css('height','400px');
                 
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
-   	            //plotsChart.chart.series[0].setData(values);
+                
                 $('#waintingAnimation').css('display','none');
 
             },
@@ -718,13 +718,10 @@ var plotsChart = {
                                     'program'       : plotsChart.program.toString(),
                                    })
 
-        }).done(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) .fail(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) .always(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) ;
+        }).done(function() { $('#waintingAnimation').css('display','none');
+        }).fail(function() { $('#waintingAnimation').css('display','none');
+        }).always(function() { $('#waintingAnimation').css('display','none');
+        });
 
     },
     getDataStack : function (){
@@ -759,13 +756,10 @@ var plotsChart = {
                                     'program'       : plotsChart.program.toString(),
                                    })
 
-        }).done(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) .fail(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) .always(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) ;
+        }).done(function() { $('#waintingAnimation').css('display','none');
+        }).fail(function() { $('#waintingAnimation').css('display','none');
+        }).always(function() { $('#waintingAnimation').css('display','none');
+        });
 
     },
     setJsonChart : function( resp ){
@@ -817,8 +811,7 @@ var plotsChart = {
             var obra = jsonResponse[i];
             dataCities[obra.check_stage - 1][obra.city_id - 1]++;
         }
-
-
+        
         var data = [
             {
                 name: 'Obras Restringidas',
@@ -846,6 +839,11 @@ var plotsChart = {
                 color: plotsChart.colors[ 1 ]
             }
         ];
+
+
+        
+
+
 
         return data;
     },
