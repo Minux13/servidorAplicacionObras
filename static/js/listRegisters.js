@@ -641,14 +641,15 @@ var plotsChart = {
     program       : '',
     adjudication  : '',
     init : function(){
-        plotsChart.getData()
+        plotsChart.getData();
     },
     setChartSelect: function(){
 
-        this.department   = document.getElementById('dependencySelect').value;
+        this.department   = $('#dependencySelect').val();
         this.check_stage  = '';
         this.city         = '';
         this.year         = '';
+        this.provider     = '';
         this.funding      = '';
         this.program      = '';
         this.adjudication = '';
@@ -656,17 +657,32 @@ var plotsChart = {
         plotsChart.getData()
     },   
     search: function(){
-        this.department   = document.getElementById('departmentSearch').value;
-        this.check_stage  = document.getElementById('check_stage').value;
-        this.city         = document.getElementById('city').value;
-        this.year         = document.getElementById('year').value;
-        this.provider     = document.getElementById('provider').value;
-        this.funding      = document.getElementById('funding').value;
-        this.program      = document.getElementById('program').value;
-        this.adjudication = document.getElementById('adjudication').value;
+        this.department   = $('#departmentSearch').val();
+        this.check_stage  = $('#check_stage').val();
+        this.city         = $('#city').val();
+        this.year         = $('#year').val();
+        this.provider     = $('#provider').val();
+        this.funding      = $('#funding').val();
+        this.program      = $('#program').val();
+        this.adjudication = $('#adjudication').val();
+
+        $('#modalSearch').modal('hide');
 
         plotsChart.getData();
 
+    },
+    initStackCities : function(){
+
+        this.department   = '';
+        this.check_stage  = '';
+        this.city         = '';
+        this.year         = '';
+        this.provider     = '';
+        this.funding      = '';
+        this.program      = '';
+        this.adjudication = '';
+        
+        plotsChart.getDataStack();
     },
     chart : '',
     getData : function (){
@@ -683,12 +699,53 @@ var plotsChart = {
                 var values = plotsChart.setJsonChart(res.data);
                 var options = plotsChart.optionsChart(values)
                 
-                $('#modalSearch').modal('hide');
                 
-                document.getElementById('waintingAnimation').style.display = "none";
+                $('#genl-pie-chart').css('height','400px');
                 
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
    	            //plotsChart.chart.series[0].setData(values);
+                $('#waintingAnimation').css('display','none');
+
+            },
+
+            data:  JSON.stringify ({'department'    : plotsChart.department.toString(),
+                                    'city'          : plotsChart.city.toString(),
+                                    'check_stage'   : plotsChart.check_stage.toString(),
+                                    'year'          : plotsChart.year.toString(),
+                                    'provider'      : plotsChart.provider.toString(),
+                                    'adjudication'  : plotsChart.adjudication.toString(),
+                                    'funding'       : plotsChart.funding.toString(),
+                                    'program'       : plotsChart.program.toString(),
+                                   })
+
+        }).done(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .fail(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) .always(function() {
+            document.getElementById('waintingAnimation').style.display = "none";
+        }) ;
+
+    },
+    getDataStack : function (){
+        
+        document.getElementById('waintingAnimation').style.display = "block";
+
+        $.ajax({
+            url: '/graphics',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (res) {
+                
+
+                var values = plotsChart.setJsonStackedBar(res.data);
+                var optionsHighChart = plotsChart.optionsStackedBar(values);
+                
+                $('#genl-pie-chart').css('height','2000px');
+                plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+
+                $('#waintingAnimation').css('display','none');
 
             },
 
@@ -722,7 +779,7 @@ var plotsChart = {
             "RESCINDIDAS",
             "NO INICIADAS",
             "CON AVANCE FINANCIERO MAYOR AL FÍSICO",
-            "DE FUERZA CIVIL, POLICÍA  Y PENALES"
+            "OBRAS RESTRINGIDAS"
         ]
 
         for(var i in resp){
@@ -743,9 +800,58 @@ var plotsChart = {
         
         return values;
     },
+    setJsonStackedBar: function( jsonResponse ){
+        
+        var dataCities = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ];
+
+
+        for(var i in jsonResponse){
+            var obra = jsonResponse[i];
+            dataCities[obra.check_stage - 1][obra.city_id - 1]++;
+        }
+
+
+        var data = [
+            {
+                name: 'Obras Restringidas',
+                data: dataCities[5],
+                color: plotsChart.colors[ 6 ]
+            },{
+                name: 'Con Avance Financiero Mayor Al Físico',
+                data: dataCities[4],
+                color: plotsChart.colors[ 5 ]
+            },{
+                name: 'Rescindidas',
+                data: dataCities[3],
+                color: plotsChart.colors[ 4 ]
+            },{
+                name: 'Con Retraso',
+                data: dataCities[2],
+                color: plotsChart.colors[ 3 ]
+            },{
+                name: 'En Tiempo',
+                data: dataCities[1],
+                color: plotsChart.colors[ 2 ]
+            },{
+                name: 'Terminadas',
+                data: dataCities[0],
+                color: plotsChart.colors[ 1 ]
+            }
+        ];
+
+        return data;
+    },
     optionsChart : function(data){
 
-        var numTotales = 0; //Sum of all obras for titulo
+        var numTotales = 0; //Suma todas obras por titulo
         for(var dd in data){
             numTotales += parseInt(data[dd].y);
         }
@@ -867,6 +973,105 @@ var plotsChart = {
    	    	    data: data
    	    	}]
    	    };
+        
+        return options;
+    },
+    optionsStackedBar: function(data) {
+
+        var options = {
+            chart: {
+                type: 'bar'
+            },
+            xAxis: {
+                categories: [
+                    'Abasolo',
+                    'Agualeguas',
+                    'Los Aldamas',
+                    'Allende',
+                    'Anahuac',
+                    'Apodaca',
+                    'Aramberri',
+                    'Bustamante',
+                    'Cadereyta Jimenez',
+                    'Carmen',
+                    'Cerralvo',
+                    'Cienega de Flores',
+                    'China',
+                    'Dr. Arroyo',
+                    'Dr. Coss',
+                    'Dr. Gonzalez',
+                    'Galeana',
+                    'Garcia',
+                    'San Pedro Garza Garcia',
+                    'Gral. Bravo',
+                    'Gral. Escobedo',
+                    'Gral. Terán',
+                    'Gral. Treviño',
+                    'Gral. Zaragoza',
+                    'Gral. Zuazua',
+                    'Guadalupe',
+                    'Los Herreras',
+                    'Higueras',
+                    'Hualahuises',
+                    'Iturbide',
+                    'Juarez',
+                    'Lampazos de Naranjo',
+                    'Linares',
+                    'Marin',
+                    'Melchor Ocampo',
+                    'Mier y Noriega',
+                    'Mina',
+                    'Montemorelos',
+                    'Monterrey',
+                    'Paras',
+                    'Pesquería',
+                    'Los Ramones',
+                    'Rayones',
+                    'Sabinas Hidalgo',
+                    'Salinas Victoria',
+                    'San Nicolas de los Garza',
+                    'Hidalgo',
+                    'Santa Catarina',
+                    'Santiago',
+                    'Vallecillo',
+                    'Villaldama'
+                ],
+                labels: {
+                    step: 1
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                },
+                bar: {
+                    groupPadding:0,
+                    //pointWidth:10
+                    point: {
+   	                    events: {
+   	                        click: function () {
+                                var city = this.x;
+                                plotsChart.department   = '';
+                                plotsChart.check_stage  = '';
+                                plotsChart.city         = city+1;
+                                plotsChart.year         = '';
+                                plotsChart.provider     = '';
+                                plotsChart.funding      = '';
+                                plotsChart.program      = '';
+                                plotsChart.adjudication = '';
+                                
+                                plotsChart.getData()
+
+   	                        }
+   	                    }
+   	                }
+                }
+            },
+            series: data
+        }
         
         return options;
     },
