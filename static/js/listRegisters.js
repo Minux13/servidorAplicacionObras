@@ -832,31 +832,31 @@ var plotsChart = {
         
         var data = [
             {
-                name: 'Obras Restringidas',
+                name: 'OBRAS RESTRINGIDAS',
                 data: dataCities[6],
                 color: plotsChart.colors[ 7 ]
             },{
-                name: 'Obras Restringidas',
+                name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
                 data: dataCities[5],
                 color: plotsChart.colors[ 6 ]
             },{
-                name: 'Con Avance Financiero Mayor Al Físico',
+                name: 'NO INICIADAS',
                 data: dataCities[4],
                 color: plotsChart.colors[ 5 ]
             },{
-                name: 'Rescindidas',
+                name: 'RESCINDIDAS',
                 data: dataCities[3],
                 color: plotsChart.colors[ 4 ]
             },{
-                name: 'Con Retraso',
+                name: 'CON RETRASO',
                 data: dataCities[2],
                 color: plotsChart.colors[ 3 ]
             },{
-                name: 'En Tiempo',
+                name: 'EN TIEMPO',
                 data: dataCities[1],
                 color: plotsChart.colors[ 2 ]
             },{
-                name: 'Terminadas',
+                name: 'TERMINADAS',
                 data: dataCities[0],
                 color: plotsChart.colors[ 1 ]
             }
@@ -958,7 +958,6 @@ var plotsChart = {
             legend: {
                 useHTML: true,
                 labelFormatter: function () {
-                    bb=this
                     var a = this.percentage
                     var styleText = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px;"  '
                     var styleTextS = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 0px; font-weight:600;"  '
