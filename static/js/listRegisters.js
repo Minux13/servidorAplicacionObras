@@ -737,7 +737,7 @@ var plotsChart = {
                 
 
                 var values = plotsChart.setJsonStackedBar(res.data);
-                var optionsHighChart = plotsChart.optionsStackedBar(values);
+                var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                 
                 $('#genl-pie-chart').css('height','2000px');
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
@@ -806,14 +806,36 @@ var plotsChart = {
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         ];
 
+        var categories = citiesNL.slice(1);
+        var title      = 'TOTAL DE OBRAS ' + jsonResponse.length;
 
         for(var i in jsonResponse){
             var obra = jsonResponse[i];
             dataCities[obra.check_stage - 1][obra.city_id - 1]++;
         }
+
+        
+        if( this.department ){
+            for( var ciudad in dataCities[0] ){
+                if( dataCities[0][ciudad] == 0 && 
+                    dataCities[1][ciudad] == 0 && 
+                    dataCities[2][ciudad] == 0 && 
+                    dataCities[3][ciudad] == 0 && 
+                    dataCities[4][ciudad] == 0 && 
+                    dataCities[5][ciudad] == 0 && 
+                    dataCities[6][ciudad] == 0 ){
+                
+                    //categories[ciudad] = false;
+                }
+            }
+        }
         
         var data = [
             {
+                name: 'Obras Restringidas',
+                data: dataCities[6],
+                color: plotsChart.colors[ 7 ]
+            },{
                 name: 'Obras Restringidas',
                 data: dataCities[5],
                 color: plotsChart.colors[ 6 ]
@@ -841,11 +863,7 @@ var plotsChart = {
         ];
 
 
-        
-
-
-
-        return data;
+        return [data, categories, title];
     },
     optionsChart : function(data){
 
@@ -974,66 +992,17 @@ var plotsChart = {
         
         return options;
     },
-    optionsStackedBar: function(data) {
+    optionsStackedBar: function(data, categories, title) {
 
         var options = {
             chart: {
                 type: 'bar'
             },
+            title: {
+                text: title
+            },
             xAxis: {
-                categories: [
-                    'Abasolo',
-                    'Agualeguas',
-                    'Los Aldamas',
-                    'Allende',
-                    'Anahuac',
-                    'Apodaca',
-                    'Aramberri',
-                    'Bustamante',
-                    'Cadereyta Jimenez',
-                    'Carmen',
-                    'Cerralvo',
-                    'Cienega de Flores',
-                    'China',
-                    'Dr. Arroyo',
-                    'Dr. Coss',
-                    'Dr. Gonzalez',
-                    'Galeana',
-                    'Garcia',
-                    'San Pedro Garza Garcia',
-                    'Gral. Bravo',
-                    'Gral. Escobedo',
-                    'Gral. Terán',
-                    'Gral. Treviño',
-                    'Gral. Zaragoza',
-                    'Gral. Zuazua',
-                    'Guadalupe',
-                    'Los Herreras',
-                    'Higueras',
-                    'Hualahuises',
-                    'Iturbide',
-                    'Juarez',
-                    'Lampazos de Naranjo',
-                    'Linares',
-                    'Marin',
-                    'Melchor Ocampo',
-                    'Mier y Noriega',
-                    'Mina',
-                    'Montemorelos',
-                    'Monterrey',
-                    'Paras',
-                    'Pesquería',
-                    'Los Ramones',
-                    'Rayones',
-                    'Sabinas Hidalgo',
-                    'Salinas Victoria',
-                    'San Nicolas de los Garza',
-                    'Hidalgo',
-                    'Santa Catarina',
-                    'Santiago',
-                    'Vallecillo',
-                    'Villaldama'
-                ],
+                categories: categories,
                 labels: {
                     step: 1
                 }
@@ -1052,7 +1021,7 @@ var plotsChart = {
    	                    events: {
    	                        click: function () {
                                 var city = this.x;
-                                plotsChart.department   = '';
+                                //plotsChart.department   = '';
                                 plotsChart.check_stage  = '';
                                 plotsChart.city         = city+1;
                                 plotsChart.year         = '';
