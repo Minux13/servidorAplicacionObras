@@ -942,3 +942,6 @@ div.ui-datepicker{
     font-size: 0.86em;
     color: #555;
 }
+.highcharts-title{
+    text-align: center;
+}
