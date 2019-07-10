@@ -642,7 +642,17 @@ var plotsChart = {
     adjudication  : '',
     chartTitle    : '',
     init : function(){
-        plotsChart.getData();
+        plotsChart.getData( 'pieStatus' );
+    },
+    initStackCities : function(){
+
+        this.cleanParameters();
+        plotsChart.getData( 'barCities' );
+    },
+    initDepartmentsPie : function(){
+
+        this.cleanParameters();
+        plotsChart.getData( 'pieDepartment' );
     },
     setChartSelect: function(){
 
@@ -672,9 +682,8 @@ var plotsChart = {
         plotsChart.getData();
 
     },
-    initStackCities : function(){
-
-        this.department   = '', //$('#dependencySelect').val();
+    cleanParameters: function(){
+        this.department   = ''; 
         this.check_stage  = '';
         this.city         = '';
         this.year         = '';
@@ -682,11 +691,9 @@ var plotsChart = {
         this.funding      = '';
         this.program      = '';
         this.adjudication = '';
-        
-        plotsChart.getDataStack();
     },
     chart : '',
-    getData : function (){
+    getData : function ( chartType ){
         
         document.getElementById('waintingAnimation').style.display = "block";
 
@@ -697,52 +704,29 @@ var plotsChart = {
             contentType: 'application/json',
             success: function (res) {
                 
-                var values = plotsChart.setJsonChart(res.data);
-                var options = plotsChart.optionsChart(values)
+                if( chartType == 'pieStatus' ){
+                    var values = plotsChart.setJsonChart(res.data);
+                    var options = plotsChart.optionsChart(values)
+                    
+                    $('#genl-pie-chart').css('height','400px');
+                    plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
+
+                }else if( chartType == 'barCities' ){
+                    var values = plotsChart.setJsonStackedBar(res.data);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1]);
+                    
+                    $('#genl-pie-chart').css('height','2000px');
+                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                }else {
+                    var values = plotsChart.setJsonDeparmentChart(res.data);
+                    console.log(values);
+                    var optionsHighChart = plotsChart.optionsChart(values);
+                    
+                    $('#genl-pie-chart').css('height','400px');
+                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                }
+
                 
-                
-                $('#genl-pie-chart').css('height','400px');
-                
-                plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
-                
-                $('#waintingAnimation').css('display','none');
-
-            },
-
-            data:  JSON.stringify ({'department'    : plotsChart.department.toString(),
-                                    'city'          : plotsChart.city.toString(),
-                                    'check_stage'   : plotsChart.check_stage.toString(),
-                                    'year'          : plotsChart.year.toString(),
-                                    'provider'      : plotsChart.provider.toString(),
-                                    'adjudication'  : plotsChart.adjudication.toString(),
-                                    'funding'       : plotsChart.funding.toString(),
-                                    'program'       : plotsChart.program.toString(),
-                                   })
-
-        }).done(function() { $('#waintingAnimation').css('display','none');
-        }).fail(function() { $('#waintingAnimation').css('display','none');
-        }).always(function() { $('#waintingAnimation').css('display','none');
-        });
-
-    },
-    getDataStack : function (){
-        
-        document.getElementById('waintingAnimation').style.display = "block";
-
-        $.ajax({
-            url: '/graphics',
-            type: 'post',
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (res) {
-                
-
-                var values = plotsChart.setJsonStackedBar(res.data);
-                var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1]);
-                
-                $('#genl-pie-chart').css('height','2000px');
-                plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-
                 $('#waintingAnimation').css('display','none');
 
             },
@@ -900,6 +884,55 @@ var plotsChart = {
 
         return [data, categories];
     },
+    setJsonDeparmentChart: function(resp){
+        
+        var countDepartments = ['',0,0,0,0,0,0,0,0,0,0,0,0,0]
+        var values = [];
+
+        var namesDepartments = [ '',
+            'INFRAESTRUCTURA',
+            'ICIFED',
+            'REA',
+            'SADM',
+            'SSNL',
+            'CODETUR',
+            'CODEFRONT',
+            'DIF',
+            'FIDEPROES',
+            'FUNDIDORA',
+            'CONALEP',
+            'CAMINOS',
+            'ISSSTELEON'
+        ]
+
+
+        var finalContractedAmountTotal = 0;
+        
+        //Cuenta o aumenta el elemento que representa al departamento 
+        for(var i in resp){
+            var stat = resp[i];
+            countDepartments[stat.department_id]++;
+            //finalContractedAmountTotal += stat.final_contracted_amount;
+        }
+
+        for( var s = 1; s<=13; s++ ){
+            if( countDepartments[s] > 0 ){    
+                values.push( {
+                    name : namesDepartments[s],   
+                    y: countDepartments[s],
+                    x: s,
+                    //color: plotsChart.colors[ s ]
+                } )
+            }
+        }
+        
+        //var sfcat = finalContractedAmountTotal.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+        //Establece el titulo de la grafica, se guarda en este objeto y lo obtiene cuando se forman las opciones de la grafica
+        plotsChart.chartTitle = 'TOTAL DE OBRAS ' + resp.length + '<br>$' ;
+        
+        return values;
+    },
     optionsChart : function(data){
 
         /*var numTotales = 0; //Suma todas obras por titulo
@@ -919,7 +952,7 @@ var plotsChart = {
             var chartShowInLegend = true;
         }
         
-        //var titleTextPev = 'TOTAL DE OBRAS ';
+        var titleTextPev = 'TOTAL DE OBRAS ';
 
 
         var options = {
@@ -931,7 +964,7 @@ var plotsChart = {
                     beta: 0
                 },
                 events: {
-                    /*render: function () {
+                    render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
                         try{
                             if( plotsChart.chart ){
                                 var totalProjectsVisible = plotsChart.chart.series[0].total;
@@ -942,7 +975,7 @@ var plotsChart = {
                         catch(e){
                             ;
                         }
-                    }*/
+                    }
                 }
    	    	},
    	    	title: {
@@ -976,7 +1009,6 @@ var plotsChart = {
                                 queryString += '&program='      + plotsChart.program;
                                 queryString += '&adjudication=' + plotsChart.adjudication;
                                 var url = urlLink + queryString ;
-                                console.log(url);
                                 window.open( url ,"_self");   
    	                        }/*,
                             legendItemClick: function(){
@@ -1055,7 +1087,6 @@ var plotsChart = {
                     y: 17,
                     verticalAlign: 'top',
                     formatter: function () {
-                        console.log(this);
                         if(this.total == 0){return '';}
                         return this.total;
                     }
