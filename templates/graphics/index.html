@@ -203,15 +203,26 @@
                                         </div>
                                     </div>
                                     
-
-                                    <div class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
-                                        <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
+                                    <div class="row" >
+                                        <div class="col-md-12" id="titleChartGral">
+                                            
+                                        </div>
                                     </div>
-                                    <div class="linkPlots" id="plotTotal2" onclick="plotsChart.initStackCities();">
-                                        <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
-                                    </div>
-                                    <div class="linkPlots" id="plotTotal3" onclick="plotsChart.initDepartmentsPie();">
-                                        <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
+                                    
+                                    <div class="row" >
+                                        <div class="col-md-12">
+                                            <div id="radioSelects">
+                                                <!--<span class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
+                                                    <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
+                                                </span>-->
+                                                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.initStackCities();">
+                                                    <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
+                                                </span>
+                                                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.initDepartmentsPie();">
+                                                    <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -488,8 +499,8 @@
                     plotsChart.setChartSelect();
               	});
                 
-                //plotsChart.initStatusPie();
-                plotsChart.initStackCities();
+                plotsChart.initStatusPie();
+                //plotsChart.initStackCities();
                 
                 /*if( document.getElementById('dependencySelect').value != '' ){
                     plotsChart.init();

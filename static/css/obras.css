@@ -945,6 +945,16 @@ div.ui-datepicker{
 .highcharts-title{
     text-align: center;
 }
+#radioSelects{
+    margin: 29px 5px;
+    text-align: center;
+}
+#titleChartGral{
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.4em;
+    color: #666;
+}
 .linkPlots{
     padding: 2px 21px; 
     cursor: pointer;
