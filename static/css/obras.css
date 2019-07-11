@@ -945,3 +945,14 @@ div.ui-datepicker{
 .highcharts-title{
     text-align: center;
 }
+.linkPlots{
+    padding: 2px 21px; 
+    cursor: pointer;
+    color: #666;
+}
+.linkPlots[active]{
+    color: #43a;
+}
+.linkPlots:hover{
+    color: #43a;
+}

@@ -204,10 +204,13 @@
                                     </div>
                                     
 
-                                    <div style="padding: 2px 21px; cursor: pointer;" onclick="plotsChart.initStackCities();">
+                                    <div class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
+                                        <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
+                                    </div>
+                                    <div class="linkPlots" id="plotTotal2" onclick="plotsChart.initStackCities();">
                                         <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
                                     </div>
-                                    <div style="padding: 2px 21px; cursor: pointer;" onclick="plotsChart.initDepartmentsPie();">
+                                    <div class="linkPlots" id="plotTotal3" onclick="plotsChart.initDepartmentsPie();">
                                         <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
                                     </div>
 
@@ -485,8 +488,8 @@
                     plotsChart.setChartSelect();
               	});
                 
-                plotsChart.init();
-                //plotsChart.initStackCities();
+                //plotsChart.initStatusPie();
+                plotsChart.initStackCities();
                 
                 /*if( document.getElementById('dependencySelect').value != '' ){
                     plotsChart.init();

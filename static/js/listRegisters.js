@@ -641,56 +641,23 @@ var plotsChart = {
     program       : '',
     adjudication  : '',
     chartTitle    : '',
-    init : function(){
+    initStatusPie : function(){
+        this.cleanParameters();
         plotsChart.getData( 'pieStatus' );
+        $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
     },
     initStackCities : function(){
-
         this.cleanParameters();
         plotsChart.getData( 'barCities' );
+        $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
     },
     initDepartmentsPie : function(){
-
         this.cleanParameters();
         plotsChart.getData( 'pieDepartment' );
-    },
-    setChartSelect: function(){
-
-        this.department   = $('#dependencySelect').val();
-        this.check_stage  = '';
-        this.city         = '';
-        this.year         = '';
-        this.provider     = '';
-        this.funding      = '';
-        this.program      = '';
-        this.adjudication = '';
-        
-        plotsChart.getData()
-    },   
-    search: function(){
-        this.department   = $('#departmentSearch').val();
-        this.check_stage  = $('#check_stage').val();
-        this.city         = $('#city').val();
-        this.year         = $('#year').val();
-        this.provider     = $('#provider').val();
-        this.funding      = $('#funding').val();
-        this.program      = $('#program').val();
-        this.adjudication = $('#adjudication').val();
-
-        $('#modalSearch').modal('hide');
-
-        plotsChart.getData();
-
+        $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
     },
     cleanParameters: function(){
-        this.department   = ''; 
-        this.check_stage  = '';
-        this.city         = '';
-        this.year         = '';
-        this.provider     = '';
-        this.funding      = '';
-        this.program      = '';
-        this.adjudication = '';
+        this.department = this.check_stage = this.city = this.year = this.provider = this.funding = this.program = this.adjudication = '';
     },
     chart : '',
     getData : function ( chartType ){
@@ -713,13 +680,12 @@ var plotsChart = {
 
                 }else if( chartType == 'barCities' ){
                     var values = plotsChart.setJsonStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1]);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                     
                     $('#genl-pie-chart').css('height','2000px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }else {
                     var values = plotsChart.setJsonDeparmentChart(res.data);
-                    console.log(values);
                     var optionsHighChart = plotsChart.optionsChart(values);
                     
                     $('#genl-pie-chart').css('height','400px');
@@ -748,7 +714,8 @@ var plotsChart = {
 
     },
     setJsonChart : function( resp ){
-        var countStages = ['',0,0,0,0,0,0,0]
+        var countStages = ['',0,0,0,0,0,0,0];
+        var countStagesAmount = [0,0,0,0,0,0,0,0];  
         var values = [];
 
         var namesStages = [ '',
@@ -762,13 +729,14 @@ var plotsChart = {
         ]
 
 
-        var finalContractedAmountTotal = 0;
-
         for(var i in resp){
             var stat = resp[i];
             countStages[stat.check_stage]++;
-            finalContractedAmountTotal += stat.final_contracted_amount;
+            countStagesAmount[ stat.check_stage ] += stat.final_contracted_amount;
         }
+
+
+        var finalContractedAmountTotal =  countStagesAmount.reduce(function(total, sum){return total + sum;}) ;
 
         for( var s = 1; s<=7; s++ ){
             if( countStages[s] > 0 ){    
@@ -776,6 +744,7 @@ var plotsChart = {
                     name : namesStages[s],   
                     y: countStages[s],
                     x: s,
+                    amount: countStagesAmount[s],
                     color: plotsChart.colors[ s ]
                 } )
             }
@@ -800,93 +769,107 @@ var plotsChart = {
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         ];
+        
+        var countCitiesAmount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] ;  
 
         var categories        = citiesNL.slice(1);
-        plotsChart.chartTitle = 'TOTAL DE OBRAS ' + jsonResponse.length;
 
         //Por cada obra aumenta en 1 el elemento countCities[estatus][ciudad]
         for(var i in jsonResponse){
             var obra = jsonResponse[i];
             countCities[obra.check_stage - 1][obra.city_id - 1]++;
+            countCitiesAmount[obra.city_id - 1] += obra.final_contracted_amount;
         }
 
+        var finalContractedAmountTotal =  countCitiesAmount.reduce(function(total, sum){return total + sum;}) ;
 
-        /*
+        
         var dataForStatus = [[],[],[],[],[],[],[]];
-
         for( var ciudad in countCities[0] ){
 
             dataForStatus[0].push({
                 y: countCities[0][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[1].push({
                 y: countCities[1][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[2].push({
                 y: countCities[2][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[3].push({
                 y: countCities[3][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[4].push({
                 y: countCities[4][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[5].push({
                 y: countCities[5][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
             dataForStatus[6].push({
                 y: countCities[6][ciudad],
-                city: parseInt(ciudad)+1
+                city: parseInt(ciudad)+1,
+                amount: countCitiesAmount[ciudad]
             })
 
         }
-        */
-
         
+
         var data = [
             {
                 name: 'OBRAS RESTRINGIDAS',
-                data: countCities[6],
+                data: dataForStatus[6],
                 color: plotsChart.colors[ 7 ]
             },{
                 name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
-                data: countCities[5],
+                data: dataForStatus[5],
                 color: plotsChart.colors[ 6 ]
             },{
                 name: 'NO INICIADAS',
-                data: countCities[4],
+                data: dataForStatus[4],
                 color: plotsChart.colors[ 5 ]
             },{
                 name: 'RESCINDIDAS',
-                data: countCities[3],
+                data: dataForStatus[3],
                 color: plotsChart.colors[ 4 ]
             },{
                 name: 'CON RETRASO',
-                data: countCities[2],
+                data: dataForStatus[2],
                 color: plotsChart.colors[ 3 ]
             },{
                 name: 'EN TIEMPO',
-                data: countCities[1],
+                data: dataForStatus[1],
                 color: plotsChart.colors[ 2 ]
             },{
                 name: 'TERMINADAS',
-                data: countCities[0],
+                data: dataForStatus[0],
                 color: plotsChart.colors[ 1 ]
             }
         ];
+        
+        
+        var sfcat = finalContractedAmountTotal.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 
+        plotsChart.chartTitle = 'TOTAL DE OBRAS ' + jsonResponse.length + '<br>$' +  sfcat;
 
-        return [data, categories];
+        return [data, categories, countCitiesAmount];
     },
     setJsonDeparmentChart: function(resp){
         
-        var countDepartments = ['',0,0,0,0,0,0,0,0,0,0,0,0,0]
+        var countDepartments = ['',0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var countDepartmentsAmount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  
         var values = [];
 
         var namesDepartments = [ '',
@@ -905,15 +888,16 @@ var plotsChart = {
             'ISSSTELEON'
         ]
 
-
         var finalContractedAmountTotal = 0;
         
         //Cuenta o aumenta el elemento que representa al departamento 
         for(var i in resp){
             var stat = resp[i];
             countDepartments[stat.department_id]++;
-            //finalContractedAmountTotal += stat.final_contracted_amount;
+            countDepartmentsAmount[ stat.department_id ] += stat.final_contracted_amount;
         }
+
+        var finalContractedAmountTotal =  countDepartmentsAmount.reduce(function(total, sum){return total + sum;}) ;
 
         for( var s = 1; s<=13; s++ ){
             if( countDepartments[s] > 0 ){    
@@ -921,15 +905,16 @@ var plotsChart = {
                     name : namesDepartments[s],   
                     y: countDepartments[s],
                     x: s,
+                    amount: countDepartmentsAmount[s],
                     //color: plotsChart.colors[ s ]
                 } )
             }
         }
         
-        //var sfcat = finalContractedAmountTotal.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        var sfcat = finalContractedAmountTotal.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 
         //Establece el titulo de la grafica, se guarda en este objeto y lo obtiene cuando se forman las opciones de la grafica
-        plotsChart.chartTitle = 'TOTAL DE OBRAS ' + resp.length + '<br>$' ;
+        plotsChart.chartTitle = 'TOTAL DE OBRAS ' + resp.length + '<br>$' + sfcat;
         
         return values;
     },
@@ -953,7 +938,6 @@ var plotsChart = {
         }
         
         var titleTextPev = 'TOTAL DE OBRAS ';
-
 
         var options = {
    	        chart: {
@@ -1020,7 +1004,15 @@ var plotsChart = {
    	    		        enabled: chartDataLabel,
    	    		        color: '#000000',
    	    		        connectorColor: '#000000',
-   	    		        format: '<b>{point.name}</b>: {point.y:.0f}'
+   	    		        //format: 
+                        formatter: function(){
+                            var point = this.point;
+                            var amount = this.point.amount;
+                            
+                            var sfcat = amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                            return '<b>' + point.y + ' ' + point.name + ' <span style="color:#446;">$' + sfcat + '</span>';
+                        }
    	                }
    	    	    }
    	        },
@@ -1060,7 +1052,7 @@ var plotsChart = {
         
         return options;
     },
-    optionsStackedBar: function(data, categories) {
+    optionsStackedBar: function(data, categories, amountsByCity) {
 
         var options = {
             chart: {
@@ -1084,11 +1076,13 @@ var plotsChart = {
                         fontWeight: 'bold'
                     },
                     x: 5,
-                    y: 17,
+                    y: 10,
                     verticalAlign: 'top',
+                    amountsByCity : amountsByCity,
                     formatter: function () {
                         if(this.total == 0){return '';}
-                        return this.total;
+                        var amount = this.options.amountsByCity[this.x].toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        return '<span style="color:#000;font-weight:100;">'+this.total + ' Obras </span><br><span style="color:#336;margin-left:13px;font-weight:100;"> $'+ amount +'</span>';
                     }
                 }
             },
@@ -1126,6 +1120,34 @@ var plotsChart = {
         }
         
         return options;
+    },
+    setChartSelect: function(){
+
+        this.department   = $('#dependencySelect').val();
+        this.check_stage  = '';
+        this.city         = '';
+        this.year         = '';
+        this.provider     = '';
+        this.funding      = '';
+        this.program      = '';
+        this.adjudication = '';
+        
+        plotsChart.getData()
+    },   
+    search: function(){
+        this.department   = $('#departmentSearch').val();
+        this.check_stage  = $('#check_stage').val();
+        this.city         = $('#city').val();
+        this.year         = $('#year').val();
+        this.provider     = $('#provider').val();
+        this.funding      = $('#funding').val();
+        this.program      = $('#program').val();
+        this.adjudication = $('#adjudication').val();
+
+        $('#modalSearch').modal('hide');
+
+        plotsChart.getData();
+
     },
     colors : [
         '',
