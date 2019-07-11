@@ -656,15 +656,15 @@ var plotsChart = {
     },
     initStatusPie : function(){
         this.cleanParameters();
-        plotsChart.getData( 'pieStatus' );
+        plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
         $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
     },
     initStackCities : function(){
         //this.cleanParameters();
-        //plotsChart.getData( 'barCities' );
+        //plotsChart.getData( 'barCities',  plotsChart.chartAfterCitiesBar.init );
 
         var values = plotsChart.setJsonStackedBar(this.data);
-        var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+        var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], plotsChart.chartAfterCitiesBar.init );
         $('#genl-pie-chart').css('height','2000px');
         plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 
@@ -672,9 +672,10 @@ var plotsChart = {
     },
     initDepartmentsPie : function(){
         //this.cleanParameters();
-        //plotsChart.getData( 'pieDepartment' );
+        //plotsChart.getData( 'pieDepartment', plotsChart.chartAfterDepartmentsPie.init );
+
         var values = plotsChart.setJsonDepartmentPie(this.data);
-        var optionsHighChart = plotsChart.optionsChart(values);
+        var optionsHighChart = plotsChart.optionsChart(values, plotsChart.chartAfterDepartmentsPie.init );
         $('#genl-pie-chart').css('height','400px');
         plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
         
@@ -685,7 +686,7 @@ var plotsChart = {
             plotsChart.cleanParameters();
             plotsChart.city = cityIdDB;
             plotsChart.chartTitle.titleGral = citiesNL[cityIdDB];
-            this.statusPie();
+            plotsChart.chartAfterCitiesBar.statusPie();
             
             var strOptions = `
                 <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterCitiesBar.statusPie();">
@@ -702,15 +703,15 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus' );
+            plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         pieDepartment : function(){
-            plotsChart.getData( 'pieDepartment' );
+            plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros' );
+            plotsChart.getData( 'providerBarWithOutZeros', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -719,8 +720,7 @@ var plotsChart = {
             plotsChart.cleanParameters();
             plotsChart.department = departmentIdDB;
             plotsChart.chartTitle.titleGral = departmentsObras[departmentIdDB];
-            this.statusPie();
-            
+            plotsChart.chartAfterDepartmentsPie.statusPie();
             var strOptions = `
                 <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterDepartmentsPie.statusPie();">
                     <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
@@ -736,25 +736,25 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus' );
+            plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         stackCities : function(){ 
             var values = plotsChart.setJsonStackedBar(plotsChart.data);
-            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(){console.log("callback");});
             $('#genl-pie-chart').css('height','2000px');
             plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-            //plotsChart.getData( 'pieDepartment' );
+            //plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
             //$('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros' );
+            plotsChart.getData( 'providerBarWithOutZeros', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
     chart : '',
     data  : undefined,
-    getData : function ( chartType ){
+    getData : function ( chartType, callBackClick ){
         
         document.getElementById('waintingAnimation').style.display = "block";
 
@@ -768,23 +768,23 @@ var plotsChart = {
                 plotsChart.data = res.data;
                 if( chartType == 'pieStatus' ){
                     var values = plotsChart.setJsonChart(res.data);
-                    var options = plotsChart.optionsChart(values)
+                    var options = plotsChart.optionsChart(values, callBackClick)
                     $('#genl-pie-chart').css('height','400px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
                 }else if( chartType == 'barCities' ){
                     var values = plotsChart.setJsonStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], callBackClick);
                     $('#genl-pie-chart').css('height','2000px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }else if( chartType == 'pieDepartment' ){
                     var values = plotsChart.setJsonDepartmentPie(res.data);
-                    var optionsHighChart = plotsChart.optionsChart(values);
+                    var optionsHighChart = plotsChart.optionsChart(values, callBackClick);
                     $('#genl-pie-chart').css('height','400px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }else if( chartType == 'providerBarWithOutZeros' ){
                     var values = plotsChart.setJsonStackedBarWhitOutZeros(res.data);
-                    var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1], values[2]);
-                    $('#genl-pie-chart').css('height','1000px');
+                    var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1], callBackClick);
+                    $('#genl-pie-chart').css('height', values[0].length*30 + 'px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }
 
@@ -1013,44 +1013,42 @@ var plotsChart = {
         
         var providersObj = [];
 
-        console.log(jsonResponse);
-
         //Por cada obra aumenta en 1 el elemento countCities[estatus][ciudad]
         for(var i in jsonResponse){
             var obra = jsonResponse[i];
             if( providersObj['provider_' + obra.provider_id] ){
-                 providersObj['provider_' + obra.provider_id].count += 1;
+                 providersObj['provider_' + obra.provider_id].y += 1;
                  providersObj['provider_' + obra.provider_id].amount += obra.final_contracted_amount;
             }else{
                 providersObj['provider_' + obra.provider_id] = {
-                    count: 1,
-                    id: obra.provider_id,
-                    name: obra.provider,
-                    amount: obra.final_contracted_amount
+                    y      : 1,
+                    id     : obra.provider_id,
+                    name   : obra.provider,
+                    color  : '#939',
+                    amount : obra.final_contracted_amount
                 };
             }
             //countCitiesAmount[obra.city_id - 1] += obra.final_contracted_amount;
         }
-        console.log(providersObj);
+
         
-        var categories = [];
+        //var categories = [];
         var data = [];
         var finalContractedAmountTotal = 0;
         for( var p in providersObj ){
-            categories.push(providersObj[p].name);
-            data.push(providersObj[p].count);
+            //categories.push(providersObj[p].name);
+            data.push(providersObj[p]);
             finalContractedAmountTotal += providersObj[p].amount;
         }
+        
  
 
         plotsChart.chartTitle.obras = jsonResponse.length;
         plotsChart.chartTitle.amount = finalContractedAmountTotal;
+
+        return[ data, jsonResponse.length ];
         
-        console.log(data);
-        console.log(categories);
-
-
-        return [data, categories, jsonResponse.length];
+        //return [data, categories, jsonResponse.length];
 
         /*
         var finalContractedAmountTotal =  countCitiesAmount.reduce(function(total, sum){return total + sum;}) ;
@@ -1136,16 +1134,9 @@ var plotsChart = {
         return [data, categories, countCitiesAmount];
         */
     },
-    optionsChart : function(data){
+    optionsChart : function(data, callBackClick){
 
-        /*var numTotales = 0; //Suma todas obras por titulo
-        for(var dd in data){
-            numTotales += parseInt(data[dd].y);
-        }*/
-        
-            
         var widthWindow = jQuery(window).width()
-
 
         if(widthWindow < 600){
             var chartDataLabel = false;                
@@ -1196,8 +1187,7 @@ var plotsChart = {
    	                point: {
    	                    events: {
    	                        click: function () {
-                                console.log(this.x);
-                                plotsChart.chartAfterDepartmentsPie.init(this.x )
+                                callBackClick( this.x )
    	                        }/*,
                             legendItemClick: function(){
                                 console.log(this.series.total);                                
@@ -1256,7 +1246,7 @@ var plotsChart = {
         
         return options;
     },
-    optionsStackedBar: function(data, categories, amountsByCity) {
+    optionsStackedBar: function(data, categories, amountsByCity, callBackClick ) {
 
         var options = {
             chart: {
@@ -1303,7 +1293,8 @@ var plotsChart = {
                     point: {
    	                    events: {
    	                        click: function () {
-                                plotsChart.chartAfterCitiesBar.init(this.x + 1)
+                                callBackClick( this.x + 1 )
+                                //plotsChart.chartAfterCitiesBar.init(this.x + 1)
    	                        }
    	                    }
    	                }
@@ -1314,19 +1305,42 @@ var plotsChart = {
         
         return options;
     },
-    optionsSimpleBar: function(data, categories, amountsByCity) {
+    optionsSimpleBar: function(data, jsonLength, amountsByCity) {
 
         var options = {
             chart: {
-                type: 'column'
+                type: 'bar'
             },
             title: {
                 text: plotsChart.chartTitle.setTitle()
             },
-            xAxis: {
-                categories: categories,
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true,
+                        inside: false,
+                        formatter: function(){
+                            return this.y + ' Obras <span style="color:#666;">$' + this.point.amount + '</span>';
+                        }
+                    }
+                }
             },
-            series: data
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Obras',
+                showInLegend: false,
+                data: data
+            }]
         }
         
         return options;
