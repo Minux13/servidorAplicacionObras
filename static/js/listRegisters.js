@@ -745,7 +745,7 @@ var plotsChart = {
             $('#genl-pie-chart').css('height','2000px');
             plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
             //plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
-            //$('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
+            $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
             plotsChart.getData( 'providerBarWithOutZeros', function(){console.log("callback");} );
@@ -1320,7 +1320,8 @@ var plotsChart = {
                         enabled: true,
                         inside: false,
                         formatter: function(){
-                            return this.y + ' Obras <span style="color:#666;">$' + this.point.amount + '</span>';
+                            var aamount = this.point.amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            return this.y + ' Obras <span style="color:#666;">$' + aamount + '</span>';
                         }
                     }
                 }
