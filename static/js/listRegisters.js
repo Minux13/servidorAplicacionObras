@@ -825,7 +825,8 @@ var plotsChart = {
                 }else if( plotsChart.chartType == 'providerBarWithOutZeros' ){
                     var values = plotsChart.setJsonStackedBarWhitOutZeros(res.data);
                     var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1] );
-                    $('#genl-pie-chart').css('height', values[0].length*40 + 'px');
+                    var heightChart = values[0].length*40 + 150;
+                    $('#genl-pie-chart').css('height', heightChart + 'px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }
 
