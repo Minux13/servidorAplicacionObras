@@ -658,7 +658,7 @@ var plotsChart = {
         this.department = this.check_stage = this.city = this.startDate = this.endDate = this.provider = this.funding = this.program = this.adjudication = '';
     },
     initStatusPie : function(){
-        this.cleanParameters();
+        //this.cleanParameters();
         plotsChart.chartType = 'pieStatus';
         plotsChart.functionClick = function(){console.log("callback");};
         plotsChart.getData();
@@ -692,7 +692,7 @@ var plotsChart = {
     },
     chartAfterCitiesBar: {
         init: function( cityIdDB ){
-            plotsChart.cleanParameters();
+            //plotsChart.cleanParameters();
             plotsChart.city = cityIdDB;
             plotsChart.chartTitle.titleGral = citiesNL[cityIdDB];
             plotsChart.chartAfterCitiesBar.statusPie();
@@ -732,7 +732,7 @@ var plotsChart = {
     },
     chartAfterDepartmentsPie: {
         init: function( departmentIdDB ){
-            plotsChart.cleanParameters();
+            //plotsChart.cleanParameters();
             plotsChart.department = departmentIdDB;
             plotsChart.chartTitle.titleGral = departmentsObras[departmentIdDB];
             plotsChart.chartAfterDepartmentsPie.statusPie();
