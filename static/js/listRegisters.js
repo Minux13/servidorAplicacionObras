@@ -1384,7 +1384,7 @@ var listStatusProjects = {
     funding         : '',
     program         : '',
     adjudication    : '',
-    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName ){
+    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName, providerN ){
         var stringTag = `
          <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
 
@@ -1399,24 +1399,33 @@ var listStatusProjects = {
                             ` + contractNumber + `
                          </div>
                      </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                          <div class="obracategoriaaa" ><i class="fas fa-building"></i> </div>
                          <div class="valueee ">
                             ` + departmentName + `
                          </div>
                      </div>
-                     <div class="col-md-3">
+                     <div class="col-md-4">
                          <div class="obramunicipiooo" ><i class="fas fa-map"></i> </div>
                          <div class="valueee ">
                             ` + cityProject + `
                          </div>
                      </div>
-                     <div class="col-md-3">
+                 </div>
+                 <div class="row  municipioYCategoria" >
+                     <div class="col-md-4">
                          <div class="obracategoriaaa" ><i class="fas fa-industry"></i> </div>
                          <div class="valueee ">
                             ` + categoriaProject + `
                          </div>
                      </div>
+                     <div class="col-md-8">
+                         <div class="obracategoriaaa" ><i class="fas fa-user-tie"></i> </div>
+                         <div class="valueee ">
+                            ` + providerN + `
+                         </div>
+                     </div>
+
                   </div>
              </div>
          </div>
@@ -1436,7 +1445,9 @@ var listStatusProjects = {
                                                           rows[i].project_id,
                                                           idStatus,
                                                           rows[i].contract_number,
-                                                          rows[i].department ));
+                                                          rows[i].department,
+                                                          rows[i].provider 
+                                                        ));
         }
         
         document.getElementById('table-obras').innerHTML = strTagRows;
@@ -1457,8 +1468,10 @@ var listStatusProjects = {
                 listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
                 listStatusProjects.buttons.create( res.count.count );
 
-                $('#headerListProjects').css("borderBottom", plotsChart.colors[listStatusProjects.statusId] + ' 2px solid');
-                $('#nameStatusProjectTitle').html(res.count.count + ' Obras ' + $('#checkState'+listStatusProjects.statusId).val());
+                var colorLine = plotsChart.colors[listStatusProjects.statusId] ? plotsChart.colors[listStatusProjects.statusId] : '#aaa;'
+                
+                $('#headerListProjects').css("borderBottom", colorLine + ' 2px solid');
+                $('#nameStatusProjectTitle').html(res.count.count + ' Obras ');
 
                 $('#waintingAnimation').css("display", "none");
                 
