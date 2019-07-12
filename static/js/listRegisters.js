@@ -703,15 +703,15 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
+            plotsChart.getData( 'pieStatus', function(s){plotsChart.check_stage = s; plotsChart.openUrl();} );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         pieDepartment : function(){
-            plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
+            plotsChart.getData( 'pieDepartment', function(s){plotsChart.department = s; plotsChart.openUrl();} );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros', function(){console.log("callback");} );
+            plotsChart.getData( 'providerBarWithOutZeros', function(s){plotsChart.provider = s; plotsChart.openUrl();} );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -736,21 +736,40 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
+            plotsChart.getData( 'pieStatus', function(s){plotsChart.check_stage = s; plotsChart.openUrl();} );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         stackCities : function(){ 
             var values = plotsChart.setJsonStackedBar(plotsChart.data);
-            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(){console.log("callback");});
+            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(s){plotsChart.city = s; plotsChart.openUrl();});
             $('#genl-pie-chart').css('height','2000px');
             plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
             //plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros', function(){console.log("callback");} );
+            plotsChart.getData( 'providerBarWithOutZeros', function(s){plotsChart.provider = s; plotsChart.openUrl();} );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
+    },
+    openUrl: function(){
+        var urlLink = $('#urlLink').val();
+
+        var department  = plotsChart.department;
+        var statusIdNum = plotsChart.check_stage;
+        var city        = plotsChart.city ;
+
+        var queryString = '?department=' + department;
+        queryString += '&status=' + statusIdNum;
+        queryString += '&city=' + city;
+
+        queryString += '&year='         + plotsChart.year;
+        queryString += '&provider='     + plotsChart.provider;
+        queryString += '&funding='      + plotsChart.funding;
+        queryString += '&program='      + plotsChart.program;
+        queryString += '&adjudication=' + plotsChart.adjudication;
+        var url = urlLink + queryString ;
+        window.open( url ,"_self");
     },
     chart : '',
     data  : undefined,
@@ -784,7 +803,7 @@ var plotsChart = {
                 }else if( chartType == 'providerBarWithOutZeros' ){
                     var values = plotsChart.setJsonStackedBarWhitOutZeros(res.data);
                     var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1], callBackClick);
-                    $('#genl-pie-chart').css('height', values[0].length*30 + 'px');
+                    $('#genl-pie-chart').css('height', values[0].length*40 + 'px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }
 
@@ -1047,92 +1066,6 @@ var plotsChart = {
         plotsChart.chartTitle.amount = finalContractedAmountTotal;
 
         return[ data, jsonResponse.length ];
-        
-        //return [data, categories, jsonResponse.length];
-
-        /*
-        var finalContractedAmountTotal =  countCitiesAmount.reduce(function(total, sum){return total + sum;}) ;
-
-        
-        var dataForStatus = [[],[],[],[],[],[],[]];
-        for( var ciudad in countCities[0] ){
-
-            dataForStatus[0].push({
-                y: countCities[0][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[1].push({
-                y: countCities[1][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[2].push({
-                y: countCities[2][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[3].push({
-                y: countCities[3][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[4].push({
-                y: countCities[4][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[5].push({
-                y: countCities[5][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-            dataForStatus[6].push({
-                y: countCities[6][ciudad],
-                city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
-            })
-
-        }
-        
-
-        var data = [
-            {
-                name: 'OBRAS RESTRINGIDAS',
-                data: dataForStatus[6],
-                color: plotsChart.colors[ 7 ]
-            },{
-                name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
-                data: dataForStatus[5],
-                color: plotsChart.colors[ 6 ]
-            },{
-                name: 'NO INICIADAS',
-                data: dataForStatus[4],
-                color: plotsChart.colors[ 5 ]
-            },{
-                name: 'RESCINDIDAS',
-                data: dataForStatus[3],
-                color: plotsChart.colors[ 4 ]
-            },{
-                name: 'CON RETRASO',
-                data: dataForStatus[2],
-                color: plotsChart.colors[ 3 ]
-            },{
-                name: 'EN TIEMPO',
-                data: dataForStatus[1],
-                color: plotsChart.colors[ 2 ]
-            },{
-                name: 'TERMINADAS',
-                data: dataForStatus[0],
-                color: plotsChart.colors[ 1 ]
-            }
-        ];
-        
-        this.chartTitle.obras = jsonResponse.length;
-        this.chartTitle.amount = finalContractedAmountTotal;
-
-        return [data, categories, countCitiesAmount];
-        */
     },
     optionsChart : function(data, callBackClick){
 
@@ -1161,8 +1094,8 @@ var plotsChart = {
                         try{
                             if( plotsChart.chart ){
                                 var totalProjectsVisible = plotsChart.chart.series[0].total;
-                                plotsChart.chartTitle = titleTextPev + totalProjectsVisible;
-                                plotsChart.chart.setTitle({ text: plotsChart.chartTitle } )
+                                plotsChart.chartTitle.obras = totalProjectsVisible;
+                                plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
                             }
                         }
                         catch(e){
@@ -1305,7 +1238,7 @@ var plotsChart = {
         
         return options;
     },
-    optionsSimpleBar: function(data, jsonLength, amountsByCity) {
+    optionsSimpleBar: function(data, jsonLength, callBackClick) {
 
         var options = {
             chart: {
@@ -1321,9 +1254,18 @@ var plotsChart = {
                         inside: false,
                         formatter: function(){
                             var aamount = this.point.amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            return this.y + ' Obras <span style="color:#666;">$' + aamount + '</span>';
+                            return this.y + ' Obras <span >$' + aamount + '</span>';
                         }
                     }
+                },
+                bar: {
+                    point: {
+   	                    events: {
+   	                        click: function () {
+                                callBackClick( this.id )
+   	                        }
+   	                    }
+   	                }
                 }
             },
             xAxis: {
