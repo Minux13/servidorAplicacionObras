@@ -966,3 +966,8 @@ div.ui-datepicker{
 .linkPlots:hover{
     color: #43a;
 }
+#periodDateChart{
+    background: transparent;
+    border: white;
+    padding: 5px 8px;
+}

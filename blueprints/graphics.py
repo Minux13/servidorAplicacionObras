@@ -32,13 +32,14 @@ def graphicsList():
         department   = '&department='          + data['department']   if data['department']   != '' else ''
         check_stage  = '&check_stage='         + data['check_stage']  if data['check_stage']  != '' else ''
         city         = '&city='                + data['city']         if data['city']         != '' else ''
-        year         = '&contract_start_date=' + data['year']         if data['year']         != '' else ''
+        startDate    = '&contract_start_date=' + data['startDate']    if data['startDate']    != '' else ''
+        endDate      = '&contract_end_date='   + data['endDate']      if data['endDate']      != '' else ''
         provider     = '&provider='            + data['provider']     if data['provider']     != '' else ''
         funding      = '&funding='             + data['funding']      if data['funding']      != '' else ''
         program      = '&program='             + data['program']      if data['program']      != '' else ''
         adjudication = '&adjudication='        + data['adjudication'] if data['adjudication'] != '' else ''
         
-        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + year + provider + funding + program + adjudication
+        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
         r = requests.get( url) 
         dataRes = r.json() 
         
@@ -54,7 +55,8 @@ def projectsFollowUps():
         departmentId   = request.args.get('department')
         statusId       = request.args.get('status')
         cityId         = request.args.get('city') 
-        yearId         = request.args.get('year') 
+        startDate      = request.args.get('startDate') 
+        endDate        = request.args.get('endDate') 
         providerId     = request.args.get('provider') 
         fundingId      = request.args.get('funding')
         programId      = request.args.get('program')
@@ -68,7 +70,8 @@ def projectsFollowUps():
                                 dependencyId   = departmentId, 
                                 statusId       = statusId,
                                 cityId         = cityId,
-                                yearId         = yearId,        
+                                startDate      = startDate,        
+                                endDate        = endDate,        
                                 providerId     = providerId,    
                                 fundingId      = fundingId,     
                                 programId      = programId,     
@@ -84,7 +87,8 @@ def projectsFollowUps():
         departmentId    = str(data['department'])
         statusId        = str(data['status'])
         cityId          = str(data['city'])
-        yearId          = str(data['year'])
+        startDate       = str(data['startDate'])
+        endDate         = str(data['endDate'])
         providerId      = str(data['provider'])
         fundingId       = str(data['funding'])
         programId       = str(data['program'])
@@ -96,14 +100,15 @@ def projectsFollowUps():
         department   = '&department='           + departmentId   if departmentId     != '' else ''
         check_stage  = '&check_stage='          + statusId       if statusId         != '' else ''
         city         = '&city='                 + cityId         if cityId           != '' else ''
-        year         = '&contract_start_date='  + yearId         if yearId           != '' else ''
+        startDate    = '&contract_start_date='  + startDate      if startDate        != '' else ''
+        endDate      = '&contract_end_date='    + endDate        if endDate          != '' else ''
         provider     = '&provider='             + providerId     if providerId       != '' else ''
         funding      = '&funding='              + fundingId      if fundingId        != '' else ''
         program      = '&program='              + programId      if programId        != '' else ''
         adjudication = '&adjudication='         + adjudicationId if adjudicationId   != '' else ''
 
-        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
-        urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + year + provider + funding + program + adjudication
+        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+        urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
         r = requests.get( url) 
         rC = requests.get( urlCount) 
         dataRes = r.json() 

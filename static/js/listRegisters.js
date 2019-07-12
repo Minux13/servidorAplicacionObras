@@ -635,11 +635,14 @@ var plotsChart = {
     department    : '',
     check_stage   : '',
     city          : '',
-    year          : '',
+    startDate     : '',
+    endDate       : '',
     provider      : '',
     funding       : '',
     program       : '',
     adjudication  : '',
+    chartType     : '',
+    functionClick : function(){;},
     chartTitle    : {
         obras: 0,
         amount: 0,
@@ -652,32 +655,38 @@ var plotsChart = {
         }
     },
     cleanParameters: function(){
-        this.department = this.check_stage = this.city = this.year = this.provider = this.funding = this.program = this.adjudication = '';
+        this.department = this.check_stage = this.city = this.startDate = this.endDate = this.provider = this.funding = this.program = this.adjudication = '';
     },
     initStatusPie : function(){
         this.cleanParameters();
-        plotsChart.getData( 'pieStatus', function(){console.log("callback");} );
+        plotsChart.chartType = 'pieStatus';
+        plotsChart.functionClick = function(){console.log("callback");};
+        plotsChart.getData();
         $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
     },
     initStackCities : function(){
         //this.cleanParameters();
-        //plotsChart.getData( 'barCities',  plotsChart.chartAfterCitiesBar.init );
+        plotsChart.chartType = 'barCities';
+        plotsChart.functionClick = plotsChart.chartAfterCitiesBar.init;
+        plotsChart.getData(  );
 
-        var values = plotsChart.setJsonStackedBar(this.data);
-        var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], plotsChart.chartAfterCitiesBar.init );
-        $('#genl-pie-chart').css('height','2000px');
-        plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+        //var values = plotsChart.setJsonStackedBar(this.data);
+        //var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], plotsChart.chartAfterCitiesBar.init );
+        //$('#genl-pie-chart').css('height','2000px');
+        //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 
         $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
     },
     initDepartmentsPie : function(){
         //this.cleanParameters();
-        //plotsChart.getData( 'pieDepartment', plotsChart.chartAfterDepartmentsPie.init );
+        plotsChart.chartType = 'pieDepartment';
+        plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
+        plotsChart.getData(  );
 
-        var values = plotsChart.setJsonDepartmentPie(this.data);
-        var optionsHighChart = plotsChart.optionsChart(values, plotsChart.chartAfterDepartmentsPie.init );
-        $('#genl-pie-chart').css('height','400px');
-        plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+        //var values = plotsChart.setJsonDepartmentPie(this.data);
+        //var optionsHighChart = plotsChart.optionsChart(values, plotsChart.chartAfterDepartmentsPie.init );
+        //$('#genl-pie-chart').css('height','400px');
+        //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
         
         $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
     },
@@ -703,15 +712,21 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus', function(s){plotsChart.check_stage = s; plotsChart.openUrl();} );
+            plotsChart.chartType = 'pieStatus';
+            plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
+            plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         pieDepartment : function(){
-            plotsChart.getData( 'pieDepartment', function(s){plotsChart.department = s; plotsChart.openUrl();} );
+            plotsChart.chartType = 'pieDepartment';
+            plotsChart.functionClick = function(s){plotsChart.department = s; plotsChart.openUrl();};
+            plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros', function(s){plotsChart.provider = s; plotsChart.openUrl();} );
+            plotsChart.chartType = 'providerBarWithOutZeros';
+            plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
+            plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -736,19 +751,25 @@ var plotsChart = {
             $('#radioSelects').html(strOptions);
         },
         statusPie : function(){
-            plotsChart.getData( 'pieStatus', function(s){plotsChart.check_stage = s; plotsChart.openUrl();} );
+            plotsChart.chartType = 'pieStatus';
+            plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
+            plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         stackCities : function(){ 
-            var values = plotsChart.setJsonStackedBar(plotsChart.data);
-            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(s){plotsChart.city = s; plotsChart.openUrl();});
-            $('#genl-pie-chart').css('height','2000px');
-            plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-            //plotsChart.getData( 'pieDepartment', function(){console.log("callback");} );
+            //var values = plotsChart.setJsonStackedBar(plotsChart.data);
+            //var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(s){plotsChart.city = s; plotsChart.openUrl();});
+            //$('#genl-pie-chart').css('height','2000px');
+            //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+            plotsChart.chartType = 'pieDepartment';
+            plotsChart.functionClick = function(){console.log("callback");} ;
+            plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providerBarWithOutZeros : function(){
-            plotsChart.getData( 'providerBarWithOutZeros', function(s){plotsChart.provider = s; plotsChart.openUrl();} );
+            plotsChart.chartType = 'providerBarWithOutZeros';
+            plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
+            plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -763,7 +784,8 @@ var plotsChart = {
         queryString += '&status=' + statusIdNum;
         queryString += '&city=' + city;
 
-        queryString += '&year='         + plotsChart.year;
+        queryString += '&startDate='    + plotsChart.startDate;
+        queryString += '&endDate='      + plotsChart.endDate;
         queryString += '&provider='     + plotsChart.provider;
         queryString += '&funding='      + plotsChart.funding;
         queryString += '&program='      + plotsChart.program;
@@ -773,7 +795,7 @@ var plotsChart = {
     },
     chart : '',
     data  : undefined,
-    getData : function ( chartType, callBackClick ){
+    getData : function ( ){
         
         document.getElementById('waintingAnimation').style.display = "block";
 
@@ -785,24 +807,24 @@ var plotsChart = {
             success: function (res) {
                 
                 plotsChart.data = res.data;
-                if( chartType == 'pieStatus' ){
+                if( plotsChart.chartType == 'pieStatus' ){
                     var values = plotsChart.setJsonChart(res.data);
-                    var options = plotsChart.optionsChart(values, callBackClick)
+                    var options = plotsChart.optionsChart(values)
                     $('#genl-pie-chart').css('height','400px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
-                }else if( chartType == 'barCities' ){
+                }else if( plotsChart.chartType == 'barCities' ){
                     var values = plotsChart.setJsonStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], callBackClick);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                     $('#genl-pie-chart').css('height','2000px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                }else if( chartType == 'pieDepartment' ){
+                }else if( plotsChart.chartType == 'pieDepartment' ){
                     var values = plotsChart.setJsonDepartmentPie(res.data);
-                    var optionsHighChart = plotsChart.optionsChart(values, callBackClick);
+                    var optionsHighChart = plotsChart.optionsChart(values);
                     $('#genl-pie-chart').css('height','400px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                }else if( chartType == 'providerBarWithOutZeros' ){
+                }else if( plotsChart.chartType == 'providerBarWithOutZeros' ){
                     var values = plotsChart.setJsonStackedBarWhitOutZeros(res.data);
-                    var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1], callBackClick);
+                    var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1] );
                     $('#genl-pie-chart').css('height', values[0].length*40 + 'px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 }
@@ -814,7 +836,8 @@ var plotsChart = {
             data:  JSON.stringify ({'department'    : plotsChart.department.toString(),
                                     'city'          : plotsChart.city.toString(),
                                     'check_stage'   : plotsChart.check_stage.toString(),
-                                    'year'          : plotsChart.year.toString(),
+                                    'startDate'     : plotsChart.startDate.toString(),
+                                    'endDate'       : plotsChart.endDate.toString(),
                                     'provider'      : plotsChart.provider.toString(),
                                     'adjudication'  : plotsChart.adjudication.toString(),
                                     'funding'       : plotsChart.funding.toString(),
@@ -1067,7 +1090,7 @@ var plotsChart = {
 
         return[ data, jsonResponse.length ];
     },
-    optionsChart : function(data, callBackClick){
+    optionsChart : function(data){
 
         var widthWindow = jQuery(window).width()
 
@@ -1120,7 +1143,7 @@ var plotsChart = {
    	                point: {
    	                    events: {
    	                        click: function () {
-                                callBackClick( this.x )
+                                plotsChart.functionClick( this.x );
    	                        }/*,
                             legendItemClick: function(){
                                 console.log(this.series.total);                                
@@ -1179,7 +1202,7 @@ var plotsChart = {
         
         return options;
     },
-    optionsStackedBar: function(data, categories, amountsByCity, callBackClick ) {
+    optionsStackedBar: function(data, categories, amountsByCity ) {
 
         var options = {
             chart: {
@@ -1226,7 +1249,7 @@ var plotsChart = {
                     point: {
    	                    events: {
    	                        click: function () {
-                                callBackClick( this.x + 1 )
+                                plotsChart.functionClick( this.x + 1 );
                                 //plotsChart.chartAfterCitiesBar.init(this.x + 1)
    	                        }
    	                    }
@@ -1238,7 +1261,7 @@ var plotsChart = {
         
         return options;
     },
-    optionsSimpleBar: function(data, jsonLength, callBackClick) {
+    optionsSimpleBar: function(data, jsonLength) {
 
         var options = {
             chart: {
@@ -1262,7 +1285,7 @@ var plotsChart = {
                     point: {
    	                    events: {
    	                        click: function () {
-                                callBackClick( this.id )
+                                plotsChart.functionClick( this.id );
    	                        }
    	                    }
    	                }
@@ -1292,7 +1315,8 @@ var plotsChart = {
         this.department   = $('#departmentSearch').val();
         this.check_stage  = $('#check_stage').val();
         this.city         = $('#city').val();
-        this.year         = $('#year').val();
+        this.startDate    = $('#startDate').val();
+        this.endDate      = $('#endDate').val();
         this.provider     = $('#provider').val();
         this.funding      = $('#funding').val();
         this.program      = $('#program').val();
@@ -1379,7 +1403,8 @@ var listStatusProjects = {
     department      : '',
     statusId        : '',
     city            : '',
-    year            : '',
+    startDate       : '',
+    endDate         : '',
     provider        : '',
     funding         : '',
     program         : '',
@@ -1453,7 +1478,7 @@ var listStatusProjects = {
         document.getElementById('table-obras').innerHTML = strTagRows;
          
     },
-    getDataList: function ( url ){
+    getDataList: function ( url, createButtons ){
         $.ajax({
             url: url,
             type: 'post',
@@ -1466,7 +1491,10 @@ var listStatusProjects = {
                 //***document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
                 listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
-                listStatusProjects.buttons.create( res.count.count );
+                
+                if( createButtons ){
+                    listStatusProjects.buttons.create( res.count.count );
+                }
 
                 var colorLine = plotsChart.colors[listStatusProjects.statusId] ? plotsChart.colors[listStatusProjects.statusId] : '#aaa;'
                 
@@ -1484,7 +1512,8 @@ var listStatusProjects = {
                                     'department'     : listStatusProjects.department,
                                     'status'         : listStatusProjects.statusId,
                                     'city'           : listStatusProjects.city,
-                                    'year'           : listStatusProjects.year,
+                                    'startDate'      : listStatusProjects.startDate,
+                                    'endDate'        : listStatusProjects.endDate,
                                     'provider'       : listStatusProjects.provider,
                                     'funding'        : listStatusProjects.funding,
                                     'program'        : listStatusProjects.program,
@@ -1528,7 +1557,6 @@ var listStatusProjects = {
 
             listStatusProjects.getDataList( url )
 
-
             //Behavior button
             $(".button_pag").removeAttr("active");
             $( thisButton ).attr('active','')
@@ -1546,7 +1574,8 @@ var listStatusProjects = {
         this.department     = document.getElementById('dependencyId').value;
         this.statusId       = document.getElementById('statusId').value;
         this.city           = document.getElementById('cityId').value;
-        this.year           = document.getElementById('yearId').value;
+        this.startDate      = document.getElementById('startDate').value;
+        this.endDate        = document.getElementById('endDate').value;
         this.provider       = document.getElementById('providerId').value;
         this.funding        = document.getElementById('fundingId').value;
         this.program        = document.getElementById('programId').value;
@@ -1557,7 +1586,7 @@ var listStatusProjects = {
 
         var url = '/projects_follow_ups';
 
-        listStatusProjects.getDataList( url )
+        listStatusProjects.getDataList( url, true )
 
     }
 }

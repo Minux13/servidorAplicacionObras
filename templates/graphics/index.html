@@ -171,7 +171,14 @@
 
 
                                 <div class="portlet-header">
-                                    <div class="caption">Estatus de Obras 28 Junio 2019</div>
+                                    <select id="periodDateChart" >
+                                        <option value="/">Administración Actual</option>
+                                        <option value="/2015-10-4">Administración Anterior (Hasta 4/Oct/2015)</option>
+                                        <option value="2016-01-01/2016-12-31">2016</option>
+                                        <option value="2017-01-01/2017-12-31">2017</option>
+                                        <option value="2018-01-01/2018-12-31">2018</option>
+                                        <option value="2019-01-01/2019-12-31">2019</option>
+                                    </select>
                                     <div class="tools">
                                         <!--
                                         <i class="fa fa-chevron-up"></i>
@@ -495,8 +502,13 @@
                 $('#provider').select2();
             
                 //Select the dependency 
-                $('#dependencySelect').on('change', function() {
-                    plotsChart.setChartSelect();
+                $('#periodDateChart').on('change', function() {
+                    
+                    var startEnd = $('#periodDateChart').val().split('/')
+                    plotsChart.startDate = startEnd[0];
+                    plotsChart.endDate   = startEnd[1];
+                    
+                    plotsChart.getData();
               	});
                 
                 plotsChart.initStatusPie();
