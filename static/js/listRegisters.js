@@ -658,41 +658,27 @@ var plotsChart = {
         this.department = this.check_stage = this.city = this.startDate = this.endDate = this.provider = this.funding = this.program = this.adjudication = '';
     },
     initStatusPie : function(){
-        //this.cleanParameters();
         plotsChart.chartType = 'pieStatus';
         plotsChart.functionClick = function(){console.log("callback");};
         plotsChart.getData();
         $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
     },
     initStackCities : function(){
-        //this.cleanParameters();
         plotsChart.chartType = 'barCities';
         plotsChart.functionClick = plotsChart.chartAfterCitiesBar.init;
         plotsChart.getData(  );
 
-        //var values = plotsChart.setJsonStackedBar(this.data);
-        //var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], plotsChart.chartAfterCitiesBar.init );
-        //$('#genl-pie-chart').css('height','2000px');
-        //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                
         $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
     },
     initDepartmentsPie : function(){
-        //this.cleanParameters();
         plotsChart.chartType = 'pieDepartment';
         plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
 
-        //var values = plotsChart.setJsonDepartmentPie(this.data);
-        //var optionsHighChart = plotsChart.optionsChart(values, plotsChart.chartAfterDepartmentsPie.init );
-        //$('#genl-pie-chart').css('height','400px');
-        //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-        
         $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
     },
     chartAfterCitiesBar: {
         init: function( cityIdDB ){
-            //plotsChart.cleanParameters();
             plotsChart.city = cityIdDB;
             plotsChart.chartTitle.titleGral = citiesNL[cityIdDB];
             plotsChart.chartAfterCitiesBar.statusPie();
@@ -732,7 +718,6 @@ var plotsChart = {
     },
     chartAfterDepartmentsPie: {
         init: function( departmentIdDB ){
-            //plotsChart.cleanParameters();
             plotsChart.department = departmentIdDB;
             plotsChart.chartTitle.titleGral = departmentsObras[departmentIdDB];
             plotsChart.chartAfterDepartmentsPie.statusPie();
@@ -757,11 +742,7 @@ var plotsChart = {
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
         stackCities : function(){ 
-            //var values = plotsChart.setJsonStackedBar(plotsChart.data);
-            //var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2], function(s){plotsChart.city = s; plotsChart.openUrl();});
-            //$('#genl-pie-chart').css('height','2000px');
-            //plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-            plotsChart.chartType = 'pieDepartment';
+            plotsChart.chartType = 'barCities';
             plotsChart.functionClick = function(){console.log("callback");} ;
             plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
@@ -817,6 +798,7 @@ var plotsChart = {
                     var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                     $('#genl-pie-chart').css('height','2000px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                    plotsChart.chart.render();
                 }else if( plotsChart.chartType == 'pieDepartment' ){
                     var values = plotsChart.setJsonDepartmentPie(res.data);
                     var optionsHighChart = plotsChart.optionsChart(values);
@@ -907,7 +889,17 @@ var plotsChart = {
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         ];
         
-        var countCitiesAmount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] ;  
+        var countCitiesAmount = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ];
+
+        var countCitiesAmountByCity = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] ;  
 
         var categories        = citiesNL.slice(1);
 
@@ -915,10 +907,11 @@ var plotsChart = {
         for(var i in jsonResponse){
             var obra = jsonResponse[i];
             countCities[obra.check_stage - 1][obra.city_id - 1]++;
-            countCitiesAmount[obra.city_id - 1] += obra.final_contracted_amount;
+            countCitiesAmount[obra.check_stage - 1][obra.city_id - 1] += obra.final_contracted_amount;
+            countCitiesAmountByCity[obra.city_id - 1] += obra.final_contracted_amount;
         }
 
-        var finalContractedAmountTotal =  countCitiesAmount.reduce(function(total, sum){return total + sum;}) ;
+        var finalContractedAmountTotal =  countCitiesAmountByCity.reduce(function(total, sum){return total + sum;}) ;
 
         
         var dataForStatus = [[],[],[],[],[],[],[]];
@@ -927,37 +920,37 @@ var plotsChart = {
             dataForStatus[0].push({
                 y: countCities[0][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[0][ciudad]
             })
             dataForStatus[1].push({
                 y: countCities[1][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[1][ciudad]
             })
             dataForStatus[2].push({
                 y: countCities[2][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[2][ciudad]
             })
             dataForStatus[3].push({
                 y: countCities[3][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[3][ciudad]
             })
             dataForStatus[4].push({
                 y: countCities[4][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[4][ciudad]
             })
             dataForStatus[5].push({
                 y: countCities[5][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[5][ciudad]
             })
             dataForStatus[6].push({
                 y: countCities[6][ciudad],
                 city: parseInt(ciudad)+1,
-                amount: countCitiesAmount[ciudad]
+                amount: countCitiesAmount[6][ciudad]
             })
 
         }
@@ -998,7 +991,7 @@ var plotsChart = {
         this.chartTitle.obras = jsonResponse.length;
         this.chartTitle.amount = finalContractedAmountTotal;
 
-        return [data, categories, countCitiesAmount];
+        return [data, categories, countCitiesAmountByCity];
     },
     setJsonDepartmentPie: function(resp){
         
@@ -1117,8 +1110,16 @@ var plotsChart = {
                     render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
                         try{
                             if( plotsChart.chart ){
+                                var allStatus = plotsChart.chart.series[0].data;
+                                var countAmount = 0;
+                                for( var s in allStatus ){
+                                    if( allStatus[s].visible ){
+                                        countAmount += allStatus[s].amount;
+                                    }
+                                }
                                 var totalProjectsVisible = plotsChart.chart.series[0].total;
-                                plotsChart.chartTitle.obras = totalProjectsVisible;
+                                plotsChart.chartTitle.obras  = totalProjectsVisible;
+                                plotsChart.chartTitle.amount = countAmount;
                                 plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
                             }
                         }
@@ -1207,7 +1208,38 @@ var plotsChart = {
 
         var options = {
             chart: {
-                type: 'bar'
+                type: 'bar',
+                events: {
+                    render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
+                        try{
+                            if( plotsChart.chart ){
+                                var series = this.series;
+                                
+                                var countAmount = 0;
+                                var countObras  = 0;
+                                
+                                for( var s in series ){
+                                    var serie = series[s];
+                                    if( serie.visible ){
+                                        var cities = serie.data;
+                                        for( var c in cities ){
+                                            countAmount += cities[c].amount;
+                                            countObras += cities[c].y;
+                                        }
+                                    }
+                                }
+                                
+                                var totalProjectsVisible = countObras;
+                                plotsChart.chartTitle.obras  = totalProjectsVisible;
+                                plotsChart.chartTitle.amount = countAmount;
+                                plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
+                            }
+                        }
+                        catch(e){
+                            ;
+                        }
+                    }
+                }
             },
             title: {
                 text: plotsChart.chartTitle.setTitle()
@@ -1231,8 +1263,18 @@ var plotsChart = {
                     verticalAlign: 'top',
                     amountsByCity : amountsByCity,
                     formatter: function () {
-                        if(this.total == 0){return '';}
-                        var amount = this.options.amountsByCity[this.x].toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        var series = this.axis.series; //status
+                        var thisCity = this.x;
+                        var sumAmountThisCity = 0;
+                        for( var s in series ){ //Son 7
+                            if(series[s].data.length){
+                                if(series[s].visible){
+                                    sumAmountThisCity += series[s].data[thisCity].amount;
+                                }
+                            }
+                        }
+                        if(sumAmountThisCity == 0){return '';}
+                        var amount = sumAmountThisCity.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                         return '<span style="color:#000;font-weight:100;">'+this.total + ' Obras </span><br><span style="color:#336;margin-left:13px;font-weight:100;"> $'+ amount +'</span>';
                     }
                 }
@@ -1251,7 +1293,6 @@ var plotsChart = {
    	                    events: {
    	                        click: function () {
                                 plotsChart.functionClick( this.x + 1 );
-                                //plotsChart.chartAfterCitiesBar.init(this.x + 1)
    	                        }
    	                    }
    	                }
