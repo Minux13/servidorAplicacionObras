@@ -743,7 +743,7 @@ var plotsChart = {
         },
         stackCities : function(){ 
             plotsChart.chartType = 'barCities';
-            plotsChart.functionClick = function(){console.log("callback");} ;
+            plotsChart.functionClick = function(s){plotsChart.city = s; plotsChart.openUrl();} ;
             plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
