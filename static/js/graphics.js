@@ -46,7 +46,7 @@ var plotsChart = {
         if( !plotsChart.allowGetData ){ return; }
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-        plotsChart.chartType = 'pieDepartment';
+        plotsChart.chartType = 'stackedBarDepartment';
         plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
 
@@ -62,10 +62,10 @@ var plotsChart = {
                 <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterCitiesBar.statusPie();">
                     <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
                 </span>
-                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterCitiesBar.pieDepartment();">
+                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterCitiesBar.stackedBarDepartment();">
                     <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
                 </span>
-                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterCitiesBar.providerBarWithOutZeros();">
+                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterCitiesBar.stackedBarProvider();">
                     <i class="fas fa-user-tie" style="margin-right:10px;"></i> Contratistas
                 </span>
             `;
@@ -81,20 +81,20 @@ var plotsChart = {
             plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
-        pieDepartment : function(){
+        stackedBarDepartment : function(){
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-            plotsChart.chartType = 'pieDepartment';
+            plotsChart.chartType = 'stackedBarDepartment';
             plotsChart.functionClick = function(s){plotsChart.department = s; plotsChart.openUrl();};
             plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
-        providerBarWithOutZeros : function(){
+        stackedBarProvider : function(){
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-            plotsChart.chartType = 'providerBarWithOutZeros';
+            plotsChart.chartType = 'stackedBarProvider';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
             plotsChart.getData(  );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
@@ -112,7 +112,7 @@ var plotsChart = {
                 <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterDepartmentsPie.stackCities();">
                     <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
                 </span>
-                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterDepartmentsPie.providerBarWithOutZeros();">
+                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterDepartmentsPie.stackedBarProvider();">
                     <i class="fas fa-user-tie" style="margin-right:10px;"></i> Contratistas
                 </span>
             `;
@@ -137,11 +137,11 @@ var plotsChart = {
             plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
-        providerBarWithOutZeros : function(){
+        stackedBarProvider : function(){
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-            plotsChart.chartType = 'providerBarWithOutZeros';
+            plotsChart.chartType = 'stackedBarProvider';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
             plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
@@ -189,20 +189,24 @@ var plotsChart = {
                 }else if( plotsChart.chartType == 'barCities' ){
                     var values = plotsChart.setJsonStackedBar(res.data);
                     var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    $('#genl-pie-chart').css('height','2000px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
-                }else if( plotsChart.chartType == 'pieDepartment' ){
-                    var values = plotsChart.setJsonDepartmentPie(res.data);
-                    var optionsHighChart = plotsChart.optionsChart(values);
-                    $('#genl-pie-chart').css('height','400px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                }else if( plotsChart.chartType == 'providerBarWithOutZeros' ){
-                    var values = plotsChart.setJsonStackedBarWhitOutZeros(res.data);
-                    var optionsHighChart = plotsChart.optionsSimpleBar(values[0], values[1] );
-                    var heightChart = values[0].length*40 + 150;
+                    var heightChart = values[0][0].data.length*30 + 150;
                     $('#genl-pie-chart').css('height', heightChart + 'px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+                }else if( plotsChart.chartType == 'stackedBarDepartment' ){
+                    var values = plotsChart.setJsonDepartmentsStackedBar(res.data);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+                    var heightChart = values[0][0].data.length*30 + 150;
+                    $('#genl-pie-chart').css('height', heightChart + 'px');
+                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+                }else if( plotsChart.chartType == 'stackedBarProvider' ){
+                    var values = plotsChart.setJsonProvidersStackedBar(res.data);
+                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+                    var heightChart = values[0][0].data.length*30 + 150;
+                    $('#genl-pie-chart').css('height', heightChart + 'px');
+                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }
                 
                 plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none');
@@ -312,37 +316,37 @@ var plotsChart = {
 
             dataForStatus[0].push({
                 y: countCities[0][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[0][ciudad]
             })
             dataForStatus[1].push({
                 y: countCities[1][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[1][ciudad]
             })
             dataForStatus[2].push({
                 y: countCities[2][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[2][ciudad]
             })
             dataForStatus[3].push({
                 y: countCities[3][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[3][ciudad]
             })
             dataForStatus[4].push({
                 y: countCities[4][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[4][ciudad]
             })
             dataForStatus[5].push({
                 y: countCities[5][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[5][ciudad]
             })
             dataForStatus[6].push({
                 y: countCities[6][ciudad],
-                city: parseInt(ciudad)+1,
+                idFieldDB: parseInt(ciudad)+1,
                 amount: countCitiesAmount[6][ciudad]
             })
 
@@ -386,96 +390,271 @@ var plotsChart = {
 
         return [data, categories, countCitiesAmountByCity];
     },
-    setJsonDepartmentPie: function(resp){
+    setJsonDepartmentsStackedBar: function( jsonResponse ){
         
-        var countDepartments = ['',0,0,0,0,0,0,0,0,0,0,0,0,0];
-        var countDepartmentsAmount = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-  
-        var values = [];
-
-        var namesDepartments = [ '',
-            'INFRAESTRUCTURA',
-            'ICIFED',
-            'REA',
-            'SADM',
-            'SSNL',
-            'CODETUR',
-            'CODEFRONT',
-            'DIF',
-            'FIDEPROES',
-            'FUNDIDORA',
-            'CONALEP',
-            'CAMINOS',
-            'ISSSTELEON'
-        ]
-
-        var finalContractedAmountTotal = 0;
+        //[Estatus][Dependencia]  
+        var countField = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ];
         
-        //Cuenta o aumenta el elemento que representa al departamento 
-        for(var i in resp){
-            var stat = resp[i];
-            countDepartments[stat.department_id]++;
-            countDepartmentsAmount[ stat.department_id ] += stat.final_contracted_amount;
+        var countFieldAmount = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ];
+
+        var countFieldAmountByCity = [0,0,0,0,0,0,0,0,0,0,0,0,0] ;  
+
+        var categories        = departmentsObras.slice(1);
+
+        //Por cada obra aumenta en 1 el elemento countField[estatus][ciudad]
+        for(var i in jsonResponse){
+            var obra = jsonResponse[i];
+            countField[obra.check_stage - 1][obra['department_id'] - 1]++;
+            countFieldAmount[obra.check_stage - 1][obra['department_id'] - 1] += obra.final_contracted_amount;
+            countFieldAmountByCity[obra['department_id'] - 1] += obra.final_contracted_amount;
         }
 
-        var finalContractedAmountTotal =  countDepartmentsAmount.reduce(function(total, sum){return total + sum;}) ;
+        var finalContractedAmountTotal =  countFieldAmountByCity.reduce(function(total, sum){return total + sum;}) ;
 
-        for( var s = 1; s<=13; s++ ){
-            if( countDepartments[s] > 0 ){    
-                values.push( {
-                    name : namesDepartments[s],   
-                    y: countDepartments[s],
-                    x: s,
-                    amount: countDepartmentsAmount[s],
-                    //color: colorStatus[ s ]
-                } )
+        
+        var dataForStatus = [[],[],[],[],[],[],[]];
+        for( var field in countField[0] ){
+
+            dataForStatus[0].push({
+                y: countField[0][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[0][field]
+            })
+            dataForStatus[1].push({
+                y: countField[1][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[1][field]
+            })
+            dataForStatus[2].push({
+                y: countField[2][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[2][field]
+            })
+            dataForStatus[3].push({
+                y: countField[3][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[3][field]
+            })
+            dataForStatus[4].push({
+                y: countField[4][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[4][field]
+            })
+            dataForStatus[5].push({
+                y: countField[5][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[5][field]
+            })
+            dataForStatus[6].push({
+                y: countField[6][field],
+                idFieldDB: parseInt(field)+1,
+                amount: countFieldAmount[6][field]
+            })
+
+        }
+        
+
+        var data = [
+            {
+                name: 'OBRAS RESTRINGIDAS',
+                data: dataForStatus[6],
+                color: colorStatus[ 7 ]
+            },{
+                name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
+                data: dataForStatus[5],
+                color: colorStatus[ 6 ]
+            },{
+                name: 'NO INICIADAS',
+                data: dataForStatus[4],
+                color: colorStatus[ 5 ]
+            },{
+                name: 'RESCINDIDAS',
+                data: dataForStatus[3],
+                color: colorStatus[ 4 ]
+            },{
+                name: 'CON RETRASO',
+                data: dataForStatus[2],
+                color: colorStatus[ 3 ]
+            },{
+                name: 'EN TIEMPO',
+                data: dataForStatus[1],
+                color: colorStatus[ 2 ]
+            },{
+                name: 'TERMINADAS',
+                data: dataForStatus[0],
+                color: colorStatus[ 1 ]
             }
-        }
+        ];
         
-
-        this.chartTitle.obras = resp.length;
+        this.chartTitle.obras = jsonResponse.length;
         this.chartTitle.amount = finalContractedAmountTotal;
-        
-        return values;
-    },
-    setJsonStackedBarWhitOutZeros: function( jsonResponse ){
-        
-        var providersObj = [];
 
-        //Por cada obra aumenta en 1 el elemento countCities[estatus][ciudad]
+        return [data, categories, countFieldAmountByCity];
+    },
+    setJsonProvidersStackedBar: function( jsonResponse ){
+        
+
+        var providersObj = [];
+        
+        var countFieldAmountTotal = 0 ;  
+
+        //Crea el arreglo de objetos de Provider, con indices provider_NumeroIdProviderBD 
         for(var i in jsonResponse){
             var obra = jsonResponse[i];
             if( providersObj['provider_' + obra.provider_id] ){
-                 providersObj['provider_' + obra.provider_id].y += 1;
-                 providersObj['provider_' + obra.provider_id].amount += obra.final_contracted_amount;
+                providersObj['provider_' + obra.provider_id].y += 1;
+                providersObj['provider_' + obra.provider_id].amount[obra.check_stage - 1] += obra.final_contracted_amount;
+                providersObj['provider_' + obra.provider_id].stages[obra.check_stage - 1] += 1;
             }else{
+                var check_stages = [0,0,0,0,0,0,0];
+                check_stages[ obra.check_stage - 1 ] = 1;
+
+                var check_stages_amounts = [0,0,0,0,0,0,0];
+                check_stages_amounts[ obra.check_stage - 1 ] = obra.final_contracted_amount;
+                
                 providersObj['provider_' + obra.provider_id] = {
                     y      : 1,
                     id     : obra.provider_id,
                     name   : obra.provider,
-                    color  : '#939',
-                    amount : obra.final_contracted_amount
+                    amount : check_stages_amounts,
+                    stages : check_stages                
                 };
             }
-            //countCitiesAmount[obra.city_id - 1] += obra.final_contracted_amount;
+            
+            countFieldAmountTotal += obra.final_contracted_amount;
         }
 
         
-        //var categories = [];
-        var data = [];
-        var finalContractedAmountTotal = 0;
-        for( var p in providersObj ){
-            //categories.push(providersObj[p].name);
-            data.push(providersObj[p]);
-            finalContractedAmountTotal += providersObj[p].amount;
+        var countField = [[],[],[],[],[],[],[]];
+        var countFieldAmount = [[],[],[],[],[],[],[]];
+        var categories = [];
+        var idsProviders = [];
+
+        //Pasa de arreglo asosiativo a arreglo como los otros stackbar
+        for(var p in providersObj){
+            var proveedor = providersObj[p];
+            countField[0].push( proveedor.stages[0] )
+            countField[1].push( proveedor.stages[1] )
+            countField[2].push( proveedor.stages[2] )
+            countField[3].push( proveedor.stages[3] )
+            countField[4].push( proveedor.stages[4] )
+            countField[5].push( proveedor.stages[5] )
+            countField[6].push( proveedor.stages[6] )
+
+            countFieldAmount[0].push( proveedor.amount[0] )
+            countFieldAmount[1].push( proveedor.amount[1] )
+            countFieldAmount[2].push( proveedor.amount[2] )
+            countFieldAmount[3].push( proveedor.amount[3] )
+            countFieldAmount[4].push( proveedor.amount[4] )
+            countFieldAmount[5].push( proveedor.amount[5] )
+            countFieldAmount[6].push( proveedor.amount[6] )
+
+            categories.push( proveedor.name );
+            idsProviders.push( proveedor.id );
+        }
+
+
+
+        var dataForStatus = [[],[],[],[],[],[],[]];
+        for( var field in countField[0] ){
+            dataForStatus[0].push({
+                y: countField[0][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[0][field]
+            })
+            dataForStatus[1].push({
+                y: countField[1][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[1][field]
+            })
+            dataForStatus[2].push({
+                y: countField[2][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[2][field]
+            })
+            dataForStatus[3].push({
+                y: countField[3][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[3][field]
+            })
+            dataForStatus[4].push({
+                y: countField[4][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[4][field]
+            })
+            dataForStatus[5].push({
+                y: countField[5][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[5][field]
+            })
+            dataForStatus[6].push({
+                y: countField[6][field],
+                city: parseInt(field)+1,
+                idFieldDB: idsProviders[field],
+                amount: countFieldAmount[6][field]
+            })
+
         }
         
- 
 
-        plotsChart.chartTitle.obras = jsonResponse.length;
-        plotsChart.chartTitle.amount = finalContractedAmountTotal;
+        var data = [
+            {
+                name: 'OBRAS RESTRINGIDAS',
+                data: dataForStatus[6],
+                color: colorStatus[ 7 ]
+            },{
+                name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
+                data: dataForStatus[5],
+                color: colorStatus[ 6 ]
+            },{
+                name: 'NO INICIADAS',
+                data: dataForStatus[4],
+                color: colorStatus[ 5 ]
+            },{
+                name: 'RESCINDIDAS',
+                data: dataForStatus[3],
+                color: colorStatus[ 4 ]
+            },{
+                name: 'CON RETRASO',
+                data: dataForStatus[2],
+                color: colorStatus[ 3 ]
+            },{
+                name: 'EN TIEMPO',
+                data: dataForStatus[1],
+                color: colorStatus[ 2 ]
+            },{
+                name: 'TERMINADAS',
+                data: dataForStatus[0],
+                color: colorStatus[ 1 ]
+            }
+        ];
+        
+        this.chartTitle.obras = jsonResponse.length;
+        this.chartTitle.amount = countFieldAmountTotal;
 
-        return[ data, jsonResponse.length ];
+        return [data, categories, countFieldAmountTotal];
     },
     optionsChart : function(data){
 
@@ -685,63 +864,13 @@ var plotsChart = {
                     point: {
    	                    events: {
    	                        click: function () {
-                                plotsChart.functionClick( this.x + 1 );
+                                plotsChart.functionClick( this.idFieldDB );
    	                        }
    	                    }
    	                }
                 }
             },
             series: data
-        }
-        
-        return options;
-    },
-    optionsSimpleBar: function(data, jsonLength) {
-
-        var options = {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: plotsChart.chartTitle.setTitle()
-            },
-            plotOptions: {
-                series: {
-                    dataLabels: {
-                        enabled: true,
-                        inside: false,
-                        formatter: function(){
-                            var aamount = this.point.amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            return this.y + ' Obras <span >$' + aamount + '</span>';
-                        }
-                    }
-                },
-                bar: {
-                    point: {
-   	                    events: {
-   	                        click: function () {
-                                plotsChart.functionClick( this.id );
-   	                        }
-   	                    }
-   	                }
-                }
-            },
-            xAxis: {
-                type: 'category'
-            },
-            yAxis: {
-                title: {
-                    text: ''
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Obras',
-                showInLegend: false,
-                data: data
-            }]
         }
         
         return options;
