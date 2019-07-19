@@ -219,15 +219,24 @@
                                     <div class="row" >
                                         <div class="col-md-12">
                                             <div id="radioSelects">
-                                                <!--<span class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
+                                                <!--<a class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
                                                     <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
-                                                </span>-->
-                                                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.initStackCities();">
-                                                    <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
-                                                </span>
-                                                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.initDepartmentsPie();">
-                                                    <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
-                                                </span>
+                                                </a>-->
+                                                <a class="linkPlots" id="plotTotal2" href="/graphics?chart=initStackCities" >
+                                                    <i class="fas fa-map" ></i> Municipios
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal3" href="/graphics?chart=initDepartmentsPie" >
+                                                    <i class="fas fa-building" ></i> Dependencias
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal4" href="/graphics?chart=initAdjudicationChart" >
+                                                    <i class="fas fa-hand-holding-usd" ></i> Adjudicación
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal5" href="/graphics?chart=initFundingChart" >
+                                                    <i class="fas fa-file-invoice-dollar" ></i> Tipo de Fondo
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal6" href="/graphics?chart=initProvidersChart" >
+                                                    <i class="fas fa-user-tie" ></i> Contratistas
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -502,7 +511,7 @@
                 $('#city').select2();
                 $('#provider').select2();
             
-                //Select the dependency 
+                //Select the date 
                 $('#periodDateChart').on('change', function() {
                     
                     var startEnd = $('#periodDateChart').val().split('/')
@@ -512,12 +521,42 @@
                     plotsChart.getData();
               	});
                 
-                plotsChart.initStatusPie();
+                urlParams = new URLSearchParams(window.location.search);
+
+                if( urlParams.toString() ){
+                    if( urlParams.has('value') ){
+                        var chartFunction = urlParams.get('chart');
+                        var value         = urlParams.get('value');
+                        plotsChart[chartFunction].init(value);
+                    }else{
+                        var chartFunction = urlParams.get('chart');
+                        plotsChart[chartFunction]();
+                    }
+                }else{
+                    plotsChart.initStatusPie();
+                }
+
                 //plotsChart.initStackCities();
+                /*
+                window.onpopstate = function (event) {
+                    if (event.state) { 
+                        console.log(event.state);
+                        var state = event.state.chartType; 
+                        if( state == 'barCities' ){plotsChart.initStackCities();}
+                        else if( state == 'stackedBarDepartment' ){plotsChart.initDepartmentsPie();}
+                        else {plotsChart.initStatusPie();}
+                    }
+                };
                 
-                /*if( document.getElementById('dependencySelect').value != '' ){
-                    plotsChart.init();
+                if(history.state){  //Cuando carga nuevamente la pagina y si tiene un state guardado (ser requiere por que no ejecuta onpopstate)
+                    plotsChart.initStatusPie();
+                }else{  //Cuando la carga de pagina es nueva
+                    window.history.replaceState({ chartType:'pieStatus' }, null, "");
+                    plotsChart.initStatusPie();
                 }*/
+                
+                
+            
             });
 
         </script>

@@ -12,6 +12,7 @@ var plotsChart = {
     chartType     : '',
     allowGetData  : true,
     functionClick : function(){;},
+    functionAfterClickChart : '',
     chartTitle    : {
         obras: 0,
         amount: 0,
@@ -28,6 +29,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'pieStatus';
+        plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(){console.log("callback");};
         plotsChart.getData();
         
@@ -38,7 +40,8 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'barCities';
-        plotsChart.functionClick = plotsChart.chartAfterCitiesBar.init;
+        plotsChart.functionAfterClickChart   = 'chartAfterCitiesBar';
+        plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal2' ).attr('active','');
@@ -48,7 +51,8 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarDepartment';
-        plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
+        plotsChart.functionAfterClickChart   = 'chartAfterDepartmentsPie';
+        plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal3' ).attr('active','');
@@ -58,7 +62,8 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarAdjudication';
-        plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
+        plotsChart.functionAfterClickChart   = '';
+        plotsChart.functionClick = function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal4' ).attr('active','');
@@ -68,6 +73,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarFunding';
+        plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
 
@@ -78,6 +84,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarProvidersByAmount';
+        plotsChart.functionAfterClickChart = '';
         plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
         plotsChart.getData();
 
@@ -227,6 +234,12 @@ var plotsChart = {
             plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
+    },
+    openUrlChart: function( idFieldInDB ){
+        var functionAfterClickChart  = this.functionAfterClickChart;
+        var value    = idFieldInDB;
+        var url      = 'graphics?chart='+functionAfterClickChart + '&value=' + value;
+        window.open( url ,"_self");
     },
     openUrl: function(){
         var urlLink = $('#urlLink').val();
