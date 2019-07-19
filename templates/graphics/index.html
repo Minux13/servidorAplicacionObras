@@ -241,10 +241,15 @@
                                         </div>
                                     </div>
 
+                                    <div  id="buttonShowProviderTable" style="display:none; width:100%; text-align: right; " >
+                                        <button onclick="plotsChart.showInTable();"> Mostrar tabla </button>
+                                    </div>
 
                                     <div id="genl-pie-chart" style="width: 100%; height:400px">
                                     </div>
                                     <div id="genl-legend-pie-chart" style="color: #444">
+                                    </div>
+                                    <div id="tableOfProviders" >
                                     </div>
                                 </div>
 
@@ -533,10 +538,10 @@
                         plotsChart[chartFunction]();
                     }
                 }else{
-                    plotsChart.initStatusPie();
+                    //plotsChart.initStatusPie();
+                    plotsChart.initProvidersChart();
                 }
 
-                //plotsChart.initStackCities();
                 /*
                 window.onpopstate = function (event) {
                     if (event.state) { 

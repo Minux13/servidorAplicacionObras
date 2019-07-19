@@ -63,7 +63,7 @@ var plotsChart = {
 
         plotsChart.chartType = 'stackedBarAdjudication';
         plotsChart.functionAfterClickChart   = '';
-        plotsChart.functionClick = function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
+        plotsChart.functionClick = function(s){console.log(s);} //function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal4' ).attr('active','');
@@ -74,7 +74,7 @@ var plotsChart = {
 
         plotsChart.chartType = 'stackedBarFunding';
         plotsChart.functionAfterClickChart   = '';
-        plotsChart.functionClick = plotsChart.chartAfterDepartmentsPie.init;
+        plotsChart.functionClick = function(s){console.log(s);} //plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal5' ).attr('active','');
@@ -88,6 +88,8 @@ var plotsChart = {
         plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
         plotsChart.getData();
 
+
+        $('#buttonShowProviderTable').css('display','block')
         $('.linkPlots').removeAttr("active"); $( '#plotTotal6' ).attr('active','');
     },
     chartAfterCitiesBar: {
@@ -133,9 +135,11 @@ var plotsChart = {
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-            plotsChart.chartType = 'stackedBarProvider';
+            plotsChart.chartType = 'stackedBarProvidersByAmount';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
             plotsChart.getData(  );
+            
+            $('#buttonShowProviderTable').css('display','block')
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -181,9 +185,11 @@ var plotsChart = {
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
-            plotsChart.chartType = 'stackedBarProvider';
+            plotsChart.chartType = 'stackedBarProvidersByAmount';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
             plotsChart.getData( );
+            
+            $('#buttonShowProviderTable').css('display','block')
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -974,7 +980,6 @@ var plotsChart = {
     },
     setJsonProvidersStackedBarByAmount: function( jsonResponse ){
         
-
         var providersObj = [];
         
         var countFieldAmountTotal = 0 ;  
@@ -986,6 +991,7 @@ var plotsChart = {
                 providersObj['provider_' + obra.provider_id].y += 1;
                 providersObj['provider_' + obra.provider_id].amount[obra.check_stage - 1] += obra.final_contracted_amount;
                 providersObj['provider_' + obra.provider_id].stages[obra.check_stage - 1] += 1;
+                providersObj['provider_' + obra.provider_id].total_amount = parseInt(providersObj['provider_' + obra.provider_id].amount.reduce(function(total, sum){return total + sum;}) ) ;
             }else{
                 var check_stages = [0,0,0,0,0,0,0];
                 check_stages[ obra.check_stage - 1 ] = 1;
@@ -998,22 +1004,28 @@ var plotsChart = {
                     id     : obra.provider_id,
                     name   : obra.provider,
                     amount : check_stages_amounts,
-                    stages : check_stages                
+                    stages : check_stages,
+                    total_amount  : check_stages_amounts.reduce(function(total, sum){return total + sum;})
                 };
             }
             
             countFieldAmountTotal += obra.final_contracted_amount;
         }
 
-        
+        var providersObjSort = []
+        for(var a in providersObj){ 
+            providersObjSort.push( providersObj[a] );  
+        }
+        providersObjSort.sort(function(a, b){return b.total_amount - a.total_amount});
+
         var countField = [[],[],[],[],[],[],[]];
         var countFieldAmount = [[],[],[],[],[],[],[]];
         var categories = [];
         var idsProviders = [];
 
         //Pasa de arreglo asosiativo a arreglo como los otros stackbar
-        for(var p in providersObj){
-            var proveedor = providersObj[p];
+        for(var p in providersObjSort){
+            var proveedor = providersObjSort[p];
             countField[0].push( proveedor.stages[0] )
             countField[1].push( proveedor.stages[1] )
             countField[2].push( proveedor.stages[2] )
@@ -1121,6 +1133,86 @@ var plotsChart = {
 
         return [data, categories, countFieldAmountTotal];
     },
+    showInTable: function(  ){
+
+        var jsonResponse = plotsChart.data;
+        
+        if( jsonResponse ){;}else{return 0;}
+
+        var providersObj = [];
+        console.log(jsonResponse);
+        var countFieldAmountTotal = 0 ;  
+
+        //Crea el arreglo de objetos de Provider, con indices provider_NumeroIdProviderBD 
+        for(var i in jsonResponse){
+            var obra = jsonResponse[i];
+            if( providersObj['provider_' + obra.provider_id] ){
+                providersObj['provider_' + obra.provider_id].y += 1;
+                providersObj['provider_' + obra.provider_id].amount[obra.check_stage - 1] += obra.final_contracted_amount;
+                providersObj['provider_' + obra.provider_id].stages[obra.check_stage - 1] += 1;
+                providersObj['provider_' + obra.provider_id].obras.push(  obra.project_title  );
+                providersObj['provider_' + obra.provider_id].total_amount = parseInt(providersObj['provider_' + obra.provider_id].amount.reduce(function(total, sum){return total + sum;}) ) ;
+            }else{
+                var check_stages = [0,0,0,0,0,0,0];
+                check_stages[ obra.check_stage - 1 ] = 1;
+
+                var check_stages_amounts = [0,0,0,0,0,0,0];
+                check_stages_amounts[ obra.check_stage - 1 ] = obra.final_contracted_amount;
+                
+                providersObj['provider_' + obra.provider_id] = {
+                    y      : 1,
+                    id     : obra.provider_id,
+                    name   : obra.provider,
+                    amount : check_stages_amounts,
+                    stages : check_stages,
+                    total_amount  : check_stages_amounts.reduce(function(total, sum){return total + sum;}),
+                    obras  : [ obra.project_title ]
+                };
+            }
+            
+            countFieldAmountTotal += obra.final_contracted_amount;
+        }
+
+        var providersObjSort = []
+        for(var a in providersObj){ 
+            providersObjSort.push( providersObj[a] );  
+        }
+        providersObjSort.sort(function(a, b){return b.total_amount - a.total_amount});
+        
+        
+        var strTable = `
+            <div class="container" style="font-size: 0.8em;">
+              <div class="row" style="border-bottom:1px solid #ddd;" >
+                <div class="col-md-4" style="font-weight:bold; color:#222;">Contratista</div>
+                <div class="col-md-2" style="font-weight:bold; color:#222;">Monto</div>
+                <div class="col-md-6" style="font-weight:bold; color:#222;">Obras</div>
+              </div>`;
+        
+        for(var p in providersObjSort ){
+            var cantidad = providersObjSort[p].total_amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            strTable += `
+              <div class="row" style="border-bottom:1px solid #ddd;" >
+                <div class="col-md-4"  style="color:#666;">`+ providersObjSort[p].name +`</div>
+                <div class="col-md-2"  style="color:#666;"> $`+ cantidad +`</div>
+                <div class="col-md-6"  style="color:#666;"><ul>`
+                
+                for( var o in providersObjSort[p].obras ){
+                    strTable += '<li>' + providersObjSort[p].obras[o] + '</li>';
+                }
+                
+             strTable += `</ul></div>
+              </div> `; 
+        }
+
+        strTable += `
+            </div>       
+        `;               
+                         
+                         
+        $('#tableOfProviders').html(strTable) ;
+        $('#genl-pie-chart').css('display','none') ;
+        return  0 ;      
+    },                   
     optionsChart : function(data){
 
         var widthWindow = jQuery(window).width()
