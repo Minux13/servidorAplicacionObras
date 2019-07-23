@@ -478,6 +478,7 @@ var plotsChart = {
     optionsStackedBar: function(data, categories, amountsByCity ) {
 
         var preffixTooltip = plotsChart.groupChartBy == 'byAmount' ? '$' : '';
+        var titleXAxis     = plotsChart.groupChartBy == 'byAmount' ? 'Montos' : 'Número de Obras';
 
         var options = {
             chart: {
@@ -572,6 +573,9 @@ var plotsChart = {
 
                         return '<span style="color:#000;font-weight:700;">'+ totalY + '</span><br><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
                     }
+                },
+                title:{
+                    text: '<span style="color:#000; font-weight: 700;">' + titleXAxis + '</span>'
                 }
             },
             legend: {
