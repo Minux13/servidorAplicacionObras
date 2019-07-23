@@ -10,6 +10,8 @@ var plotsChart = {
     program       : '',
     adjudication  : '',
     chartType     : '',
+    groupChartBy  : '',
+    domainChart   : '',
     allowGetData  : true,
     functionClick : function(){;},
     functionAfterClickChart : '',
@@ -40,9 +42,14 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'barCities';
+        plotsChart.groupChartBy = 'byAmount';
+        plotsChart.domainChart  = 'cities';
         plotsChart.functionAfterClickChart   = 'chartAfterCitiesBar';
         plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
+        
+        $('#buttonShowProviderTable').css('display','block');
+        $('#botonShowInTable').css('display','none');
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal2' ).attr('active','');
     },
@@ -51,9 +58,14 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarDepartment';
+        plotsChart.groupChartBy = 'byAmount';
+        plotsChart.domainChart  = 'departments';
         plotsChart.functionAfterClickChart   = 'chartAfterDepartmentsPie';
         plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
+        
+        $('#buttonShowProviderTable').css('display','block');
+        $('#botonShowInTable').css('display','none');
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal3' ).attr('active','');
     },
@@ -62,6 +74,8 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarAdjudication';
+        plotsChart.groupChartBy = 'byProjects';
+        plotsChart.domainChart  = 'adjudication';
         plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(s){console.log(s);} //function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
@@ -73,6 +87,8 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarFunding';
+        plotsChart.groupChartBy = 'byProjects';
+        plotsChart.domainChart  = 'funding';
         plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(s){console.log(s);} //plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
@@ -85,22 +101,15 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarProvidersByAmount';
+        plotsChart.groupChartBy = 'byAmount';
+        plotsChart.domainChart  = 'providers';
         plotsChart.functionAfterClickChart = '';
         plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
         plotsChart.getData();
  
-
-        /*$.getJSON("static/js/byamount.json", function(values){
-            console.log("");
-            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-            var heightChart = values[0][0].data.length*30 + 200;
-            $('#genl-pie-chart').css('height', heightChart + 'px');
-            plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-            plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
-            plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none'); 
-        });*/
-       
-        $('#buttonShowProviderTable').css('display','block')
+        $('#buttonShowProviderTable').css('display','block');
+        //$('#botonShowChartBy').css('display','none');
+        
         $('.linkPlots').removeAttr("active"); $( '#plotTotal6' ).attr('active','');
     },
     chartAfterCitiesBar: {
@@ -279,31 +288,22 @@ var plotsChart = {
         window.open( url ,"_self");
     },
     showByProjectsOrAmount: function(thisSelect){
-
+        
+        $('#tableOfProviders').css('display','none') ;
+        $('#genl-pie-chart').css('display','block') ;
         document.getElementById('waintingAnimation').style.display = 'block';
-        /*if( plotsChart.chartType == 'barCities' ){
-            var values = setJsonsHC.StackedBar(res.data);
-        }else if( plotsChart.chartType == 'stackedBarDepartment' ){
-            var values = setJsonsHC.DepartmentsStackedBar(res.data);
-        }else if( plotsChart.chartType == 'stackedBarProvider' ){
-            var values = setJsonsHC.ProvidersStackedBar(res.data);
-        }else if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
-            var values = setJsonsHC.ProvidersStackedBarByAmount(res.data);
-        }else if( plotsChart.chartType == 'stackedBarAdjudication' ){
-            var values = setJsonsHC.AdjudicationStackedBar(res.data);
-        }else if( plotsChart.chartType == 'stackedBarFunding' ){
-            var values = setJsonsHC.FundingStackedBar(res.data);
-        }*/
         
         var thisObjetSelect = $(thisSelect);
-        if( thisObjetSelect.attr('isShowBy') == 'amount' ){
+        var graphicIsShowBy = plotsChart.groupChartBy ;
+
+        if( graphicIsShowBy == 'byAmount' ){
             plotsChart.chartType = 'stackedBarProvider';
-            var values = setJsonsHC.ProvidersStackedBar( plotsChart.data );
-            thisObjetSelect.attr('isShowBy', 'projects')
+            plotsChart.groupChartBy = 'byProjects';
+            var values = setJsonsHC[plotsChart.domainChart]['byProjects']( plotsChart.data );
             thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Monto')
         }else{
-            var values = setJsonsHC.ProvidersStackedBarByAmount( plotsChart.data );
-            thisObjetSelect.attr('isShowBy', 'amount')
+            var values = setJsonsHC[plotsChart.domainChart]['byAmount']( plotsChart.data );
+            plotsChart.groupChartBy = 'byAmount';
             thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Obras')
             plotsChart.chartType = 'stackedBarProvidersByAmount';
         }
@@ -343,22 +343,10 @@ var plotsChart = {
 
                     return '';
 
-                }else if( plotsChart.chartType == 'barCities' ){
-                    var values = setJsonsHC.StackedBar(res.data);
-                }else if( plotsChart.chartType == 'stackedBarDepartment' ){
-                    var values = setJsonsHC.DepartmentsStackedBar(res.data);
-                }else if( plotsChart.chartType == 'stackedBarProvider' ){
-                    var values = setJsonsHC.ProvidersStackedBar(res.data);
-                }else if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
-                    var values = setJsonsHC.ProvidersStackedBarByAmount(res.data);
-                }else if( plotsChart.chartType == 'stackedBarAdjudication' ){
-                    var values = setJsonsHC.AdjudicationStackedBar(res.data);
-                }else if( plotsChart.chartType == 'stackedBarFunding' ){
-                    var values = setJsonsHC.FundingStackedBar(res.data);
+                }else {
+                    var values = setJsonsHC[plotsChart.domainChart][plotsChart.groupChartBy](res.data);
                 }
                 
-                //ddd(values)
-
                 var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                 var heightChart = values[0][0].data.length*30 + 200;
                 $('#genl-pie-chart').css('height', heightChart + 'px');
@@ -386,96 +374,6 @@ var plotsChart = {
         });
 
     },
-    showInTable: function( thisObj ){
-        
-        if($(thisObj).attr('isShowIn') == 'plot'){
-            $(thisObj).attr('isShowIn', 'table');
-            $(thisObj).html(' <i class="fas fa-chart-bar"></i> Mostrar en Gráfica ');
-        }else{
-            $(thisObj).attr('isShowIn', 'plot');
-            $('#tableOfProviders').css('display','none') ;
-            $('#genl-pie-chart').css('display','block') ;
-            $(thisObj).html(' <i class="fas fa-table"></i> Mostrar en Tabla ');
-            return 0;
-        }
-
-        var jsonResponse = plotsChart.data;
-        
-        if( jsonResponse ){;}else{return 0;}
-
-        var providersObj = [];
-        var countFieldAmountTotal = 0 ;  
-
-        //Crea el arreglo de objetos de Provider, con indices provider_NumeroIdProviderBD 
-        for(var i in jsonResponse){
-            var obra = jsonResponse[i];
-            if( providersObj['provider_' + obra.provider_id] ){
-                providersObj['provider_' + obra.provider_id].y += 1;
-                providersObj['provider_' + obra.provider_id].amount[obra.check_stage - 1] += obra.final_contracted_amount;
-                providersObj['provider_' + obra.provider_id].stages[obra.check_stage - 1] += 1;
-                providersObj['provider_' + obra.provider_id].obras.push(  obra.project_title  );
-                providersObj['provider_' + obra.provider_id].total_amount = parseInt(providersObj['provider_' + obra.provider_id].amount.reduce(function(total, sum){return total + sum;}) ) ;
-            }else{
-                var check_stages = [0,0,0,0,0,0,0];
-                check_stages[ obra.check_stage - 1 ] = 1;
-
-                var check_stages_amounts = [0,0,0,0,0,0,0];
-                check_stages_amounts[ obra.check_stage - 1 ] = obra.final_contracted_amount;
-                
-                providersObj['provider_' + obra.provider_id] = {
-                    y      : 1,
-                    id     : obra.provider_id,
-                    name   : obra.provider,
-                    amount : check_stages_amounts,
-                    stages : check_stages,
-                    total_amount  : check_stages_amounts.reduce(function(total, sum){return total + sum;}),
-                    obras  : [ obra.project_title ]
-                };
-            }
-            
-            countFieldAmountTotal += obra.final_contracted_amount;
-        }
-
-        var providersObjSort = []
-        for(var a in providersObj){ 
-            providersObjSort.push( providersObj[a] );  
-        }
-        providersObjSort.sort(function(a, b){return b.total_amount - a.total_amount});
-        
-        
-        var strTable = `
-            <div class="container" style="font-size: 0.8em;">
-              <div class="row" style="border-bottom:1px solid #ddd;" >
-                <div class="col-md-4" style="font-weight:bold; color:#222;">Contratista</div>
-                <div class="col-md-2" style="font-weight:bold; color:#222;">Monto</div>
-                <div class="col-md-6" style="font-weight:bold; color:#222;">Obras</div>
-              </div>`;
-        
-        for(var p in providersObjSort ){
-            var cantidad = providersObjSort[p].total_amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            strTable += `
-              <div class="row" style="border-bottom:1px solid #ddd;" >
-                <div class="col-md-4"  style="color:#666;">`+ providersObjSort[p].name +`</div>
-                <div class="col-md-2"  style="color:#666;"> $`+ cantidad +`</div>
-                <div class="col-md-6"  style="color:#666;"><ul>`
-                
-                for( var o in providersObjSort[p].obras ){
-                    strTable += '<li>' + providersObjSort[p].obras[o] + '</li>';
-                }
-                
-             strTable += `</ul></div>
-              </div> `; 
-        }
-
-        strTable += `
-            </div>       
-        `;               
-                         
-        $('#tableOfProviders').html(strTable) ;
-        $('#tableOfProviders').css('display','block') ;
-        $('#genl-pie-chart').css('display','none') ;
-        return  0 ;      
-    },                   
     optionsChart : function(data){
 
         var widthWindow = jQuery(window).width()
@@ -621,7 +519,7 @@ var plotsChart = {
                                     }
                                 }
                                 
-                                if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
+                                if( plotsChart.groupChartBy == 'byAmount' ){
                                     plotsChart.chartTitle.obras  = countAmount;
                                     plotsChart.chartTitle.amount = countObras;
                                 }else{
@@ -671,8 +569,8 @@ var plotsChart = {
                             }
                         }
                         if(sumAmountThisCity == 0){return '';}
-                        
-                        if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
+
+                        if( plotsChart.groupChartBy == 'byAmount' ){
                             var totalY = parseInt(this.total/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             totalY = '$' + totalY + ' K';
                             var amount = sumAmountThisCity;
