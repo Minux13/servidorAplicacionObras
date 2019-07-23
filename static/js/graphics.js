@@ -292,6 +292,8 @@ var plotsChart = {
         $('#tableOfProviders').css('display','none') ;
         $('#genl-pie-chart').css('display','block') ;
         document.getElementById('waintingAnimation').style.display = 'block';
+
+
         
         var thisObjetSelect = $(thisSelect);
         var graphicIsShowBy = plotsChart.groupChartBy ;
@@ -311,11 +313,16 @@ var plotsChart = {
 
         var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
         var heightChart = values[0][0].data.length*30 + 200;
-        $('#genl-pie-chart').css('height', heightChart + 'px');
-        plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-        plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+
+        setTimeout(function(){  
+            $('#genl-pie-chart').css('height', heightChart + 'px');
+            plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+            plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+            
+            plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none'); 
+        }, 100);
         
-        plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none'); 
+ 
           
     },
     chart : '',
