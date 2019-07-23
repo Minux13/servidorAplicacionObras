@@ -74,11 +74,14 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarAdjudication';
-        plotsChart.groupChartBy = 'byProjects';
+        plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'adjudication';
         plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(s){console.log(s);} //function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
+
+        $('#buttonShowProviderTable').css('display','block');
+        $('#botonShowInTable').css('display','none');
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal4' ).attr('active','');
     },
@@ -87,11 +90,14 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarFunding';
-        plotsChart.groupChartBy = 'byProjects';
+        plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'funding';
         plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(s){console.log(s);} //plotsChart.chartAfterDepartmentsPie.init;
         plotsChart.getData(  );
+
+        $('#buttonShowProviderTable').css('display','block');
+        $('#botonShowInTable').css('display','none');
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal5' ).attr('active','');
     },

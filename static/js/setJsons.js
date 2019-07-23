@@ -279,6 +279,106 @@ var setJsonsHC = {
         }
     },
     funding: {
+        byAmount: function( jsonResponse ){
+        
+            //[Estatus][Fondo]  
+            var countField       = [ [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0] ];
+            var countFieldAmount = [ [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0] ];
+            
+            var countFieldAmountByFunding = [0,0] ;  
+            
+            var categories        = ['Federal','Estatal'];
+            
+            //Por cada obra aumenta en 1 el elemento countField[estatus][fondo]
+            for(var i in jsonResponse){
+                var obra = jsonResponse[i];
+                countField[obra.check_stage - 1][obra['funding_id'] - 1]++;
+                countFieldAmount[obra.check_stage - 1][obra['funding_id'] - 1] += obra.final_contracted_amount;
+                countFieldAmountByFunding[obra['funding_id'] - 1] += obra.final_contracted_amount;
+            }
+            
+            var finalContractedAmountTotal =  countFieldAmountByFunding.reduce(function(total, sum){return total + sum;}) ;
+            
+            
+            var dataForStatus = [[],[],[],[],[],[],[]];
+            for( var field in countField[0] ){
+            
+                dataForStatus[0].push({
+                    amount: countField[0][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[0][field]
+                })
+                dataForStatus[1].push({
+                    amount: countField[1][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[1][field]
+                })
+                dataForStatus[2].push({
+                    amount: countField[2][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[2][field]
+                })
+                dataForStatus[3].push({
+                    amount: countField[3][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[3][field]
+                })
+                dataForStatus[4].push({
+                    amount: countField[4][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[4][field]
+                })
+                dataForStatus[5].push({
+                    amount: countField[5][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[5][field]
+                })
+                dataForStatus[6].push({
+                    amount: countField[6][field],
+                    idFieldDB: parseInt(field)+1,
+                    y: countFieldAmount[6][field]
+                })
+            
+            }
+            
+            
+            var data = [
+                {
+                    name: 'OBRAS RESTRINGIDAS',
+                    data: dataForStatus[6],
+                    color: colorStatus[ 7 ]
+                },{
+                    name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
+                    data: dataForStatus[5],
+                    color: colorStatus[ 6 ]
+                },{
+                    name: 'NO INICIADAS',
+                    data: dataForStatus[4],
+                    color: colorStatus[ 5 ]
+                },{
+                    name: 'RESCINDIDAS',
+                    data: dataForStatus[3],
+                    color: colorStatus[ 4 ]
+                },{
+                    name: 'CON RETRASO',
+                    data: dataForStatus[2],
+                    color: colorStatus[ 3 ]
+                },{
+                    name: 'EN TIEMPO',
+                    data: dataForStatus[1],
+                    color: colorStatus[ 2 ]
+                },{
+                    name: 'TERMINADAS',
+                    data: dataForStatus[0],
+                    color: colorStatus[ 1 ]
+                }
+            ];
+            
+            plotsChart.chartTitle.obras = jsonResponse.length;
+            plotsChart.chartTitle.amount = finalContractedAmountTotal;
+            
+            return [data, categories, countFieldAmountByFunding];
+       },
        byProjects: function( jsonResponse ){
         
             //[Estatus][Fondo]  
