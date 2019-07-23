@@ -539,10 +539,11 @@
                 urlParams = new URLSearchParams(window.location.search);
 
                 if( urlParams.toString() ){
-                    if( urlParams.has('value') ){
+                    if( urlParams.has('value') && urlParams.has('domain')  ){
                         var chartFunction = urlParams.get('chart');
                         var value         = urlParams.get('value');
-                        plotsChart[chartFunction].init(value);
+                        var domain        = urlParams.get('domain');
+                        plotsChart[chartFunction + 'AfterClick'].init(value, domain);
                     }else{
                         var chartFunction = urlParams.get('chart');
                         plotsChart[chartFunction]();

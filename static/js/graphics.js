@@ -44,7 +44,7 @@ var plotsChart = {
         plotsChart.chartType = 'barCities';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'cities';
-        plotsChart.functionAfterClickChart   = 'chartAfterCitiesBar';
+        plotsChart.functionAfterClickChart   = 'cities';
         plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
         
@@ -60,7 +60,7 @@ var plotsChart = {
         plotsChart.chartType = 'stackedBarDepartment';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'departments';
-        plotsChart.functionAfterClickChart   = 'chartAfterDepartmentsPie';
+        plotsChart.functionAfterClickChart   = 'departments';
         plotsChart.functionClick = plotsChart.openUrlChart;
         plotsChart.getData(  );
         
@@ -112,58 +112,66 @@ var plotsChart = {
         
         $('.linkPlots').removeAttr("active"); $( '#plotTotal6' ).attr('active','');
     },
-    chartAfterCitiesBar: {
-        init: function( cityIdDB ){
-            if( !plotsChart.allowGetData ){ return; }
+    citiesAfterClick: {
+        init: function( cityIdDB, typeChart ){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.city = cityIdDB;
             plotsChart.chartTitle.titleGral = citiesNL[cityIdDB];
-            plotsChart.chartAfterCitiesBar.statusPie();
             
             var strOptions = `
-                <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterCitiesBar.statusPie();">
+                <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.openChangeChart('stages');">
                     <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
                 </span>
-                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterCitiesBar.stackedBarDepartment();">
+                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.openChangeChart('departments');">
                     <i class="fas fa-building" style="margin-right:10px;"></i> Dependencias
                 </span>
-                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterCitiesBar.stackedBarProvider();">
+                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.openChangeChart('providers');">
                     <i class="fas fa-user-tie" style="margin-right:10px;"></i> Contratistas
                 </span>
             `;
             
             $('#radioSelects').html(strOptions);
+            
+            plotsChart.citiesAfterClick[typeChart]();
         },
-        statusPie : function(){
-            if( !plotsChart.allowGetData ){ return; }
+        stages : function(){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'pieStatus';
+            plotsChart.groupChartBy = 'byProjects';
+            plotsChart.domainChart  = 'stages';
             plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
-            plotsChart.getData(  );
+            plotsChart.getData();
+            
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
-        stackedBarDepartment : function(){
-            if( !plotsChart.allowGetData ){ return; }
+        departments : function(){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarDepartment';
+            plotsChart.groupChartBy = 'byAmount';
+            plotsChart.domainChart  = 'departments';
             plotsChart.functionClick = function(s){plotsChart.department = s; plotsChart.openUrl();};
-            plotsChart.getData(  );
+            plotsChart.getData();
+            
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
-        stackedBarProvider : function(){
-            if( !plotsChart.allowGetData ){ return; }
+        providers : function(){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarProvidersByAmount';
+            plotsChart.groupChartBy = 'byAmount';
+            plotsChart.domainChart  = 'providers';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
             plotsChart.getData(  );
             
-            $('#buttonShowProviderTable').css('display','block')
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
-    chartAfterDepartmentsPie: {
+    departmentsAfterClick: {
         init: function( departmentIdDB ){
             if( !plotsChart.allowGetData ){ return; }
             plotsChart.department = departmentIdDB;
@@ -210,61 +218,21 @@ var plotsChart = {
             plotsChart.getData( );
             
             $('#buttonShowProviderTable').css('display','block')
-            $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
-        }
-    },
-    chartAfterFundingChart: {
-        init: function( departmentIdDB ){
-            if( !plotsChart.allowGetData ){ return; }
-            plotsChart.department = departmentIdDB;
-            plotsChart.chartTitle.titleGral = departmentsObras[departmentIdDB];
-            plotsChart.chartAfterDepartmentsPie.statusPie();
-            var strOptions = `
-                <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterDepartmentsPie.statusPie();">
-                    <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
-                </span>
-                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterDepartmentsPie.stackCities();">
-                    <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
-                </span>
-                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterDepartmentsPie.stackedBarProvider();">
-                    <i class="fas fa-user-tie" style="margin-right:10px;"></i> Contratistas
-                </span>
-            `;
-            
-            $('#radioSelects').html(strOptions);
-        },
-        statusPie : function(){
-            if( !plotsChart.allowGetData ){ return; }
-            plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
-
-            plotsChart.chartType = 'pieStatus';
-            plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
-            plotsChart.getData( );
-            $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
-        },
-        stackCities : function(){ 
-            if( !plotsChart.allowGetData ){ return; }
-            plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
-
-            plotsChart.chartType = 'barCities';
-            plotsChart.functionClick = function(s){plotsChart.city = s; plotsChart.openUrl();} ;
-            plotsChart.getData( );
-            $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
-        },
-        stackedBarProvider : function(){
-            if( !plotsChart.allowGetData ){ return; }
-            plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
-
-            plotsChart.chartType = 'stackedBarProvider';
-            plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
-            plotsChart.getData( );
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
     openUrlChart: function( idFieldInDB ){
         var functionAfterClickChart  = this.functionAfterClickChart;
         var value    = idFieldInDB;
-        var url      = 'graphics?chart='+functionAfterClickChart + '&value=' + value;
+        var domain   = '&domain=stages';
+        var url      = 'graphics?chart='+functionAfterClickChart + '&value=' + value + domain;
+        window.open( url ,"_self");
+    },
+    openChangeChart: function( typeDomain ){
+        var queryStringParams = new URLSearchParams(window.location.search);
+        var value         = urlParams.get('value');
+        var chart        = urlParams.get('chart');
+        var url      = 'graphics?chart='+ chart + '&value=' + value + '&domain=' + typeDomain;
         window.open( url ,"_self");
     },
     openUrl: function(){
@@ -589,7 +557,7 @@ var plotsChart = {
                             amount = '$' + amount + ' K';
                         }
 
-                        return '<span style="color:#000;font-weight:100;">'+ totalY + '</span><br><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
+                        return '<span style="color:#000;font-weight:700;">'+ totalY + '</span><br><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
                     }
                 }
             },
