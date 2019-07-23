@@ -286,7 +286,8 @@ var plotsChart = {
 
 
         var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-        var heightChart = values[0][0].data.length*30 + 200;
+        var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
+        var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall;
 
         setTimeout(function(){  
             $('#genl-pie-chart').css('height', heightChart + 'px');
@@ -329,7 +330,8 @@ var plotsChart = {
                 }
                 
                 var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                var heightChart = values[0][0].data.length*30 + 200;
+                var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
+                var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall ;
                 $('#genl-pie-chart').css('height', heightChart + 'px');
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
