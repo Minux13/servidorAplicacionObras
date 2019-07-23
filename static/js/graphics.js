@@ -471,6 +471,8 @@ var plotsChart = {
     },
     optionsStackedBar: function(data, categories, amountsByCity ) {
 
+        var preffixTooltip = plotsChart.groupChartBy == 'byAmount' ? '$' : '';
+
         var options = {
             chart: {
                 type: 'bar',
@@ -515,6 +517,10 @@ var plotsChart = {
             title: {
                 text: plotsChart.chartTitle.setTitle()
             },
+   	    	tooltip: {
+                valueDecimals: 0,
+                valuePrefix: preffixTooltip,
+   	    	},
             xAxis: {
                 categories: categories,
                 labels: {
