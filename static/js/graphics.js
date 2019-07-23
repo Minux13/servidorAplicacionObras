@@ -474,6 +474,7 @@ var plotsChart = {
         var options = {
             chart: {
                 type: 'bar',
+                spacingRight: 68,
                 events: {
                     render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
                         try{
