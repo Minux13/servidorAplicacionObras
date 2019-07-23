@@ -81,14 +81,25 @@ var plotsChart = {
     },
     initProvidersChart : function(){
         if( !plotsChart.allowGetData ){ return; }
+        $('#waintingAnimation').css('display','block'); 
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarProvidersByAmount';
         plotsChart.functionAfterClickChart = '';
         plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
         plotsChart.getData();
+ 
 
-
+        /*$.getJSON("static/js/byamount.json", function(values){
+            console.log("");
+            var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+            var heightChart = values[0][0].data.length*30 + 200;
+            $('#genl-pie-chart').css('height', heightChart + 'px');
+            plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+            plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+            plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none'); 
+        });*/
+       
         $('#buttonShowProviderTable').css('display','block')
         $('.linkPlots').removeAttr("active"); $( '#plotTotal6' ).attr('active','');
     },
@@ -267,6 +278,46 @@ var plotsChart = {
         var url = urlLink + queryString ;
         window.open( url ,"_self");
     },
+    showByProjectsOrAmount: function(thisSelect){
+
+        document.getElementById('waintingAnimation').style.display = 'block';
+        /*if( plotsChart.chartType == 'barCities' ){
+            var values = plotsChart.setJsonStackedBar(res.data);
+        }else if( plotsChart.chartType == 'stackedBarDepartment' ){
+            var values = plotsChart.setJsonDepartmentsStackedBar(res.data);
+        }else if( plotsChart.chartType == 'stackedBarProvider' ){
+            var values = plotsChart.setJsonProvidersStackedBar(res.data);
+        }else if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
+            var values = plotsChart.setJsonProvidersStackedBarByAmount(res.data);
+        }else if( plotsChart.chartType == 'stackedBarAdjudication' ){
+            var values = plotsChart.setJsonAdjudicationStackedBar(res.data);
+        }else if( plotsChart.chartType == 'stackedBarFunding' ){
+            var values = plotsChart.setJsonFundingStackedBar(res.data);
+        }*/
+        
+        var thisObjetSelect = $(thisSelect);
+        if( thisObjetSelect.attr('isShowBy') == 'amount' ){
+            plotsChart.chartType = 'stackedBarProvider';
+            var values = plotsChart.setJsonProvidersStackedBar( plotsChart.data );
+            thisObjetSelect.attr('isShowBy', 'projects')
+            thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Monto')
+        }else{
+            var values = plotsChart.setJsonProvidersStackedBarByAmount( plotsChart.data );
+            thisObjetSelect.attr('isShowBy', 'amount')
+            thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Obras')
+            plotsChart.chartType = 'stackedBarProvidersByAmount';
+        }
+
+
+        var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+        var heightChart = values[0][0].data.length*30 + 200;
+        $('#genl-pie-chart').css('height', heightChart + 'px');
+        plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+        plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
+        
+        plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none'); 
+          
+    },
     chart : '',
     data  : undefined,
     getData : function ( ){
@@ -281,55 +332,38 @@ var plotsChart = {
             success: function (res) {
                 
                 plotsChart.data = res.data;
+                
                 if( plotsChart.chartType == 'pieStatus' ){
                     var values = plotsChart.setJsonChart(res.data);
                     var options = plotsChart.optionsChart(values)
                     $('#genl-pie-chart').css('height','400px');
                     plotsChart.chart = Highcharts.chart('genl-pie-chart', options);
+                    
+                    plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none');
+
+                    return '';
+
                 }else if( plotsChart.chartType == 'barCities' ){
                     var values = plotsChart.setJsonStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }else if( plotsChart.chartType == 'stackedBarDepartment' ){
                     var values = plotsChart.setJsonDepartmentsStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }else if( plotsChart.chartType == 'stackedBarProvider' ){
                     var values = plotsChart.setJsonProvidersStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }else if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
                     var values = plotsChart.setJsonProvidersStackedBarByAmount(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }else if( plotsChart.chartType == 'stackedBarAdjudication' ){
                     var values = plotsChart.setJsonAdjudicationStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }else if( plotsChart.chartType == 'stackedBarFunding' ){
                     var values = plotsChart.setJsonFundingStackedBar(res.data);
-                    var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                    var heightChart = values[0][0].data.length*30 + 200;
-                    $('#genl-pie-chart').css('height', heightChart + 'px');
-                    plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
-                    plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 }
+                
+                //ddd(values)
 
+                var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
+                var heightChart = values[0][0].data.length*30 + 200;
+                $('#genl-pie-chart').css('height', heightChart + 'px');
+                plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
+                plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
                 
                 plotsChart.allowGetData = true; $('.linkPlots').css('cursor','pointer'); $('#waintingAnimation').css('display','none');
 
@@ -1133,14 +1167,24 @@ var plotsChart = {
 
         return [data, categories, countFieldAmountTotal];
     },
-    showInTable: function(  ){
+    showInTable: function( thisObj ){
+        
+        if($(thisObj).attr('isShowIn') == 'plot'){
+            $(thisObj).attr('isShowIn', 'table');
+            $(thisObj).html(' <i class="fas fa-chart-bar"></i> Mostrar en Gráfica ');
+        }else{
+            $(thisObj).attr('isShowIn', 'plot');
+            $('#tableOfProviders').css('display','none') ;
+            $('#genl-pie-chart').css('display','block') ;
+            $(thisObj).html(' <i class="fas fa-table"></i> Mostrar en Tabla ');
+            return 0;
+        }
 
         var jsonResponse = plotsChart.data;
         
         if( jsonResponse ){;}else{return 0;}
 
         var providersObj = [];
-        console.log(jsonResponse);
         var countFieldAmountTotal = 0 ;  
 
         //Crea el arreglo de objetos de Provider, con indices provider_NumeroIdProviderBD 
@@ -1208,8 +1252,8 @@ var plotsChart = {
             </div>       
         `;               
                          
-                         
         $('#tableOfProviders').html(strTable) ;
+        $('#tableOfProviders').css('display','block') ;
         $('#genl-pie-chart').css('display','none') ;
         return  0 ;      
     },                   
@@ -1358,9 +1402,14 @@ var plotsChart = {
                                     }
                                 }
                                 
-                                var totalProjectsVisible = countObras;
-                                plotsChart.chartTitle.obras  = totalProjectsVisible;
-                                plotsChart.chartTitle.amount = countAmount;
+                                if( plotsChart.chartType == 'stackedBarProvidersByAmount' ){
+                                    plotsChart.chartTitle.obras  = countAmount;
+                                    plotsChart.chartTitle.amount = countObras;
+                                }else{
+                                    plotsChart.chartTitle.obras  = totalProjectsVisible;
+                                    plotsChart.chartTitle.amount = countAmount;
+                                }
+
                                 plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
                             }
                         }
