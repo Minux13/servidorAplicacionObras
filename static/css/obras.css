@@ -971,3 +971,10 @@ div.ui-datepicker{
     border: white;
     padding: 5px 8px;
 }
+.buttonsOrderShow{
+    background: transparent;
+    border: 1px solid #bbf;
+    font-size: 0.8em;
+    padding: 4px 14px;
+    color: #555;
+}
