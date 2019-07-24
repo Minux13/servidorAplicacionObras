@@ -148,3 +148,14 @@ def projectDetail(project_id):
         return jsonify( { 'data' : dataRes, 'contract': contracts, 'provider': provider } )
 
 
+
+
+@bp.route('/demo_grafica', methods=['GET'])
+def demoGrafica():
+    return render_template( 'grafica.html' )
+    
+  
+@bp.route('/demo_seguimiento', methods=['GET'])
+def demoSeguimiento():
+    return render_template( 'seguimiento.html' )
+
