@@ -178,52 +178,62 @@ var plotsChart = {
         }
     },
     departmentsAfterClick: {
-        init: function( departmentIdDB ){
-            if( !plotsChart.allowGetData ){ return; }
+        init: function( departmentIdDB, typeChart ){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.department = departmentIdDB;
             plotsChart.chartTitle.titleGral = departmentsObras[departmentIdDB];
-            plotsChart.chartAfterDepartmentsPie.statusPie();
+
             var strOptions = `
-                <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.chartAfterDepartmentsPie.statusPie();">
+                <span class="linkPlots" id="plotTotal1" active onclick="plotsChart.openChangeChart('stages');">
                     <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
                 </span>
-                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.chartAfterDepartmentsPie.stackCities();">
+                <span class="linkPlots" id="plotTotal2" onclick="plotsChart.openChangeChart('cities');">
                     <i class="fas fa-map" style="margin-right:10px;"></i> Municipios
                 </span>
-                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.chartAfterDepartmentsPie.stackedBarProvider();">
+                <span class="linkPlots" id="plotTotal3" onclick="plotsChart.openChangeChart('providers');">
                     <i class="fas fa-user-tie" style="margin-right:10px;"></i> Contratistas
                 </span>
             `;
             
             $('#radioSelects').html(strOptions);
+            
+            plotsChart.departmentsAfterClick[typeChart]();
         },
-        statusPie : function(){
-            if( !plotsChart.allowGetData ){ return; }
+        stages : function(){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'pieStatus';
+            plotsChart.groupChartBy = 'byProjects';
+            plotsChart.domainChart  = 'stages';
             plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
-            plotsChart.getData( );
+            plotsChart.getData();
+
             $('.linkPlots').removeAttr("active");$('#plotTotal1').attr('active','');
         },
-        stackCities : function(){ 
-            if( !plotsChart.allowGetData ){ return; }
+        cities : function(){ 
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'barCities';
+            plotsChart.groupChartBy = 'byAmount';
+            plotsChart.domainChart  = 'cities';
             plotsChart.functionClick = function(s){plotsChart.city = s; plotsChart.openUrl();} ;
-            plotsChart.getData( );
+            plotsChart.getData();
+
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
-        stackedBarProvider : function(){
-            if( !plotsChart.allowGetData ){ return; }
+        providers : function(){
+            //if( !plotsChart.allowGetData ){ return; }
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarProvidersByAmount';
+            plotsChart.groupChartBy = 'byAmount';
+            plotsChart.domainChart  = 'providers';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
             plotsChart.getData( );
             
-            $('#buttonShowProviderTable').css('display','block')
+            //$('#buttonShowProviderTable').css('display','block')
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
