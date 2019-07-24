@@ -162,6 +162,9 @@ var plotsChart = {
             plotsChart.functionClick = function(s){plotsChart.department = s; plotsChart.openUrl();};
             plotsChart.getData();
             
+            $('#buttonShowProviderTable').css('display','block');
+            $('#botonShowInTable').css('display','none');
+
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providers : function(){
@@ -174,6 +177,9 @@ var plotsChart = {
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
             plotsChart.getData(  );
             
+            $('#buttonShowProviderTable').css('display','block');
+            //$('#botonShowInTable').css('display','none');
+
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
     },
@@ -221,6 +227,9 @@ var plotsChart = {
             plotsChart.functionClick = function(s){plotsChart.city = s; plotsChart.openUrl();} ;
             plotsChart.getData();
 
+            $('#buttonShowProviderTable').css('display','block');
+            $('#botonShowInTable').css('display','none');
+            
             $('.linkPlots').removeAttr("active");$('#plotTotal2').attr('active','');
         },
         providers : function(){
@@ -233,6 +242,9 @@ var plotsChart = {
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
             plotsChart.getData( );
             
+            $('#buttonShowProviderTable').css('display','block');
+            //$('#botonShowChartBy').css('display','none');
+        
             //$('#buttonShowProviderTable').css('display','block')
             $('.linkPlots').removeAttr("active");$('#plotTotal3').attr('active','');
         }
