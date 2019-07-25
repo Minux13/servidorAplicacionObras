@@ -12,6 +12,7 @@ var plotsChart = {
     chartType     : '',
     groupChartBy  : '',
     domainChart   : '',
+    countProjClick: 0,
     allowGetData  : true,
     functionClick : function(){;},
     functionAfterClickChart : '',
@@ -32,7 +33,7 @@ var plotsChart = {
 
         plotsChart.chartType = 'pieStatus';
         plotsChart.functionAfterClickChart   = '';
-        plotsChart.functionClick = function(){console.log("callback");};
+        plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
         plotsChart.getData();
         
         //$('.linkPlots').removeAttr("active"); $( '#plotTotal2' ).attr('active','');
@@ -280,6 +281,7 @@ var plotsChart = {
         queryString += '&funding='      + plotsChart.funding;
         queryString += '&program='      + plotsChart.program;
         queryString += '&adjudication=' + plotsChart.adjudication;
+        queryString += '&countProjects=' + plotsChart.countProjClick;
         var url = urlLink + queryString ;
         window.open( url ,"_self");
     },
@@ -440,6 +442,7 @@ var plotsChart = {
    	                point: {
    	                    events: {
    	                        click: function () {
+                                plotsChart.countProjClick = this.y;
                                 plotsChart.functionClick( this.x );
    	                        }/*,
                             legendItemClick: function(){
@@ -615,6 +618,21 @@ var plotsChart = {
                     point: {
    	                    events: {
    	                        click: function () {
+                                if( plotsChart.groupChartBy == 'byAmount' ){
+                                    var series = plotsChart.chart.series; //status
+                                    var thisX = this.x;
+                                    var sumAmounts = 0;
+                                    for( var s in series ){ //Son 7
+                                        if(series[s].data.length){
+                                            if(series[s].visible){
+                                                sumAmounts += series[s].data[thisX].amount;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    var sumAmounts = this.total;
+                                }
+                                plotsChart.countProjClick = sumAmounts;
                                 plotsChart.functionClick( this.idFieldDB );
    	                        }
    	                    }

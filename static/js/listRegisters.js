@@ -730,15 +730,18 @@ var listStatusProjects = {
                 //***document.getElementById('titleSecondLink').innerHTML = rows[0].department;
 
                 listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
+                    
+                var urlParams = new URLSearchParams(window.location.search);
+                var count = urlParams.get('countProjects')
                 
                 if( createButtons ){
-                    listStatusProjects.buttons.create( res.count.count );
+                    listStatusProjects.buttons.create( count );
                 }
 
                 var colorLine = colorStatus[listStatusProjects.statusId] ? colorStatus[listStatusProjects.statusId] : '#aaa;'
                 
                 $('#headerListProjects').css("borderBottom", colorLine + ' 2px solid');
-                $('#nameStatusProjectTitle').html(res.count.count + ' Obras ');
+                $('#nameStatusProjectTitle').html( count + ' Obras ');
 
                 $('#waintingAnimation').css("display", "none");
                 
