@@ -21,10 +21,10 @@ var plotsChart = {
         amount: 0,
         titleGral : '',
         setTitle: function(){
-            var amount = this.amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            var amount = parseInt(this.amount/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var city = this.titleGral;
             $('#titleChartGral').html(city);
-            return 'TOTAL DE OBRAS ' + this.obras + '<br>$' + amount; 
+            return 'TOTAL DE OBRAS ' + this.obras + '<br>$' + amount + ' K'; 
         }
     },
     initStatusPie : function(){
@@ -459,9 +459,9 @@ var plotsChart = {
                             var point = this.point;
                             var amount = this.point.amount;
                             
-                            var sfcat = amount.toFixed(2).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            var sfcat = parseInt(amount/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 
-                            return '<b>' + point.y + ' ' + point.name + ' <span style="color:#446;">$' + sfcat + '</span>';
+                            return '<b>' + point.y + ' ' + point.name + ' <span style="color:#446;">$' + sfcat + ' K</span>';
                         }
    	                }
    	    	    }
