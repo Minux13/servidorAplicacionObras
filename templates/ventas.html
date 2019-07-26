@@ -1,0 +1,385 @@
+<!doctype html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
+
+        
+        <link rel="icon" href="/static/images/favi.png" type="image/gif" sizes="16x9">
+        
+        <!--Loading JQuery UI css-->
+        <link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css">
+        
+        <!--  -->
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+        <!-- Bootstrap CSS CDN -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        
+        <!-- Our Custom CSS -->
+        <link href="/static/css/style4.css" rel="stylesheet" type="text/css">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
+ 
+        <!-- Fonts Google -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        
+ 
+        <!-- CSS for Lato family font -->
+        <link href="/static/css/cssLaton.css" rel="stylesheet">
+        
+        
+        <link href="/static/css/obras.css" rel="stylesheet">
+        
+
+        <title> Contraloría y Transparencia Gubernamental Gobierno del Estado de Nuevo León </title>
+    </head>
+
+
+    <body class="  pace-done">
+        <div class="pace  pace-inactive">
+            <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">  
+                <div class="pace-progress-inner">
+                </div>
+            </div>
+            <div class="pace-activity">
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar" style="min-height: 100%;">
+                <div class="sidebar-header">
+                    <div class="sjo-logo-big">
+                        <img width="244" height="119" class="img-fluid" >
+                    </div>
+                    <div class="sjo-logo-small">
+                        <img width="244" height="119" class="img-fluid" >
+                    </div>
+                </div>
+                <ul class="list-unstyled components">      
+                
+
+
+                </ul>
+            </nav>
+
+            
+
+            <!-- Page Content Holder -->
+            <div id="content" class="container-fluid">
+
+            <!-- Nav Bar -->
+                <nav class="navbar navbar-default navbar-static-top" >
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button class="btn btn-info navbar-btn" id="sidebarCollapse" type="button">
+                                <i class="fa fa-bars"></i>
+                                <span class="sr-only">Toggle navigation</span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                
+                <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+                    <ol class="breadcrumb page-breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            &nbsp;
+                            <a   id="titleFirstLink"> Tablero </a>
+
+                        </li>                         
+                    </ol>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                
+                <!--END TITLE & BREADCRUMB PAGE-->
+                
+
+                <!--BEGIN CONTENT-->
+                <div class="container-fluid">
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="portlet box">
+                                
+
+
+                                <!--
+                                <div class="portlet-header"> <span style="font-weight:700; color:#224; margin-right: 8px;"> Año de la Cuenta Pública: </span>
+                                    <select id="periodDateChart" >
+                                        <option value="2019-01-01/2019-12-31">2019</option>
+                                        <option value="2018-01-01/2018-12-31">2018</option>
+                                        <option value="2017-01-01/2017-12-31">2017</option>
+                                        <option value="2016-01-01/2016-12-31">2016</option>
+                                    </select>
+                                    <div class="tools">
+                                        <!--
+                                        <i class="fa fa-chevron-up"></i>
+                                        <i data-toggle="modal" data-target="#modal-config" class="fa fa-cog"></i>
+                                        <i class="fa fa-refresh"></i>
+                                        <i class="fa fa-times"></i>
+                                    </div>
+                                </div>
+                                -->
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6">
+                                            <!--
+                                            <label for="message-text" class="col-form-label"><b>Dependencia:</b></label>
+                                            <select id="dependencySelect" class="form-control " required="">
+                                                <option value="">--Seleccione una Dependencia--</option>
+                                                <option value="">TOTAL</option>
+                                                {% for department in departments %}
+                                                <option value="{{ department.id }}"> {{ department.title }} </option>
+                                                {% endfor %}                                                
+                                            </select>
+                                            <div class="invalid-feedback">Debe seleccionar una dependencia</div>
+                                            -->
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row" >
+                                        <div class="col-md-12" id="titleChartGral">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row" >
+                                        <div class="col-md-12">
+                                            <div id="radioSelects">
+                                                <!--<a class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
+                                                    <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal2" href="/graphics?chart=initStackCities" >
+                                                    <i class="fas fa-map" ></i> Municipios
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal3" href="/graphics?chart=initDepartmentsPie" >
+                                                    <i class="fas fa-building" ></i> Dependencias
+                                                </a>
+                                                <a class="linkPlots" id="plotTotal4" href="/graphics?chart=initAdjudicationChart" >
+                                                    <i class="fas fa-hand-holding-usd" ></i> Adjudicación
+                                                </a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+<a id="downloadAnchorElem" style="display:none"></a>
+
+                                    <div  id="buttonShowProviderTable" style="display:none; width:100%; text-align: center; margin-bottom: 20px;" >
+                                        <button onclick="plotsChart.showByProjectsOrAmount(this);" class="buttonsOrderShow" id="botonShowChartBy"><i class="fas fa-stream"></i> Graficar por Obras </button>
+                                        <button onclick="setJsonsHC.providers.byTable(this);" isShowIn="plot" class="buttonsOrderShow" id="botonShowInTable"><i class="fas fa-table"></i> Mostrar en tabla </button>
+                                        <button onclick="setJsonsHC.providers.byTable(this);" isShowIn="plot" class="buttonsOrderShow" id="botonShowInTable"><i class="fas fa-table"></i> Mostrar en tabla </button>
+                                    </div>
+
+                                    <div id="genl-pie-chart" style="width: 100%; height:700px">
+                                    </div>
+                                    <div id="tableOfProviders" >
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>                            
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="lds-roller"  id="waintingAnimation" >
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+        </div>
+        
+        <input id="urlLink" type="hidden" value="{{ urlLink }}" >
+        
+        <input id="catalogName" type="hidden" value="{{ catalog }}" >
+
+    
+        <!-- Jquery -->
+        <script src="/static/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- Jquery UI -->
+        <script src="/static/js/jquery-ui.js"></script>
+        <!--  -->
+        <script src="/static/js/jsonpath-0.8.0.js"></script>
+        <!-- Highcharts -->
+        <script src="/static/js/highcharts.js"></script>
+        <!-- Highcharts 3D charts -->
+        <script src="/static/js/highcharts-3d.js"></script>
+        <!-- Module of Highcharts -->
+        <script src="/static/js/exporting.js"></script>
+        
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        
+
+
+        
+        <script> 
+        
+            $(document).ready(function () {
+            
+                //Button toggle for sidebar
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+                
+            
+
+                urlParams = new URLSearchParams(window.location.search);
+
+
+
+                //setBarChartByAmount();
+                setBarChartByCount();
+                
+            });
+
+
+
+function setBarChartByCount(){
+    Highcharts.chart('genl-pie-chart', {
+        chart: {
+            type: 'bar',
+        },
+        title: {
+            text: 'Ventas Netas por Cliente'
+        },
+        subtitle: {
+            text: 'Julio 2019'
+        },
+        xAxis: {
+            categories: [
+                'VALSPAR ARIES COATINGS S DE RL DE CV',
+                'PINTURAS THERMICAS DEL NORTE, S.A DE C.V.',
+                'STABILIT SERVICIOS, S.A. DE C.V.',
+                'COM DE RECUBRIMIENTOS ARQUITECTONICOS SA DE CV',
+                'PPG INDUSTRIES DE MEXICO, S.A. DE C.V.',
+                'CEMIX ,SA DE CV',
+                'PINTURAS DOAL , SA DE CV',
+                'GRAGON DE MEXICO, SA DE CV',
+                'CYAN LABS,SA DE CV',
+                'PYOSA INDUSTRIAS S A P I DE CV',
+                'TECNOBRICK, SA DE CV',
+                'CREST NORTEAMERICA SA DE CV',
+                'DESMOLDANTES Y ADITIVOS, SA DE CV',
+                'PINTURAS OSEL , S.A. DE C.V',
+                'LAFON MANUFACTURING, SA DE CV',
+                'OTROS CLIENTES',
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: ''
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }, 
+            series: {
+                dataLabels: {
+   	                enabled: true,
+   	                color: '#000000',
+                    formatter: function(){
+                        var point = this.point;
+                        var amount = this.point.amount;
+                         
+                        if(this.series.index == 0 ){
+                            var ret = '$ ' + point.y.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")  + ' <br><span style="color:#339;">' + point.value2 + ' %</span>'
+                        }
+                
+                        return ret;
+                    }
+   	            }
+            }
+        },
+        exporting: {
+            chartOptions: {
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '',
+            data: [
+                  { y: 1704053.96, color: '#339', value2: 11.93, }
+                , { y: 1494215.21, color: '#339', value2: 10.46, }
+                , { y: 1340237.39, color: '#339', value2: 9.38 , }
+                , { y: 1236809.46, color: '#339', value2: 8.66 , }
+                , { y: 831552.26,  color: '#339', value2: 5.82 , }
+                , { y: 829581.99,  color: '#339', value2: 5.81 , }
+                , { y: 706434.96,  color: '#339', value2: 4.95 , }
+                , { y: 616094.16,  color: '#339', value2: 4.31 , }
+                , { y: 526794.18,  color: '#339', value2: 3.69 , }
+                , { y: 455325.65,  color: '#339', value2: 3.19 , }
+                , { y: 442233.08,  color: '#339', value2: 3.10 , }
+                , { y: 432934.52,  color: '#339', value2: 3.03 , }
+                , { y: 339396.04,  color: '#339', value2: 2.38 , }
+                , { y: 277932.50,  color: '#339', value2: 1.95 , }
+                , { y: 263888.44,  color: '#339', value2: 1.85 , }
+                , { y: 2784787.30, color: '#339', value2: 19.49, }
+            ]
+        }]
+    });  
+}
+
+
+
+            
+        </script>
+    
+    </body>
+</html>
+
+
+

@@ -159,3 +159,6 @@ def demoGrafica():
 def demoSeguimiento():
     return render_template( 'seguimiento.html' )
 
+@bp.route('/ventas', methods=['GET'])
+def ventas():
+    return render_template( 'ventas.html' )
