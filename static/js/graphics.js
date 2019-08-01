@@ -13,6 +13,7 @@ var plotsChart = {
     groupChartBy  : '',
     domainChart   : '',
     countProjClick: 0,
+    typeHighChart : '',
     allowGetData  : true,
     functionClick : function(){;},
     functionAfterClickChart : '',
@@ -23,8 +24,10 @@ var plotsChart = {
         setTitle: function(){
             var amount = parseInt(this.amount/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var city = this.titleGral;
+            var period = document.getElementById('periodDateChart');
+            var pp = period.options[period.selectedIndex].innerHTML
             $('#titleChartGral').html(city);
-            return 'TOTAL DE OBRAS ' + this.obras + '<br>$' + amount + ' K'; 
+            return 'TOTAL DE OBRAS ' + this.obras + '<br>$' + amount + ' K <br> <span style="color:#335;font-size:0.85em;">' + pp + '</span>'; 
         }
     },
     initStatusPie : function(){
@@ -32,17 +35,36 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'pieStatus';
+        plotsChart.typeHighChart = 'pie';
         plotsChart.functionAfterClickChart   = '';
         plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
         plotsChart.getData();
         
         //$('.linkPlots').removeAttr("active"); $( '#plotTotal2' ).attr('active','');
     },
+    initDates : function(){
+        if( !plotsChart.allowGetData ){ return; }
+        plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
+
+        plotsChart.chartType = 'barDates';
+        plotsChart.typeHighChart = 'column';
+        plotsChart.groupChartBy = 'byAmount';
+        plotsChart.domainChart  = 'dates';
+        plotsChart.functionAfterClickChart   = '';
+        plotsChart.functionClick = function(s){ plotsChart.startDate = s+'-01-01'; plotsChart.endDate = s+'-12-31'; plotsChart.openUrl(); };
+        plotsChart.getData();
+        
+        //$('#buttonShowProviderTable').css('display','block');
+        //$('#botonShowInTable').css('display','none');
+
+        $('.linkPlots').removeAttr("active"); $( '#plotTotal1' ).attr('active','');    
+    },
     initStackCities : function(){
         if( !plotsChart.allowGetData ){ return; }
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'barCities';
+        plotsChart.typeHighChart = 'bar';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'cities';
         plotsChart.functionAfterClickChart   = 'cities';
@@ -59,6 +81,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarDepartment';
+        plotsChart.typeHighChart = 'bar';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'departments';
         plotsChart.functionAfterClickChart   = 'departments';
@@ -75,6 +98,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarAdjudication';
+        plotsChart.typeHighChart = 'bar';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'adjudication';
         plotsChart.functionAfterClickChart   = '';
@@ -91,6 +115,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarFunding';
+        plotsChart.typeHighChart = 'bar';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'funding';
         plotsChart.functionAfterClickChart   = '';
@@ -108,6 +133,7 @@ var plotsChart = {
         plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
         plotsChart.chartType = 'stackedBarProvidersByAmount';
+        plotsChart.typeHighChart = 'bar';
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'providers';
         plotsChart.functionAfterClickChart = '';
@@ -146,6 +172,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'pieStatus';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byProjects';
             plotsChart.domainChart  = 'stages';
             plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
@@ -158,6 +185,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarDepartment';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byAmount';
             plotsChart.domainChart  = 'departments';
             plotsChart.functionClick = function(s){plotsChart.department = s; plotsChart.openUrl();};
@@ -173,6 +201,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarProvidersByAmount';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byAmount';
             plotsChart.domainChart  = 'providers';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();};
@@ -211,6 +240,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'pieStatus';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byProjects';
             plotsChart.domainChart  = 'stages';
             plotsChart.functionClick = function(s){plotsChart.check_stage = s; plotsChart.openUrl();};
@@ -223,6 +253,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'barCities';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byAmount';
             plotsChart.domainChart  = 'cities';
             plotsChart.functionClick = function(s){plotsChart.city = s; plotsChart.openUrl();} ;
@@ -238,6 +269,7 @@ var plotsChart = {
             plotsChart.allowGetData = false; $('.linkPlots').css('cursor','wait');
 
             plotsChart.chartType = 'stackedBarProvidersByAmount';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byAmount';
             plotsChart.domainChart  = 'providers';
             plotsChart.functionClick = function(s){plotsChart.provider = s; plotsChart.openUrl();} ;
@@ -298,6 +330,7 @@ var plotsChart = {
 
         if( graphicIsShowBy == 'byAmount' ){
             plotsChart.chartType = 'stackedBarProvider';
+            plotsChart.typeHighChart = 'bar';
             plotsChart.groupChartBy = 'byProjects';
             var values = setJsonsHC[plotsChart.domainChart]['byProjects']( plotsChart.data );
             thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Monto')
@@ -306,6 +339,7 @@ var plotsChart = {
             plotsChart.groupChartBy = 'byAmount';
             thisObjetSelect.html('<i class="fas fa-stream"></i> Graficar por Obras')
             plotsChart.chartType = 'stackedBarProvidersByAmount';
+            plotsChart.typeHighChart = 'bar';
         }
 
 
@@ -338,7 +372,7 @@ var plotsChart = {
             success: function (res) {
                 
                 plotsChart.data = res.data;
-                
+                //console.log(res.data);
                 if( plotsChart.chartType == 'pieStatus' ){
                     var values = setJsonsHC.Chart(res.data);
                     var options = plotsChart.optionsChart(values)
@@ -355,7 +389,8 @@ var plotsChart = {
                 
                 var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                 var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
-                var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall ;
+                var columnHeight = plotsChart.typeHighChart == 'column' ? 300 : 0;
+                var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall + columnHeight ;
                 $('#genl-pie-chart').css('height', heightChart + 'px');
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
                 plotsChart.chart.render();  //Renderiza para mostrar los labels que se generan despues de crearse la grafica
@@ -506,10 +541,13 @@ var plotsChart = {
 
         var preffixTooltip = plotsChart.groupChartBy == 'byAmount' ? '$' : '';
         var titleXAxis     = plotsChart.groupChartBy == 'byAmount' ? 'Montos' : 'Número de Obras';
+        var labelsPositionsX = plotsChart.typeHighChart == 'bar' ? 5  : undefined;
+        var labelsPositionsY = plotsChart.typeHighChart == 'bar' ? 10 : -20;
+        var alignLabel       = plotsChart.typeHighChart == 'bar' ? 'right' : 'center';
 
         var options = {
             chart: {
-                type: 'bar',
+                type: plotsChart.typeHighChart,
                 spacingRight: 68,
                 events: {
                     render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
@@ -564,13 +602,13 @@ var plotsChart = {
             yAxis: {
                 stackLabels: {
                     enabled: true,
-                    align: 'right',
+                    align: alignLabel,
                     style: {
                         color: '#226',
                         fontWeight: 'bold'
                     },
-                    x: 5,
-                    y: 10,
+                    x: labelsPositionsX,
+                    y: labelsPositionsY,
                     verticalAlign: 'top',
                     amountsByCity : amountsByCity,
                     formatter: function () {
@@ -611,6 +649,30 @@ var plotsChart = {
             plotOptions: {
                 series: {
                     stacking: 'normal'
+                },
+                column: {
+                    point: {
+   	                    events: {
+   	                        click: function () {
+                                if( plotsChart.groupChartBy == 'byAmount' ){
+                                    var series = plotsChart.chart.series; //status
+                                    var thisX = this.x;
+                                    var sumAmounts = 0;
+                                    for( var s in series ){ //Son 7
+                                        if(series[s].data.length){
+                                            if(series[s].visible){
+                                                sumAmounts += series[s].data[thisX].amount;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    var sumAmounts = this.total;
+                                }
+                                plotsChart.countProjClick = sumAmounts;
+                                plotsChart.functionClick( this.category );
+   	                        }
+   	                    }
+   	                }
                 },
                 bar: {
                     groupPadding:0,
