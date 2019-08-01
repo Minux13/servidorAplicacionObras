@@ -178,7 +178,7 @@
 
                                 <div class="portlet-header">
                                     <select id="periodDateChart" >
-                                        <option value="/">Administración Actual</option>
+                                        <option value="/"  >Administración Actual</option>
                                         <option value="/2015-10-4">Administración Anterior (Hasta 4/Oct/2015)</option>
                                         <option value="2016-01-01/2016-12-31">2016</option>
                                         <option value="2017-01-01/2017-12-31">2017</option>
@@ -225,9 +225,10 @@
                                     <div class="row" >
                                         <div class="col-md-12">
                                             <div id="radioSelects">
-                                                <!--<a class="linkPlots" id="plotTotal1" active onclick="plotsChart.initStatusPie();">
-                                                    <i class="fas fa-chart-line" style="margin-right:10px;"></i> Estatus
-                                                </a>-->
+                                                <a class="linkPlots" id="plotTotal1" href="/graphics" >
+                                                    <i class="fas fa-calendar" ></i> Periodos
+                                                </a>
+
                                                 <a class="linkPlots" id="plotTotal2" href="/graphics?chart=initStackCities" >
                                                     <i class="fas fa-map" ></i> Municipios
                                                 </a>
@@ -517,6 +518,8 @@
         
             $(document).ready(function () {
             
+                document.getElementById('periodDateChart').options[0].selected = true
+
                 //Button toggle for sidebar
                 $('#sidebarCollapse').on('click', function () {
                     $('#sidebar').toggleClass('active');
@@ -525,7 +528,8 @@
                 $( "#planed_kickoff" ).datepicker( datesGENL.formatPicker );
                 $('#city').select2();
                 $('#provider').select2();
-            
+                
+                
                 //Select the date 
                 $('#periodDateChart').on('change', function() {
                     
@@ -549,7 +553,8 @@
                         plotsChart[chartFunction]();
                     }
                 }else{
-                    plotsChart.initStatusPie();
+                    //plotsChart.initStatusPie();
+                    plotsChart.initDates();
                     //plotsChart.initProvidersChart();
                 }
 
