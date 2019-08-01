@@ -648,7 +648,11 @@ var listStatusProjects = {
     funding         : '',
     program         : '',
     adjudication    : '',
-    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName, providerN ){
+    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName, providerN, amount, idStage ){
+            
+        var amount = parseInt(amount).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        var arrayStagesText = ['Terminada','En Tiempo','Con Retraso','Rescindidas','No Iniciada','Con Avance Mayor Al Físico','Restringida']
+        
         var stringTag = `
          <div class="row tableAll"  idProject="`+ idProject +`" dependency="`+ dependency +`"  idStatus="`+ idStatus +`" onclick="listStatusProjects.goToDetail(this)" >
 
@@ -675,8 +679,8 @@ var listStatusProjects = {
                             ` + cityProject + `
                          </div>
                      </div>
-                 </div>
-                 <div class="row  municipioYCategoria" >
+                </div>
+                <div class="row  municipioYCategoria" >
                      <div class="col-md-4">
                          <div class="obracategoriaaa" ><i class="fas fa-industry"></i> </div>
                          <div class="valueee ">
@@ -687,6 +691,21 @@ var listStatusProjects = {
                          <div class="obracategoriaaa" ><i class="fas fa-user-tie"></i> </div>
                          <div class="valueee ">
                             ` + providerN + `
+                         </div>
+                     </div>
+
+                 </div>
+                 <div class="row  municipioYCategoria" >
+                     <div class="col-md-4">
+                         <div class="obracategoriaaa" ><i class="fas fa-dollar-sign"></i> </div>
+                         <div class="valueee ">
+                            ` + amount + `
+                         </div>
+                     </div>
+                     <div class="col-md-8">
+                         <div class="obracategoriaaa" ><i style="color:`+ colorStatus[idStage] +`;" class="fas fa-square"></i> </div>
+                         <div class="valueee ">
+                            ` + arrayStagesText[idStage - 1] + `
                          </div>
                      </div>
 
@@ -702,6 +721,7 @@ var listStatusProjects = {
     setList: function(rows, dependency, idStatus){
         var strTagRows = '';
         for (var i in rows) {
+            console.log(rows[i]);
             strTagRows += ( listStatusProjects.createRow( rows[i].project_title, 
                                                           citiesNL[ rows[i].city_id ], 
                                                           rows[i].category, 
@@ -710,7 +730,9 @@ var listStatusProjects = {
                                                           idStatus,
                                                           rows[i].contract_number,
                                                           rows[i].department,
-                                                          rows[i].provider 
+                                                          rows[i].provider,
+                                                          rows[i].final_contracted_amount,
+                                                          rows[i].check_stage
                                                         ));
         }
         
