@@ -42,6 +42,121 @@ var setJsonsHC = {
         
         return values;
     },
+    dates: {
+        byAmount: function( jsonResponse ){
+        
+            //[Estatus][Anio]  
+            var countField = [
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+            ];
+            
+            var countFieldAmount = [
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+            ];
+            
+            var countFieldAmountByCity = [0,0,0,0,0,0,0] ;  
+            
+            var categories        = ['2014', '2015', '2016', '2017', '2018', '2019', '2020'];
+            
+            //Por cada obra aumenta en 1 el elemento countField[estatus][ciudad]
+            for(var i in jsonResponse){
+                var obra = jsonResponse[i];
+                var year = parseInt( obra.contract_kickoff );
+                if( year >= 2014 && year <= 2020 ){
+                    var yearArray = year - 2014;
+                    countField[obra.check_stage - 1][ yearArray ]++;
+                    countFieldAmount[obra.check_stage - 1][ yearArray ] += obra.final_contracted_amount;
+                    countFieldAmountByCity[ yearArray ] += obra.final_contracted_amount;
+                }
+            }
+
+            var finalContractedAmountTotal =  countFieldAmountByCity.reduce(function(total, sum){return total + sum;}) ;
+            
+            var dataForStatus = [[],[],[],[],[],[],[]];
+            for( var field in countField[0] ){
+            
+                dataForStatus[0].push({
+                    y: countFieldAmount[0][field],
+                    amount: countField[0][field],
+                })
+                dataForStatus[1].push({
+                    y: countFieldAmount[1][field],
+                    amount: countField[1][field],
+                })
+                dataForStatus[2].push({
+                    y: countFieldAmount[2][field],
+                    amount: countField[2][field],
+                })
+                dataForStatus[3].push({
+                    y: countFieldAmount[3][field],
+                    amount: countField[3][field],
+                })
+                dataForStatus[4].push({
+                    y: countFieldAmount[4][field],
+                    amount: countField[4][field],
+                })
+                dataForStatus[5].push({
+                    y: countFieldAmount[5][field],
+                    amount: countField[5][field],
+                })
+                dataForStatus[6].push({
+                    y: countFieldAmount[6][field],
+                    amount: countField[6][field],
+                })
+            
+            }
+            
+            
+            var data = [
+                {
+                    name: 'OBRAS RESTRINGIDAS',
+                    data: dataForStatus[6],
+                    color: colorStatus[ 7 ]
+                },{
+                    name: 'CON AVANCE FINANCIERO MAYOR AL FÍSICO',
+                    data: dataForStatus[5],
+                    color: colorStatus[ 6 ]
+                },{
+                    name: 'NO INICIADAS',
+                    data: dataForStatus[4],
+                    color: colorStatus[ 5 ]
+                },{
+                    name: 'RESCINDIDAS',
+                    data: dataForStatus[3],
+                    color: colorStatus[ 4 ]
+                },{
+                    name: 'CON RETRASO',
+                    data: dataForStatus[2],
+                    color: colorStatus[ 3 ]
+                },{
+                    name: 'EN TIEMPO',
+                    data: dataForStatus[1],
+                    color: colorStatus[ 2 ]
+                },{
+                    name: 'TERMINADAS',
+                    data: dataForStatus[0],
+                    color: colorStatus[ 1 ]
+                }
+            ];
+            
+            plotsChart.chartTitle.obras = jsonResponse.length;
+            plotsChart.chartTitle.amount = finalContractedAmountTotal;
+            
+            return [data, categories, countFieldAmountByCity];
+        }
+    },
     departments: {
         byProjects: function( jsonResponse ){
         
