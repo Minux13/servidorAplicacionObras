@@ -54,8 +54,10 @@ var plotsChart = {
         plotsChart.functionClick = function(s){ plotsChart.startDate = s+'-01-01'; plotsChart.endDate = s+'-12-31'; plotsChart.openUrl(); };
         plotsChart.getData();
         
-        //$('#buttonShowProviderTable').css('display','block');
-        //$('#botonShowInTable').css('display','none');
+        $('#buttonShowProviderTable').css('display','block');
+        $('#botonShowInTable').css('display','none');
+        $('#botonShowChartBy').css('display','none');
+        $('#botonOnlyShowInProcess').css('display','block');
 
         $('.linkPlots').removeAttr("active"); $( '#plotTotal1' ).attr('active','');    
     },
@@ -358,6 +360,24 @@ var plotsChart = {
  
           
     },
+    showOnlyInProcess: function(thisSelect){
+
+        var thisObjetSelect = $(thisSelect);
+        var isShowIn = thisObjetSelect.attr('isShowIn');
+
+        if(isShowIn == 'all'){
+            plotsChart.chart.series[6].setVisible(false,false);
+            thisObjetSelect.attr('isShowIn','process');
+            thisObjetSelect.html('Mostrar Todas');
+        }else{
+            $(plotsChart.chart.series).each(function(){
+                this.setVisible(true, false);
+            });
+            thisObjetSelect.attr('isShowIn','all');
+            thisObjetSelect.html('Mostrar en Proceso');
+        }
+        plotsChart.chart.redraw();
+    },
     chart : '',
     data  : undefined,
     getData : function ( ){
@@ -389,7 +409,7 @@ var plotsChart = {
                 
                 var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
                 var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
-                var columnHeight = plotsChart.typeHighChart == 'column' ? 300 : 0;
+                var columnHeight = plotsChart.typeHighChart == 'column' ? 130 : 0;
                 var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall + columnHeight ;
                 $('#genl-pie-chart').css('height', heightChart + 'px');
                 plotsChart.chart = Highcharts.chart('genl-pie-chart', optionsHighChart);
