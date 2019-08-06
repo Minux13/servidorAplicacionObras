@@ -565,7 +565,7 @@ var plotsChart = {
         var labelsPositionsY = plotsChart.typeHighChart == 'bar' ? 10 : -20;
         var alignLabel       = plotsChart.typeHighChart == 'bar' ? 'right' : 'center';
         var paddingRightChart= plotsChart.typeHighChart == 'bar' ? 68 : 0;
-        var groupPaddingColumn = jQuery(window).width() < 600 ? 0 : 0.2;
+        var groupPaddingColumn = jQuery(window).width() < 600 ? 0.13 : 0.2;
 
         var options = {
             chart: {
@@ -663,6 +663,16 @@ var plotsChart = {
                 },
                 title:{
                     text: '<span style="color:#000; font-weight: 700;">' + titleXAxis + '</span>'
+                },
+                labels: {
+                    formatter: function () {
+                        var val = this.value
+                        if( val > 1000000){
+                            var newVal = val / 1000000;
+                            val = newVal + ' M'
+                        }
+                        return val;
+                    }
                 }
             },
             legend: {
