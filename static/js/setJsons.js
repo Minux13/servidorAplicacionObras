@@ -407,9 +407,11 @@ var setJsonsHC = {
             //Por cada obra aumenta en 1 el elemento countField[estatus][fondo]
             for(var i in jsonResponse){
                 var obra = jsonResponse[i];
-                countField[obra.check_stage - 1][obra['funding_id'] - 1]++;
-                countFieldAmount[obra.check_stage - 1][obra['funding_id'] - 1] += obra.final_contracted_amount;
-                countFieldAmountByFunding[obra['funding_id'] - 1] += obra.final_contracted_amount;
+                if(obra.funding_id){
+                    countField[obra.check_stage - 1][obra['funding_id'] - 1]++;
+                    countFieldAmount[obra.check_stage - 1][obra['funding_id'] - 1] += obra.final_contracted_amount;
+                    countFieldAmountByFunding[obra['funding_id'] - 1] += obra.final_contracted_amount;
+                }
             }
             
             var finalContractedAmountTotal =  countFieldAmountByFunding.reduce(function(total, sum){return total + sum;}) ;
@@ -507,9 +509,11 @@ var setJsonsHC = {
             //Por cada obra aumenta en 1 el elemento countField[estatus][fondo]
             for(var i in jsonResponse){
                 var obra = jsonResponse[i];
-                countField[obra.check_stage - 1][obra['funding_id'] - 1]++;
-                countFieldAmount[obra.check_stage - 1][obra['funding_id'] - 1] += obra.final_contracted_amount;
-                countFieldAmountByFunding[obra['funding_id'] - 1] += obra.final_contracted_amount;
+                if(obra.funding_id){
+                    countField[obra.check_stage - 1][obra['funding_id'] - 1]++;
+                    countFieldAmount[obra.check_stage - 1][obra['funding_id'] - 1] += obra.final_contracted_amount;
+                    countFieldAmountByFunding[obra['funding_id'] - 1] += obra.final_contracted_amount;
+                }
             }
             
             var finalContractedAmountTotal =  countFieldAmountByFunding.reduce(function(total, sum){return total + sum;}) ;
@@ -608,9 +612,11 @@ var setJsonsHC = {
             //Por cada obra aumenta en 1 el elemento countField[estatus][Adjudication]
             for(var i in jsonResponse){
                 var obra = jsonResponse[i];
-                countField[obra.check_stage - 1][obra['adjudication_id'] - 1]++;
-                countFieldAmount[obra.check_stage - 1][obra['adjudication_id'] - 1] += obra.final_contracted_amount;
-                countFieldAmountByAdjudication[obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                if(obra.adjudication_id){
+                    countField[obra.check_stage - 1][obra['adjudication_id'] - 1]++;
+                    countFieldAmount[obra.check_stage - 1][obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                    countFieldAmountByAdjudication[obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                }
             }
 
             var finalContractedAmountTotal =  countFieldAmountByAdjudication.reduce(function(total, sum){return total + sum;}) ;
@@ -707,9 +713,11 @@ var setJsonsHC = {
             //Por cada obra aumenta en 1 el elemento countField[estatus][Adjudication]
             for(var i in jsonResponse){
                 var obra = jsonResponse[i];
-                countField[obra.check_stage - 1][obra['adjudication_id'] - 1]++;
-                countFieldAmount[obra.check_stage - 1][obra['adjudication_id'] - 1] += obra.final_contracted_amount;
-                countFieldAmountByAdjudication[obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                if(obra.adjudication_id){
+                    countField[obra.check_stage - 1][obra['adjudication_id'] - 1]++;
+                    countFieldAmount[obra.check_stage - 1][obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                    countFieldAmountByAdjudication[obra['adjudication_id'] - 1] += obra.final_contracted_amount;
+                }
             }
 
             var finalContractedAmountTotal =  countFieldAmountByAdjudication.reduce(function(total, sum){return total + sum;}) ;
