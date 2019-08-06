@@ -971,6 +971,7 @@ div.ui-datepicker{
     background: transparent;
     border: white;
     padding: 5px 8px;
+    max-width: 100%;
 }
 .buttonsOrderShow{
     background: transparent;
