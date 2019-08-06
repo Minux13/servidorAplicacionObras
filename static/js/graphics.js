@@ -564,11 +564,13 @@ var plotsChart = {
         var labelsPositionsX = plotsChart.typeHighChart == 'bar' ? 5  : undefined;
         var labelsPositionsY = plotsChart.typeHighChart == 'bar' ? 10 : -20;
         var alignLabel       = plotsChart.typeHighChart == 'bar' ? 'right' : 'center';
+        var paddingRightChart= plotsChart.typeHighChart == 'bar' ? 68 : 0;
+        var groupPaddingColumn = jQuery(window).width() < 600 ? 0 : 0.2;
 
         var options = {
             chart: {
                 type: plotsChart.typeHighChart,
-                spacingRight: 68,
+                spacingRight: paddingRightChart,
                 events: {
                     render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
                         try{
@@ -671,6 +673,7 @@ var plotsChart = {
                     stacking: 'normal'
                 },
                 column: {
+                    groupPadding: groupPaddingColumn,
                     point: {
    	                    events: {
    	                        click: function () {
