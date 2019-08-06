@@ -956,6 +956,7 @@ div.ui-datepicker{
     color: #666;
 }
 .linkPlots{
+    display: inline-block;
     padding: 2px 21px; 
     cursor: pointer;
     color: #666;
