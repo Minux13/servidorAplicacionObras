@@ -734,6 +734,9 @@ var plotsChart = {
    	                }
                 }
             },
+            credits: {
+                enabled: false
+            },
             series: data
         }
         
