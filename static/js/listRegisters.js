@@ -648,7 +648,7 @@ var listStatusProjects = {
     funding         : '',
     program         : '',
     adjudication    : '',
-    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName, providerN, amount, idStage ){
+    createRow: function( nameProject, cityProject, categoriaProject, dependency, idProject, idStatus, contractNumber, departmentName, providerN, amount, idStage, contract_kickoff ){
             
         var amount = parseInt(amount).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
         var arrayStagesText = ['Terminada','En Tiempo','Con Retraso','Rescindidas','No Iniciada','Con Avance Mayor Al Físico','Restringida']
@@ -697,12 +697,18 @@ var listStatusProjects = {
                  </div>
                  <div class="row  municipioYCategoria" >
                      <div class="col-md-4">
+                         <div class="obracategoriaaa" ><i class="fas fa-calendar"></i> </div>
+                         <div class="valueee ">
+                            ` + contract_kickoff + `
+                         </div>
+                     </div>
+                     <div class="col-md-4">
                          <div class="obracategoriaaa" ><i class="fas fa-dollar-sign"></i> </div>
                          <div class="valueee ">
                             ` + amount + `
                          </div>
                      </div>
-                     <div class="col-md-8">
+                     <div class="col-md-4">
                          <div class="obracategoriaaa" ><i style="color:`+ colorStatus[idStage] +`;" class="fas fa-square"></i> </div>
                          <div class="valueee ">
                             ` + arrayStagesText[idStage - 1] + `
@@ -721,7 +727,6 @@ var listStatusProjects = {
     setList: function(rows, dependency, idStatus){
         var strTagRows = '';
         for (var i in rows) {
-            console.log(rows[i]);
             strTagRows += ( listStatusProjects.createRow( rows[i].project_title, 
                                                           citiesNL[ rows[i].city_id ], 
                                                           rows[i].category, 
@@ -732,7 +737,8 @@ var listStatusProjects = {
                                                           rows[i].department,
                                                           rows[i].provider,
                                                           rows[i].final_contracted_amount,
-                                                          rows[i].check_stage
+                                                          rows[i].check_stage,
+                                                          rows[i].contract_kickoff
                                                         ));
         }
         
