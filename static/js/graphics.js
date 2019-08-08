@@ -762,6 +762,95 @@ var plotsChart = {
         plotsChart.getData();
 
     }
+    ,organos: function(){
+        
+        $('#sidebar').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('.portlet-header').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('#radioSelects').remove()
+        $('.portlet-body .row')[0].remove()
+        $('#genl-pie-chart').css('height', 1000);
+
+        Highcharts.chart('genl-pie-chart', {
+            chart: {
+                type: 'bar',
+            },
+            title: {
+                text: 'Base 3 organos'
+            },
+            subtitle: {
+                text: '<span style="color:#333;font-weight:bold;">OBS 502 </span> <span style="color:#339;font-weight:bold;">$ 17545 k </span>'
+            },
+            xAxis: {
+                categories: ['Secretaría de Finanzas y Tesorería General del Estado','Secretaría de Educación','Secretaría de Infraestructura','Secretaría de General de Gobierno','Secretaría de Administración','Secretaría de Desarrollo Social','Procuraduría General de Justicia','Secretaría de Salud','Secretaría de Seguridad Pública','Secretaría de Desarrollo Agropecuario','Secretaría Economía y Trabajo'],
+                crosshair: true
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 40,
+                y: 10,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                shadow: true
+            },
+            yAxis: {
+                min: 0,
+                maxPadding: 0.3,
+                title: {
+                    text: 'Rainfall (mm)'
+                }
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function(){
+                            var val = parseInt(this.y).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            console.log(this);
+                            var series = this.series; //status
+                            var thisCity = this.x;
+                            var sumAmountThisCity = this.y;
+                            
+                            //if(sumAmountThisCity == 0){return '';}
+                            
+                            if( plotsChart.groupChartBy == 'byAmount' ){
+                                var totalY = parseInt(this.y).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                totalY = '$' + totalY + ' K';
+                                var amount = sumAmountThisCity;
+                                amount = amount + ' Obras '
+                            }else{
+                                var totalY = this.y ;
+                                totalY = totalY + ' Obras ' ;
+                                var amount = parseInt(sumAmountThisCity/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                amount = '$' + amount + ' K';
+                            }
+                            return '<span style="color:#000;font-weight:700;">$ '+ totalY + '</span><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
+                            
+                        }
+                    }
+                }
+            },
+            series: [{
+                data: [{ y: 1638297, y2: 31, },{ y: 1028347, y2: 33 , },{ y: 161230, y2: 32, },{ y: 231423, y2: 9, },{ y: 112, y2: 1, },{ y: 5137, y2: 1, },{ y: 0, y2: 0, },{ y: 0, y2: 0, },{ y: 0, y2: 0, },{ y: 0, y2: 0, },{ y: 0 , y2: 0, }],
+                name: 'ASF',
+                color: '#009',
+            }, {
+                data: [{ y: 2544729, y2: 113, },{ y: 45857, y2: 3, },{ y: 766027, y2: 43, },{ y: 0, y2: 0, },{ y: 0, y2: 1, },{ y: 0, y2: 0, },{ y: 0, y2: 0, },{ y: 0, y2: 0, },{ y: 0, y2: 2, },{ y: 0, y2: 2, },{ y: 0, y2: 0, } ],
+                name: 'SFP',
+                color: '#090',
+            }, {
+                data: [{ y: 10500963, y2: 124, },{ y: 334000, y2: 24, },{ y: 176794, y2: 54, },{ y: 0, y2: 0, },{ y: 76717, y2: 16, },{ y: 33051, y2: 6, },{ y: 2838, y2: 1, },{ y: 291, y2: 1, },{ y: 0, y2: 1, },{ y: 0, y2: 0, },{ y: 0, y2: 4, } ] ,
+                name: 'ASENL',
+                color: '#900',
+            
+            }]
+        });
+    }
 }
 
 
