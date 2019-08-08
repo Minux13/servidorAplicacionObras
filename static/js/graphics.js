@@ -622,9 +622,11 @@ var plotsChart = {
                 }
             },
             yAxis: {
+                maxPadding: 0.1,
                 stackLabels: {
                     enabled: true,
                     align: alignLabel,
+                    allowOverlap: true,
                     style: {
                         color: '#226',
                         fontWeight: 'bold'
@@ -657,7 +659,6 @@ var plotsChart = {
                             var amount = parseInt(sumAmountThisCity/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             amount = '$' + amount + ' K';
                         }
-
                         return '<span style="color:#000;font-weight:700;">'+ totalY + '</span><br><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
                     }
                 },
