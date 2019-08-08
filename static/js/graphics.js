@@ -780,7 +780,7 @@ var plotsChart = {
                 text: 'Base 3 organos'
             },
             subtitle: {
-                text: '<span style="color:#333;font-weight:bold;">OBS 502 </span> <span style="color:#339;font-weight:bold;">$ 17545 k </span>'
+                text: '<span style="color:#333;font-weight:bold;">$17545 k </span> <span style="color:#339;font-weight:bold;">OBS 502 </span>'
             },
             xAxis: {
                 categories: ['Secretaría de Finanzas y Tesorería General del Estado','Secretaría de Educación','Secretaría de Infraestructura','Secretaría de General de Gobierno','Secretaría de Administración','Secretaría de Desarrollo Social','Procuraduría General de Justicia','Secretaría de Salud','Secretaría de Seguridad Pública','Secretaría de Desarrollo Agropecuario','Secretaría Economía y Trabajo'],
@@ -818,18 +818,11 @@ var plotsChart = {
                             
                             //if(sumAmountThisCity == 0){return '';}
                             
-                            if( plotsChart.groupChartBy == 'byAmount' ){
-                                var totalY = parseInt(this.y).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                                totalY = '$' + totalY + ' K';
-                                var amount = sumAmountThisCity;
-                                amount = amount + ' Obras '
-                            }else{
-                                var totalY = this.y ;
-                                totalY = totalY + ' Obras ' ;
-                                var amount = parseInt(sumAmountThisCity/1000).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                                amount = '$' + amount + ' K';
-                            }
-                            return '<span style="color:#000;font-weight:700;">$ '+ totalY + '</span><span style="color:#336;margin-left:13px;font-weight:100;">'+ amount +'</span>';
+                            var totalY = parseInt(this.y).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            totalY = '$' + totalY + ' K';
+                            var amount = this.point.y2;
+                            amount = amount + ' OBS '
+                            return '<span style="color:#000;font-weight:700;">'+ totalY + '</span><span style="color:#336;margin-left:13px;font-weight:100;"> '+ amount +'</span>';
                             
                         }
                     }
