@@ -346,7 +346,7 @@ var plotsChart = {
 
 
         var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-        var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
+        var extraSpaceWhenWindowSmall = $('.portlet-body').width() <= 712 ? 50 : 0;
         var heightChart = values[0][0].data.length*30 + 200 + extraSpaceWhenWindowSmall;
 
         setTimeout(function(){  
@@ -408,7 +408,7 @@ var plotsChart = {
                 }
                 
                 var optionsHighChart = plotsChart.optionsStackedBar(values[0], values[1], values[2]);
-                var extraSpaceWhenWindowSmall = jQuery(window).width() < 600 ? 50 : 0;
+                var extraSpaceWhenWindowSmall = $('.portlet-body').width() <= 712 ? 50 : 0;
                 var columnHeight = plotsChart.typeHighChart == 'column' ? 130 : 0;
                 var heightChart = values[0][0].data.length*30 + 230 + extraSpaceWhenWindowSmall + columnHeight ;
                 $('#genl-pie-chart').css('height', heightChart + 'px');
@@ -438,9 +438,9 @@ var plotsChart = {
     },
     optionsChart : function(data){
 
-        var widthWindow = jQuery(window).width()
+        var widthWindow = $('.portlet-body').width();
 
-        if(widthWindow < 600){
+        if(widthWindow <= 712){
             var chartDataLabel = false;                
             var chartShowInLegend = true;
         }else{
@@ -565,7 +565,7 @@ var plotsChart = {
         var labelsPositionsY = plotsChart.typeHighChart == 'bar' ? 10 : -20;
         var alignLabel       = plotsChart.typeHighChart == 'bar' ? 'right' : 'center';
         var paddingRightChart= plotsChart.typeHighChart == 'bar' ? 68 : 0;
-        var groupPaddingColumn = jQuery(window).width() < 600 ? 0.13 : 0.2;
+        var groupPaddingColumn = $('.portlet-body').width() <= 712 ? 0.13 : 0.2;
 
         var options = {
             chart: {
