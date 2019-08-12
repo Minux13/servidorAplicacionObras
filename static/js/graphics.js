@@ -316,7 +316,14 @@ var plotsChart = {
         queryString += '&program='      + plotsChart.program;
         queryString += '&adjudication=' + plotsChart.adjudication;
         queryString += '&countProjects=' + plotsChart.countProjClick;
+        
+        if( plotsChart.seriesVisibles ){
+            queryString += '&stages_selected=' + plotsChart.seriesVisibles;
+            //localStorage.setItem("stages", plotsChart.seriesVisibles);
+        }
+        
         var url = urlLink + queryString ;
+        
         window.open( url ,"_self");
     },
     showByProjectsOrAmount: function(thisSelect){
@@ -705,6 +712,19 @@ var plotsChart = {
                                 }else{
                                     var sumAmounts = this.total;
                                 }
+                                
+                                var ser = plotsChart.chart.series;
+                                var idSeriesVisibles = '';
+                                //var idSeriesVisibles = [];
+                                for(var s in ser){
+                                	if( ser[s].visible ){
+                                        var idSerie =  Math.abs(parseInt(s) - 7) ;
+                                        idSeriesVisibles += idSerie + ',';
+                                        //idSeriesVisibles.push( Math.abs(parseInt(s) - 7) );
+                                    }
+                                }
+
+                                plotsChart.seriesVisibles = idSeriesVisibles;
                                 plotsChart.countProjClick = sumAmounts;
                                 plotsChart.functionClick( this.category );
    	                        }
@@ -731,6 +751,19 @@ var plotsChart = {
                                 }else{
                                     var sumAmounts = this.total;
                                 }
+
+                                var ser = plotsChart.chart.series;
+                                var idSeriesVisibles = '';
+                                //var idSeriesVisibles = [];
+                                for(var s in ser){
+                                	if( ser[s].visible ){
+                                        var idSerie =  Math.abs(parseInt(s) - 7) ;
+                                        idSeriesVisibles += idSerie + ',';
+                                        //idSeriesVisibles.push( Math.abs(parseInt(s) - 7) );
+                                    }
+                                }
+
+                                plotsChart.seriesVisibles = idSeriesVisibles;
                                 plotsChart.countProjClick = sumAmounts;
                                 plotsChart.functionClick( this.idFieldDB );
    	                        }
