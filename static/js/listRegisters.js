@@ -840,17 +840,28 @@ var listStatusProjects = {
         window.open( url ,"_self");   
     },
     initList: function(){
-        
-        this.department     = document.getElementById('dependencyId').value;
-        this.statusId       = document.getElementById('statusId').value;
-        this.city           = document.getElementById('cityId').value;
-        this.startDate      = document.getElementById('startDate').value;
-        this.endDate        = document.getElementById('endDate').value;
-        this.provider       = document.getElementById('providerId').value;
-        this.funding        = document.getElementById('fundingId').value;
-        this.program        = document.getElementById('programId').value;
-        this.adjudication   = document.getElementById('adjudicationId').value;
+        var urlParams = new URLSearchParams(window.location.search);
 
+        this.department     = urlParams.get('department');
+        this.statusId       = urlParams.get('status');
+        this.city           = urlParams.get('city');
+        this.startDate      = urlParams.get('startDate');
+        this.endDate        = urlParams.get('endDate');
+        this.provider       = urlParams.get('provider');
+        this.funding        = urlParams.get('funding');
+        this.program        = urlParams.get('program');
+        this.adjudication   = urlParams.get('adjudication');
+        this.countProjects   = urlParams.get('countProjects');
+        
+        if( urlParams.has('stages_selected') ){
+            var stagesIds = urlParams.get('stages_selected');
+            var stagesIds = stagesIds.substring(0, stagesIds.length - 1);
+            if( stagesIds.length == 13 ){
+                ;
+            }else{
+                this.statusId = stagesIds
+            }
+        }
 
         $('#waintingAnimation').css("display", "block");
 
