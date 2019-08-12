@@ -94,11 +94,19 @@ def projectsFollowUps():
         programId       = str(data['program'])
         adjudicationId  = str(data['adjudication'])
 
-
         empty_follow_ups = '?empty_follow_ups=0'
         offset       = '&offset='               + paginationStart
         department   = '&department='           + departmentId   if departmentId     != '' else ''
-        check_stage  = '&check_stage='          + statusId       if statusId         != '' else ''
+        
+        check_stage = '&check_stage='       + statusId       if statusId         != '' else ''
+        if "," in statusId:
+            check_stage = ''
+            idsS = statusId.split(',')
+            for i in idsS :
+                thisCheckStage = '&check_stage=' + i
+                check_stage += thisCheckStage
+        
+
         city         = '&city='                 + cityId         if cityId           != '' else ''
         startDate    = '&contract_start_date='  + startDate      if startDate        != '' else ''
         endDate      = '&contract_end_date='    + endDate        if endDate          != '' else ''
