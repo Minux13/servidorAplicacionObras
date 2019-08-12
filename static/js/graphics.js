@@ -104,7 +104,7 @@ var plotsChart = {
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'adjudication';
         plotsChart.functionAfterClickChart   = '';
-        plotsChart.functionClick = function(s){console.log(s);} //function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
+        plotsChart.functionClick = function(s){plotsChart.adjudication = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
 
         $('#buttonShowProviderTable').css('display','block');
@@ -121,7 +121,7 @@ var plotsChart = {
         plotsChart.groupChartBy = 'byAmount';
         plotsChart.domainChart  = 'funding';
         plotsChart.functionAfterClickChart   = '';
-        plotsChart.functionClick = function(s){console.log(s);} //plotsChart.chartAfterDepartmentsPie.init;
+        plotsChart.functionClick = function(s){plotsChart.funding = s; plotsChart.openUrl();} ;
         plotsChart.getData(  );
 
         $('#buttonShowProviderTable').css('display','block');
