@@ -990,6 +990,214 @@ var plotsChart = {
             }]
         });
     }
+    ,anios: function(){
+        
+        $('#sidebar').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('.portlet-header').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('#radioSelects').remove()
+        $('.portlet-body .row')[0].remove()
+        $('#genl-pie-chart').css('height', 1000);
+
+        plotsChart.chart = Highcharts.chart('genl-pie-chart', {
+            chart: {
+                type: 'column',
+                spacingRight: 10,
+                events: {
+                    render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
+                        try{
+                            if( plotsChart.chart ){
+                                var series = this.series;
+                                
+                                var countAmount = 0;
+                                var countObras  = 0;
+                                
+                                for( var s in series ){
+                                    var serie = series[s];
+                                    if( serie.visible ){
+                                        var cities = serie.data;
+                                        for( var c in cities ){
+                                            countAmount += cities[c].amount;
+                                            countObras += cities[c].y;
+                                        }
+                                    }
+                                }
+                                
+                                if( plotsChart.groupChartBy == 'byAmount' ){
+                                    plotsChart.chartTitle.obras  = countAmount;
+                                    plotsChart.chartTitle.amount = countObras;
+                                }else{
+                                    plotsChart.chartTitle.obras  = totalProjectsVisible;
+                                    plotsChart.chartTitle.amount = countAmount;
+                                }
+
+                                plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
+                            }
+                        }
+                        catch(e){
+                            ;
+                        }
+                    }
+                }
+            },
+            title: {
+                text: 'TOTAL 1485 PRA'
+            },
+   	    	tooltip: {
+                valueDecimals: 0,
+                valuePrefix: ' PRA',
+   	    	},
+            xAxis: {
+                categories: [ '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', ],
+                labels: {
+                    step: 1
+                }
+            },
+            yAxis: {
+                maxPadding: 0.1,
+                stackLabels: {
+                    enabled: true,
+                    align: 'center',
+                    allowOverlap: true,
+                    style: {
+                        color: '#226',
+                        fontWeight: 'bold'
+                    },
+                    x: 0,
+                    y: -5,
+                    verticalAlign: 'top',
+                    formatter: function () {
+                        var series = this.axis.series; //status
+                        var thisCity = this.x;
+                        return '<span style="color:#000;font-weight:700;">'+ this.total + ' PRA</span>';
+                    }
+                },
+                title:{
+                    text: '<span style="color:#000; font-weight: 700;"> PRA </span>'
+                },
+                labels: {
+                    rotation: 0,
+                    autoRotation: 0,
+                    autoRotationLimit: 0,
+                    formatter: function () {
+                        var val = this.value
+                        if( val > 1000000){
+                            var newVal = val / 1000000;
+                            val = newVal + ' M'
+                        }
+                        return val;
+                    }
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                },
+                column: {
+                    groupPadding: 0,
+                    point: {
+   	                    events: {
+   	                        click: function () {
+                                if( plotsChart.groupChartBy == 'byAmount' ){
+                                    var series = plotsChart.chart.series; //status
+                                    var thisX = this.x;
+                                    var sumAmounts = 0;
+                                    for( var s in series ){ //Son 7
+                                        if(series[s].data.length){
+                                            if(series[s].visible){
+                                                sumAmounts += series[s].data[thisX].amount;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    var sumAmounts = this.total;
+                                }
+                                
+                                var ser = plotsChart.chart.series;
+                                var idSeriesVisibles = '';
+                                //var idSeriesVisibles = [];
+                                for(var s in ser){
+                                	if( ser[s].visible ){
+                                        var idSerie =  Math.abs(parseInt(s) - 7) ;
+                                        idSeriesVisibles += idSerie + ',';
+                                        //idSeriesVisibles.push( Math.abs(parseInt(s) - 7) );
+                                    }
+                                }
+
+                                plotsChart.seriesVisibles = idSeriesVisibles;
+                                plotsChart.countProjClick = sumAmounts;
+                                plotsChart.functionClick( this.category );
+   	                        }
+   	                    }
+   	                }
+                },
+                bar: {
+                    groupPadding:0,
+                    //pointWidth:10
+                    point: {
+   	                    events: {
+   	                        click: function () {
+                                if( plotsChart.groupChartBy == 'byAmount' ){
+                                    var series = plotsChart.chart.series; //status
+                                    var thisX = this.x;
+                                    var sumAmounts = 0;
+                                    for( var s in series ){ //Son 7
+                                        if(series[s].data.length){
+                                            if(series[s].visible){
+                                                sumAmounts += series[s].data[thisX].amount;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    var sumAmounts = this.total;
+                                }
+
+                                var ser = plotsChart.chart.series;
+                                var idSeriesVisibles = '';
+                                //var idSeriesVisibles = [];
+                                for(var s in ser){
+                                	if( ser[s].visible ){
+                                        var idSerie =  Math.abs(parseInt(s) - 7) ;
+                                        idSeriesVisibles += idSerie + ',';
+                                        //idSeriesVisibles.push( Math.abs(parseInt(s) - 7) );
+                                    }
+                                }
+
+                                plotsChart.seriesVisibles = idSeriesVisibles;
+                                plotsChart.countProjClick = sumAmounts;
+                                plotsChart.functionClick( this.idFieldDB );
+   	                        }
+   	                    }
+   	                }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                data: [ 0   , 0   , 0   , 0   , 0   , 0   , 0   , 1042, 0   , ],
+                name: 'ASE',
+                color: '#009',
+            }, {
+                data: [ 0    , 0    , 27   , 41   , 30   , 66   , 50   , 59   , 6    , ],
+                name: 'ASF',
+                color: '#090',
+            }, {
+                data: [ 7 , 1 , 0 , 4 , 5 , 11, 38, 39, 59, ] ,
+                name: 'SFP',
+                color: '#900',
+            
+            }]
+            
+        });
+        
+        plotsChart.chart.render();
+    }
+
 }
 
 
