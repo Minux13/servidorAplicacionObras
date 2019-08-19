@@ -876,6 +876,119 @@ var plotsChart = {
             
             }]
         });
+    },
+    pieorg: function(){
+        
+        $('#sidebar').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('.portlet-header').remove()
+        $('#title-breadcrumb-option-demo').remove()
+        $('#radioSelects').remove()
+        $('.portlet-body .row')[0].remove()
+        $('#genl-pie-chart').css('height', 500);
+
+        Highcharts.chart('genl-pie-chart', {
+            chart: {
+   	    	    type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                },
+                events: {
+                    render: function () {    //Cuando se ocultan una rebanada o barra se actualizan las cantidades del titulo
+                        try{
+                            if( plotsChart.chart ){
+                                var allStatus = plotsChart.chart.series[0].data;
+                                var countAmount = 0;
+                                for( var s in allStatus ){
+                                    if( allStatus[s].visible ){
+                                        countAmount += allStatus[s].amount;
+                                    }
+                                }
+                                var totalProjectsVisible = plotsChart.chart.series[0].total;
+                                plotsChart.chartTitle.obras  = totalProjectsVisible;
+                                plotsChart.chartTitle.amount = countAmount;
+                                plotsChart.chart.setTitle({ text: plotsChart.chartTitle.setTitle() } )
+                            }
+                        }
+                        catch(e){
+                            ;
+                        }
+                    }
+                }
+   	    	},
+   	    	title: {
+   	            text: 'TOTAL 1485 PRA',
+                useHTML: true
+   	    	},
+   	    	tooltip: {
+   	            pointFormat: '<b>{point.percentage:.1f} %</b>'
+   	    	},
+   	    	plotOptions: {
+   	    	    pie: {
+   	    		    allowPointSelect: true,
+   	    		    cursor: 'pointer',
+                    depth: 35,
+                    showInLegend: true,
+   	                point: {
+   	                    events: {
+   	                        click: function () {
+                                plotsChart.countProjClick = this.y;
+                                plotsChart.functionClick( this.x );
+   	                        }/*,
+                            legendItemClick: function(){
+                                console.log(this.series.total);                                
+                            }*/
+   	                    }
+   	                },									    
+   	    		    dataLabels: {
+   	    		        enabled: true,
+   	    		        color: '#224',
+   	    		        connectorColor: '#000000',
+                        formatter: function(){
+                            var point = this.point;
+
+                            return '<b>' + point.name + ':  </b><span style="font-weight:100;">' + point.y + ' PRA</span>' ;
+                        }
+   	                }
+   	    	    }
+   	        },
+            legend: {
+                useHTML: true,
+                labelFormatter: function () {
+                    var a = this.percentage
+                    var styleText = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px;"  '
+                    var styleTextS = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 0px; font-weight:600;"  '
+                    var styleTextN = ' style="font-family: \'Poppins\', sans-serif; font-weight: 400; margin: 2px 2px; font-weight:bold;"  '
+                    var nameO = '<span '+ styleTextS +'>' + this.name + '</span>  '
+                    var yValue = this.y === null ? 0 : this.y;
+                    var pYO = '<span '+ styleTextN +'>' + yValue + '</span> '
+
+                    var decimals = 0;
+                    if( (this.percentage*100)%100 == 0 ){ decimals=0; }else if( (this.percentage*10)%10 == 1 ){ decimals=1; }else{decimals=2}
+
+                    var percentO = '<span '+ styleText +'>' + this.percentage.toFixed(decimals) + '%</span>  '
+
+                    if( yValue === 0 ){
+                        this.options.color = "#777"
+                        this.legendGroup.element.style.display = "none"
+                        return null;
+                    }
+                    
+                    var re = this.y === null ? null : nameO + ': ' + pYO + percentO ;
+                    return re;
+                }
+            },
+            credits: {
+                enabled: false
+            },		
+            series: [{
+                data: [{ y: 279, name: 'ASF'},{ y: 1042, name: 'ASE', color: '#942585'  },{ y: 164, name: 'SFP',  }],
+                name: 'ASF',
+                color: '#009',
+            }]
+        });
     }
 }
 
