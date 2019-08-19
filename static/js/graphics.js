@@ -998,7 +998,7 @@ var plotsChart = {
         $('#title-breadcrumb-option-demo').remove()
         $('#radioSelects').remove()
         $('.portlet-body .row')[0].remove()
-        $('#genl-pie-chart').css('height', 1000);
+        $('#genl-pie-chart').css('height', 570);
 
         plotsChart.chart = Highcharts.chart('genl-pie-chart', {
             chart: {
@@ -1091,7 +1091,7 @@ var plotsChart = {
                 }
             },
             legend: {
-                reversed: true
+                reversed: false
             },
             plotOptions: {
                 series: {
