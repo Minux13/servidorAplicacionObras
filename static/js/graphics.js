@@ -1179,7 +1179,7 @@ var plotsChart = {
                 enabled: false
             },
             series: [{
-                data: [ 0   , 0   , 0   , 0   , 0   , 0   , 0   , 1042, 0   , ],
+                data: [ 0   , 0   , 0   , 0   , 0   , 0   , 0   , 30, 0   , ],
                 name: 'ASE',
                 color: '#009',
             }, {
