@@ -947,7 +947,7 @@ var plotsChart = {
                 }
    	    	},
    	    	title: {
-   	            text: 'TOTAL 1485 PRA',
+   	            text: 'TOTAL 473 PRA',
                 useHTML: true
    	    	},
    	    	tooltip: {
