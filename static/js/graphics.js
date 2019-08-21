@@ -390,9 +390,37 @@ var plotsChart = {
     getData : function ( ){
         
         document.getElementById('waintingAnimation').style.display = "block";
-
+        
+        var dataUrl = {
+            'department'    : plotsChart.department.toString(),
+            'city'          : plotsChart.city.toString(),
+            'check_stage'   : plotsChart.check_stage.toString(),
+            'startDate'     : plotsChart.startDate.toString(),
+            'endDate'       : plotsChart.endDate.toString(),
+            'provider'      : plotsChart.provider.toString(),
+            'adjudication'  : plotsChart.adjudication.toString(),
+            'funding'       : plotsChart.funding.toString(),
+            'program'       : plotsChart.program.toString(),
+        }
+        
+        var empty_follow_ups = '?empty_follow_ups=0'
+        var limit        = '&limit=1000000'
+        var department   = dataUrl['department']   != '' ? '&department='          + dataUrl['department']   : ''
+        var check_stage  = dataUrl['check_stage']  != '' ? '&check_stage='         + dataUrl['check_stage']  : ''
+        var city         = dataUrl['city']         != '' ? '&city='                + dataUrl['city']         : ''
+        var startDate    = dataUrl['startDate']    != '' ? '&contract_start_date=' + dataUrl['startDate']    : ''
+        var endDate      = dataUrl['endDate']      != '' ? '&contract_end_date='   + dataUrl['endDate']      : ''
+        var provider     = dataUrl['provider']     != '' ? '&provider='            + dataUrl['provider']     : ''
+        var funding      = dataUrl['funding']      != '' ? '&funding='             + dataUrl['funding']      : ''
+        var program      = dataUrl['program']      != '' ? '&program='             + dataUrl['program']      : ''
+        var adjudication = dataUrl['adjudication'] != '' ? '&adjudication='        + dataUrl['adjudication'] : ''
+        
+        var queryStr = 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+        
+        var url = '/graphics?' + queryStr;
+        
         $.ajax({
-            url: '/graphics',
+            url: url,
             type: 'post',
             dataType: 'json',
             contentType: 'application/json',
@@ -844,7 +872,7 @@ var plotsChart = {
                         enabled: true,
                         formatter: function(){
                             var val = parseInt(this.y).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            console.log(this);
+
                             var series = this.series; //status
                             var thisCity = this.x;
                             var sumAmountThisCity = this.y;
@@ -984,7 +1012,7 @@ var plotsChart = {
                 enabled: false
             },		
             series: [{
-                data: [{ y: 279, name: 'ASF'},{ y: 1042, name: 'ASE', color: '#942585'  },{ y: 164, name: 'SFP',  }],
+                data: [{ y: 279, name: 'ASF'},{ y: 30, name: 'ASE', color: '#942585'  },{ y: 164, name: 'SFP',  }],
                 name: 'ASF',
                 color: '#009',
             }]
@@ -1042,7 +1070,7 @@ var plotsChart = {
                 }
             },
             title: {
-                text: 'TOTAL 1485 PRA'
+                text: 'TOTAL 473 PRA'
             },
    	    	tooltip: {
                 valueDecimals: 0,

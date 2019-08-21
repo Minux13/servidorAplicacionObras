@@ -25,21 +25,8 @@ def graphicsList():
                                 urlLink= '/projects_follow_ups' )
     
     else:
-        data = request.get_json()
+        url = URLFrp + request.query_string.decode("utf-8")
 
-        empty_follow_ups = '?empty_follow_ups=0'
-        limit        = '&limit=1000000'
-        department   = '&department='          + data['department']   if data['department']   != '' else ''
-        check_stage  = '&check_stage='         + data['check_stage']  if data['check_stage']  != '' else ''
-        city         = '&city='                + data['city']         if data['city']         != '' else ''
-        startDate    = '&contract_start_date=' + data['startDate']    if data['startDate']    != '' else ''
-        endDate      = '&contract_end_date='   + data['endDate']      if data['endDate']      != '' else ''
-        provider     = '&provider='            + data['provider']     if data['provider']     != '' else ''
-        funding      = '&funding='             + data['funding']      if data['funding']      != '' else ''
-        program      = '&program='             + data['program']      if data['program']      != '' else ''
-        adjudication = '&adjudication='        + data['adjudication'] if data['adjudication'] != '' else ''
-        
-        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + limit + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
         r = requests.get( url) 
         dataRes = r.json() 
         
