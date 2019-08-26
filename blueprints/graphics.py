@@ -39,32 +39,10 @@ def projectsFollowUps():
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        departmentId   = request.args.get('department')
-        statusId       = request.args.get('status')
-        cityId         = request.args.get('city') 
-        startDate      = request.args.get('startDate') 
-        endDate        = request.args.get('endDate') 
-        providerId     = request.args.get('provider') 
-        fundingId      = request.args.get('funding')
-        programId      = request.args.get('program')
-        adjudicationId = request.args.get('adjudication')
-        
-        checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
-
         return render_template( 'graphics/list.html', 
                                 catalog        ='projects_follow_ups', 
                                 menu           = menuGraphics, 
-                                dependencyId   = departmentId, 
-                                statusId       = statusId,
-                                cityId         = cityId,
-                                startDate      = startDate,        
-                                endDate        = endDate,        
-                                providerId     = providerId,    
-                                fundingId      = fundingId,     
-                                programId      = programId,     
-                                adjudicationId = adjudicationId,
                                 pagePrev       = '/graphics',
-                                checkStates    = checkStates,
                                 urlLink        = '/project_detail/'   )
     
     else:

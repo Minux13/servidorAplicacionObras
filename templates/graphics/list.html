@@ -217,22 +217,9 @@
         </div>
         
         <input id="catalogName"     type="hidden" value="{{ catalog }}" >
-        <input id="dependencyId"    type="hidden" value="{{ dependencyId }}" >
         <input id="urlLink"         type="hidden" value="{{ urlLink }}" >
-        <input id="statusId"        type="hidden" value="{{ statusId }}" >
-        <input id="cityId"          type="hidden" value="{{ cityId }}" >
-        <input id="startDate"       type="hidden" value="{{ startDate      }}" >
-        <input id="endDate"         type="hidden" value="{{ endDate        }}" >
-        <input id="providerId"      type="hidden" value="{{ providerId     }}" >
-        <input id="fundingId"       type="hidden" value="{{ fundingId      }}" >
-        <input id="programId"       type="hidden" value="{{ programId      }}" >
-        <input id="adjudicationId"  type="hidden" value="{{ adjudicationId }}" >
 
 
-        {% for cs in checkStates %}
-        <input id="checkState{{cs.id}}" type="hidden" value="{{ cs.title }}" >
-        {% endfor %}
-    
         <!-- Jquery -->
         <script src="/static/js/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
