@@ -727,6 +727,7 @@ var listStatusProjects = {
     setList: function(rows, dependency, idStatus){
         var strTagRows = '';
         for (var i in rows) {
+            console.log(rows[i]);
             strTagRows += ( listStatusProjects.createRow( rows[i].project_title, 
                                                           citiesNL[ rows[i].city_id ], 
                                                           rows[i].category, 
@@ -746,6 +747,38 @@ var listStatusProjects = {
          
     },
     getDataList: function ( url, createButtons ){
+
+        var empty_follow_ups = '?empty_follow_ups=0'
+        
+        //listStatusProjects.paginationStep
+        //listStatusProjects.by,
+        //listStatusProjects.order,
+
+        var offset       = listStatusProjects.paginationStart !='' ? '&offset='              + listStatusProjects.paginationStar  : '';
+        var department   = listStatusProjects.department      !='' ? '&department='          + listStatusProjects.department      : '';
+        var city         = listStatusProjects.city            !='' ? '&city='                + listStatusProjects.city            : '';
+        var startDate    = listStatusProjects.startDate       !='' ? '&contract_start_date=' + listStatusProjects.startDate       : '';
+        var endDate      = listStatusProjects.endDate         !='' ? '&contract_end_date='   + listStatusProjects.endDate         : '';
+        var provider     = listStatusProjects.provider        !='' ? '&provider='            + listStatusProjects.provider        : '';
+        var funding      = listStatusProjects.funding         !='' ? '&funding='             + listStatusProjects.funding         : '';
+        var program      = listStatusProjects.program         !='' ? '&program='             + listStatusProjects.program         : '';
+        var adjudication = listStatusProjects.adjudication    !='' ? '&adjudication='        + listStatusProjects.adjudication    : '';
+        
+        var check_stage = listStatusProjects.statusId ? '&check_stage=' + listStatusProjects.statusId : '';
+        
+        if ( listStatusProjects.statusId.toString().includes(',') ){
+            check_stage = '';
+            var idsS = listStatusProjects.statusId.split(',')
+            for( i in idsS ){
+                thisCheckStage = '&check_stage=' + idsS[i];
+                check_stage += thisCheckStage;
+            }
+        }
+
+
+        url += '?projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+
+
         $.ajax({
             url: url,
             type: 'post',
@@ -772,6 +805,9 @@ var listStatusProjects = {
                 $('#nameStatusProjectTitle').html( count + ' Obras ');
 
                 $('#waintingAnimation').css("display", "none");
+                
+                console.log(parseInt(count) == res.count.count);
+                console.log(res.count.count);
                 
 
             },
@@ -842,16 +878,16 @@ var listStatusProjects = {
     initList: function(){
         var urlParams = new URLSearchParams(window.location.search);
 
-        this.department     = urlParams.get('department');
-        this.statusId       = urlParams.get('status');
-        this.city           = urlParams.get('city');
-        this.startDate      = urlParams.get('startDate');
-        this.endDate        = urlParams.get('endDate');
-        this.provider       = urlParams.get('provider');
-        this.funding        = urlParams.get('funding');
-        this.program        = urlParams.get('program');
-        this.adjudication   = urlParams.get('adjudication');
-        this.countProjects   = urlParams.get('countProjects');
+        this.department     = urlParams.has('department'   ) ? urlParams.get('department'   ) : '';
+        this.statusId       = urlParams.has('status'       ) ? urlParams.get('status'       ) : '';
+        this.city           = urlParams.has('city'         ) ? urlParams.get('city'         ) : '';
+        this.startDate      = urlParams.has('startDate'    ) ? urlParams.get('startDate'    ) : '';
+        this.endDate        = urlParams.has('endDate'      ) ? urlParams.get('endDate'      ) : '';
+        this.provider       = urlParams.has('provider'     ) ? urlParams.get('provider'     ) : '';
+        this.funding        = urlParams.has('funding'      ) ? urlParams.get('funding'      ) : '';
+        this.program        = urlParams.has('program'      ) ? urlParams.get('program'      ) : '';
+        this.adjudication   = urlParams.has('adjudication' ) ? urlParams.get('adjudication' ) : '';
+        this.countProjects  = urlParams.has('countProjects') ? urlParams.get('countProjects') : '';
         
         if( urlParams.has('stages_selected') ){
             var stagesIds = urlParams.get('stages_selected');

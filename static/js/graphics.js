@@ -301,21 +301,18 @@ var plotsChart = {
     openUrl: function(){
         var urlLink = $('#urlLink').val();
 
-        var department  = plotsChart.department;
-        var statusIdNum = plotsChart.check_stage;
-        var city        = plotsChart.city ;
-
-        var queryString = '?department=' + department;
-        queryString += '&status=' + statusIdNum;
-        queryString += '&city=' + city;
-
-        queryString += '&startDate='    + plotsChart.startDate;
-        queryString += '&endDate='      + plotsChart.endDate;
-        queryString += '&provider='     + plotsChart.provider;
-        queryString += '&funding='      + plotsChart.funding;
-        queryString += '&program='      + plotsChart.program;
-        queryString += '&adjudication=' + plotsChart.adjudication;
-        queryString += '&countProjects=' + plotsChart.countProjClick;
+        var queryString = '?';
+        
+        queryString += plotsChart.department     ? ('&department='    + plotsChart.department    ) : '';
+        queryString += plotsChart.check_stage    ? ('&status='        + plotsChart.check_stage   ) : '';
+        queryString += plotsChart.city           ? ('&city='          + plotsChart.city          ) : '';
+        queryString += plotsChart.startDate      ? ('&startDate='     + plotsChart.startDate     ) : '';
+        queryString += plotsChart.endDate        ? ('&endDate='       + plotsChart.endDate       ) : '';
+        queryString += plotsChart.provider       ? ('&provider='      + plotsChart.provider      ) : '';
+        queryString += plotsChart.funding        ? ('&funding='       + plotsChart.funding       ) : '';
+        queryString += plotsChart.program        ? ('&program='       + plotsChart.program       ) : '';
+        queryString += plotsChart.adjudication   ? ('&adjudication='  + plotsChart.adjudication  ) : '';
+        queryString += plotsChart.countProjClick ? ('&countProjects=' + plotsChart.countProjClick) : '';
         
         if( plotsChart.seriesVisibles ){
             queryString += '&stages_selected=' + plotsChart.seriesVisibles;
