@@ -921,11 +921,11 @@ var listStatusProjects = {
 
 var projectDetail = {
     init: function(){
-        var projectId = document.getElementById('projectId').value;
-        var catalog = document.getElementById('catalogName').value;
-        var url = catalog + projectId;
+        var projectId = window.location.pathname.split('/')[2];
+        var catalog = '/project_detail/';
+        var queryStr = '?projects/with_follow_up?project=' + projectId;
+        var url = catalog + projectId + queryStr;
         
-
 
         $.ajax({
             url: url,
@@ -935,26 +935,25 @@ var projectDetail = {
             success: function (res) {
                 
                 var projectFiels = res.data[0];
-                var contractFiels = res.contract;
 
                 document.getElementById('nameDepartment').innerHTML = projectFiels.project_title ;
 
                 document.getElementById("municipioField").innerHTML                             = citiesNL[projectFiels.city_id]            ;
                 document.getElementById("categoriaField").innerHTML                             = projectFiels.category                            ;
-                document.getElementById("empresaField").innerHTML                               = res.provider.title       ;
-                document.getElementById("monto_contratoField").innerHTML                        = contractFiels.final_contracted_amount       ;
-                document.getElementById("termino_obra_segun_contratoField").innerHTML           = datesGENL.formatOrder(contractFiels.ending);
-                document.getElementById("monto_contrato_finalField").innerHTML                  = contractFiels.final_contracted_amount       ;
-                document.getElementById("numero_contratoField").innerHTML                       = contractFiels.number       ;
-                document.getElementById("inicio_obra_segun_contratoField").innerHTML            = datesGENL.formatOrder(contractFiels.kickoff);
-                document.getElementById("fecha_pago_anticipoField").innerHTML                   = datesGENL.formatOrderTime(contractFiels.down_payment);
-                document.getElementById("monto_anticipoField").innerHTML                        = contractFiels.down_payment_amount       ;
-                document.getElementById("anticipo_pendiente_amortizarField").innerHTML          = contractFiels.outstanding_down_payment       ;
-                document.getElementById("convenio_ampliacion_economicoField").innerHTML         = contractFiels.ext_agreement_amount       ;
-                document.getElementById("fecha_convenio_ampliacion_obraField").innerHTML        = datesGENL.formatOrder(contractFiels.ext_agreement);
-                document.getElementById("total_pagadoField").innerHTML                          = contractFiels.total_amount_paid       ;
+                document.getElementById("empresaField").innerHTML                               = projectFiels.provider     ;
+                document.getElementById("monto_contratoField").innerHTML                        = projectFiels.final_contracted_amount       ;
+                document.getElementById("termino_obra_segun_contratoField").innerHTML           = datesGENL.formatOrder(projectFiels.contract_ending);
+                document.getElementById("monto_contrato_finalField").innerHTML                  = projectFiels.final_contracted_amount       ;
+                document.getElementById("numero_contratoField").innerHTML                       = projectFiels.contract_number   ;
+                document.getElementById("inicio_obra_segun_contratoField").innerHTML            = datesGENL.formatOrder(projectFiels.contract_kickoff);
+                document.getElementById("fecha_pago_anticipoField").innerHTML                   = datesGENL.formatOrderTime(projectFiels.down_payment);
+                document.getElementById("monto_anticipoField").innerHTML                        = projectFiels.down_payment_amount       ;
+                document.getElementById("anticipo_pendiente_amortizarField").innerHTML          = projectFiels.outstanding_down_payment       ;
+                document.getElementById("convenio_ampliacion_economicoField").innerHTML         = projectFiels.ext_agreement_amount       ;
+                document.getElementById("fecha_convenio_ampliacion_obraField").innerHTML        = datesGENL.formatOrder(projectFiels.ext_agreement);
+                document.getElementById("total_pagadoField").innerHTML                          = projectFiels.total_amount_paid       ;
                 document.getElementById("fecha_de_verificacion_contraloriaField").innerHTML     = projectFiels.check_date    ;
-                document.getElementById("estatus_verificado_por_la_contraloriaField").innerHTML = $('#checkState' + projectFiels.check_stage).val() ;
+                document.getElementById("estatus_verificado_por_la_contraloriaField").innerHTML = stagesObras[projectFiels.check_stage];
                 //document.getElementById("entregada_al_beneficiarioField").innerHTML             = valueEntregada_al_beneficiario            ;
 
                 
@@ -968,13 +967,13 @@ var projectDetail = {
                 $("#avance_fisico_verificado_contraloriaField").css('width', verifiedProgress );
 
                 
-                var urlBeforeImage = document.getElementById('pathUrl').value;
+                var pathUrlToGetImage = 'http://15.164.48.84/api/v1/attachments/';
                 var imgsPaths = projectFiels.img_paths.split('|');
 
                 var strWhitTagImages = '';
                 for( var i in imgsPaths ){
                     if( imgsPaths[i] ){
-                        strWhitTagImages += '<img src="'+ urlBeforeImage + imgsPaths[i] + '" class="imagesInfoDetail">'
+                        strWhitTagImages += '<img src="'+ pathUrlToGetImage + imgsPaths[i] + '" class="imagesInfoDetail">'
                     }
                 }
                 document.getElementById('registro_fotograficoField').innerHTML = strWhitTagImages;
@@ -1010,12 +1009,7 @@ var projectDetail = {
     },
     setTitlesLinks: function(data){
         
-        var pathPagePreg = document.getElementById('pagePrev').value;
-        var department   = data.department_id;
-        var check_status = data.check_stage;
-
-        document.getElementById('titleSecondLink').innerHTML = data.department;
-        document.getElementById('titleSecondLink').setAttribute('href', pathPagePreg + department + '/' + check_status );
+        document.getElementById('titleSecondLink').setAttribute('href', document.referrer );
     }
 }
 
