@@ -48,14 +48,7 @@ def projectsFollowUps():
     else:
         url = URLFrp + request.query_string.decode("utf-8")
 
-        #url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
-        #print('\n\n\n\n')
-        #print(url)
-        #print('\n\n\n\n')
-        #urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
-        #urlCount = URLFrp + 'projects/with_follow_up/count?' + request.query_string.decode("utf-8")
         r = requests.get( url) 
-        #rC = requests.get( urlCount) 
         dataRes = r.json() 
         
         return jsonify( { 'data' : dataRes } )
@@ -67,30 +60,17 @@ def projectDetail(project_id):
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
 
-        checkStates = requests.get( URLFrp + 'catalogues/check_stages' ).json()
-
         return render_template( 'graphics/detail.html', 
-                                catalog='/project_detail/', 
-                                menu = menuGraphics, 
-                                projectId= project_id,
-                                pagePrevPrev = '/graphics',
-                                pagePrev = '/projects_follow_ups/',
-                                pathUrl = URLFrp + 'attachments/',
-                                checkStates = checkStates  )
+                                menu = menuGraphics 
+                                 )
     
     else:
 
-        queryStr = 'projects/with_follow_up?project=' + str(project_id)
-        url = URLFrp + queryStr
+        url = URLFrp + request.query_string.decode("utf-8")
         r = requests.get( url) 
         dataRes = r.json() 
-        
-        contractId = dataRes[0]['contract_id']
-
-        contracts = requests.get( URLFrp + 'contracts/' + str(contractId) ).json()
-        provider = requests.get( URLFrp + 'providers/' + str(contracts['provider']) ).json()
        
-        return jsonify( { 'data' : dataRes, 'contract': contracts, 'provider': provider } )
+        return jsonify( { 'data' : dataRes } )
 
 
 
