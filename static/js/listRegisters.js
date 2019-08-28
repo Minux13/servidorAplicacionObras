@@ -775,9 +775,7 @@ var listStatusProjects = {
             }
         }
 
-
         url += '?projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
-
 
         $.ajax({
             url: url,
@@ -788,16 +786,12 @@ var listStatusProjects = {
                 
                 var rows = res.data;
                 
-                //***document.getElementById('titleSecondLink').innerHTML = rows[0].department;
-
                 listStatusProjects.setList( rows, listStatusProjects.department, listStatusProjects.statusId  );
                     
                 var urlParams = new URLSearchParams(window.location.search);
                 var count = urlParams.get('countProjects')
                 
-                if( createButtons ){
-                    listStatusProjects.buttons.create( count );
-                }
+                listStatusProjects.buttons.create( count );
 
                 var colorLine = colorStatus[listStatusProjects.statusId] ? colorStatus[listStatusProjects.statusId] : '#aaa;'
                 
@@ -806,26 +800,7 @@ var listStatusProjects = {
 
                 $('#waintingAnimation').css("display", "none");
                 
-                console.log(parseInt(count) == res.count.count);
-                console.log(res.count.count);
-                
-
-            },
-            data:  JSON.stringify ({'paginationStart': listStatusProjects.paginationStar ,
-                                    'paginationStep' : listStatusProjects.paginationStep ,
-                                    'by'             : listStatusProjects.by,
-                                    'order'          : listStatusProjects.order,
-                                    'department'     : listStatusProjects.department,
-                                    'status'         : listStatusProjects.statusId,
-                                    'city'           : listStatusProjects.city,
-                                    'startDate'      : listStatusProjects.startDate,
-                                    'endDate'        : listStatusProjects.endDate,
-                                    'provider'       : listStatusProjects.provider,
-                                    'funding'        : listStatusProjects.funding,
-                                    'program'        : listStatusProjects.program,
-                                    'adjudication'   : listStatusProjects.adjudication
-                                    })
-
+            }
         }).done(function() {
             $('#waintingAnimation').css("display", "none");
         }) .fail(function() {
@@ -840,17 +815,51 @@ var listStatusProjects = {
             return '<button initL="'+ init +'"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
         },
         create : function( numRegisters ){
-            var numOfButtons = Math.ceil( numRegisters/listStatusProjects.paginationStep ) ;
+            var numOfButtons = Math.ceil( numRegisters/listStatusProjects.paginationStep ) ; //Del 0 (con label 1) al N
             
-           // if(numOfButtons <= 1 ){return ;}
+           if(numOfButtons <= 1 ){return ;}
 
             var strAllButtons = '';
-            for(var b=0; b< numOfButtons ; b++ ){
-                var start = b * listStatusProjects.paginationStep ;
-                var numLabelButton = b + 1;
-                var isActive = b==0? 'active' : '';
-                strAllButtons += listStatusProjects.buttons.tagHTML( start, numLabelButton, isActive)
+
+            var limitButtons = 7;
+            
+            var currentNumButton = (listStatusProjects.paginationStar/10);
+
+            if(numOfButtons <= limitButtons){
+                for(var b=0; b< numOfButtons ; b++ ){
+                    var start = b * listStatusProjects.paginationStep ;
+                    var numLabelButton = b + 1;
+                    var isActive = b==currentNumButton? 'active' : '';
+                    strAllButtons += listStatusProjects.buttons.tagHTML( start, numLabelButton, isActive)
+                }
+            }else{
+                
+                //if(currentNumButton != 0){
+                //    strAllButtons += '<button initL="0"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" >&#xab;</button>';
+                //}
+                
+                strAllButtons += '<button initL="0"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" >&#xab;</button>';
+                
+                var middleLimitOfButton = Math.ceil(limitButtons/2)-1; //Como los botones empiezan en 0 se resta 1
+
+                var firstNumButton = currentNumButton <= middleLimitOfButton ? 0 : currentNumButton - middleLimitOfButton; //Para que no se vaya a numeros negativos
+                var middleRightNumOfButtons = limitButtons - middleLimitOfButton;
+                var restt = numOfButtons - currentNumButton;
+                if( restt < middleRightNumOfButtons ){
+                    firstNumButton = numOfButtons - (limitButtons);
+                }
+                
+                for(var b=firstNumButton; b<(firstNumButton+limitButtons) ; b++ ){
+                    var start = b * listStatusProjects.paginationStep ;
+                    var numLabelButton = b + 1;
+                    var isActive = b==currentNumButton? 'active' : '';
+                    strAllButtons += listStatusProjects.buttons.tagHTML( start, numLabelButton, isActive)
+                }
+
+                var initLFinal = (numOfButtons -1)*10;
+                strAllButtons += '<button initL="'+ initLFinal +'"  onclick="listStatusProjects.buttons.action(this)" class="button_pag" >&#xbb;</button>';
             }
+
             $('#buttons_pagination').html(strAllButtons);
         },
         action: function( thisButton ){
@@ -864,8 +873,8 @@ var listStatusProjects = {
             listStatusProjects.getDataList( url )
 
             //Behavior button
-            $(".button_pag").removeAttr("active");
-            $( thisButton ).attr('active','')
+            //$(".button_pag").removeAttr("active");
+            //$( thisButton ).attr('active','')
 
         }
     },

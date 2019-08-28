@@ -46,47 +46,19 @@ def projectsFollowUps():
                                 urlLink        = '/project_detail/'   )
     
     else:
-        data = request.get_json()
-        
-        paginationStart = str(data['paginationStart'])
-        departmentId    = str(data['department'])
-        statusId        = str(data['status'])
-        cityId          = str(data['city'])
-        startDate       = str(data['startDate'])
-        endDate         = str(data['endDate'])
-        providerId      = str(data['provider'])
-        fundingId       = str(data['funding'])
-        programId       = str(data['program'])
-        adjudicationId  = str(data['adjudication'])
+        url = URLFrp + request.query_string.decode("utf-8")
 
-        empty_follow_ups = '?empty_follow_ups=0'
-        offset       = '&offset='               + paginationStart
-        department   = '&department='           + departmentId   if departmentId     != '' else ''
-        
-        check_stage = '&check_stage='       + statusId       if statusId         != '' else ''
-        if "," in statusId:
-            check_stage = ''
-            idsS = statusId.split(',')
-            for i in idsS :
-                thisCheckStage = '&check_stage=' + i
-                check_stage += thisCheckStage
-        
-
-        city         = '&city='                 + cityId         if cityId           != '' else ''
-        startDate    = '&contract_start_date='  + startDate      if startDate        != '' else ''
-        endDate      = '&contract_end_date='    + endDate        if endDate          != '' else ''
-        provider     = '&provider='             + providerId     if providerId       != '' else ''
-        funding      = '&funding='              + fundingId      if fundingId        != '' else ''
-        program      = '&program='              + programId      if programId        != '' else ''
-        adjudication = '&adjudication='         + adjudicationId if adjudicationId   != '' else ''
-
-        url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
-        urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+        #url = URLFrp + 'projects/with_follow_up' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+        #print('\n\n\n\n')
+        #print(url)
+        #print('\n\n\n\n')
+        #urlCount = URLFrp + 'projects/with_follow_up/count' + empty_follow_ups + offset + department + check_stage + city + startDate + endDate + provider + funding + program + adjudication
+        #urlCount = URLFrp + 'projects/with_follow_up/count?' + request.query_string.decode("utf-8")
         r = requests.get( url) 
-        rC = requests.get( urlCount) 
+        #rC = requests.get( urlCount) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes, 'count' : rC.json() } )
+        return jsonify( { 'data' : dataRes } )
 
 
 @bp.route('/project_detail/<int:project_id>', methods=['GET', 'POST'])
