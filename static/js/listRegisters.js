@@ -1009,7 +1009,7 @@ var projectDetail = {
     },
     setTitlesLinks: function(data){
         
-        document.getElementById('titleSecondLink').setAttribute('href', document.referrer );
+        //document.getElementById('titleSecondLink').setAttribute('href', document.referrer );
     }
 }
 
