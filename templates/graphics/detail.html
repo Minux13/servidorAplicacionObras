@@ -149,11 +149,11 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a   id="titleFirstLink" href="{{ pagePrevPrev }}" > {{ menu[0]['name'] }} </a>
+                            <a   id="titleFirstLink" href="/graphics" > {{ menu[0]['name'] }} </a>
                             &nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;
-                            <a   id="titleSecondLink">  </a>
+                            <a   id="titleSecondLink"> Obras </a>
                             &nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;
@@ -535,18 +535,8 @@
             <div> </div>
         </div>
         
-        <input id="projectId" type="hidden" value="{{ projectId }}" >
-        
-        <input id="catalogName" type="hidden" value="{{ catalog }}" >
-        
-        <input id="pathUrl" type="hidden" value="{{ pathUrl }}" >
-        
         <input id="pagePrev" type="hidden" value="{{ pagePrev }}" >
         
-        {% for cs in checkStates %}
-        <input id="checkState{{cs.id}}" type="hidden" value="{{ cs.title }}" >
-        {% endfor %}
-    
         <!-- Jquery -->
         <script src="/static/js/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
@@ -570,6 +560,7 @@
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
 
         <!-- Js for crate list -->
+        <script src="/static/js/constantsObras.js"></script>
         <script src="/static/js/listRegisters.js"></script>
         
         <script> 
