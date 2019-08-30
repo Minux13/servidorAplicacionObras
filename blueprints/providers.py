@@ -2,7 +2,7 @@ import os, json, requests
 from flask import Flask, url_for, render_template, request, jsonify, Blueprint
 
 
-from general import URLFrp, menuProvider
+from general import URLFrp
 
 bp = Blueprint('providers', __name__,
                         template_folder='templates')
