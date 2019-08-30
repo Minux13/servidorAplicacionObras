@@ -14,7 +14,7 @@ def providersList():
 
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
-        return render_template( 'providers/index.html', catalog='providers',  menu = menuProvider, title='Proveedores' )
+        return render_template( 'providers/index.html' )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
@@ -56,7 +56,7 @@ def providersAdd():
     #Renderiza el template del formulario para agregar un proveedor
     if request.method == 'GET':
         
-        return render_template( 'providers/add.html', catalog='providers', menu = menuProvider )
+        return render_template( 'providers/add.html' )
     
     else:
         data = request.get_json()
@@ -97,8 +97,6 @@ def providersEdit(provider_id):
 
         return render_template( 'providers/edit.html', 
                                 data = reqJ, 
-                                catalog = 'providers', 
-                                menu = menuProvider, 
                                 displayExistRegister = displayExistRegister,
                                 titleDontExist = titleDontExist
                                 )
