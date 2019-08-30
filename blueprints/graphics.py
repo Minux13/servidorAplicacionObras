@@ -2,7 +2,7 @@ import os, json, requests
 from flask import Flask, url_for, render_template, request, jsonify, Blueprint
 
 
-from general import URLFrp, menuGraphics
+from general import URLFrp
 
 bp = Blueprint('graphics', __name__,
                         template_folder='templates')
@@ -14,15 +14,8 @@ def graphicsList():
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        departments = requests.get( URLFrp + 'catalogues/departments' ).json()
-        providers = requests.get( URLFrp + 'providers/?limit=10000000&order_by=title' ).json()
 
-        return render_template( 'graphics/index.html', 
-                                catalog='graphics', 
-                                menu = menuGraphics, 
-                                departments = departments, 
-                                providers = providers,
-                                urlLink= '/projects_follow_ups' )
+        return render_template( 'graphics/index.html' )
     
     else:
         url = URLFrp + request.query_string.decode("utf-8")
@@ -39,11 +32,7 @@ def projectsFollowUps():
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        return render_template( 'graphics/list.html', 
-                                catalog        ='projects_follow_ups', 
-                                menu           = menuGraphics, 
-                                pagePrev       = '/graphics',
-                                urlLink        = '/project_detail/'   )
+        return render_template( 'graphics/list.html' )
     
     else:
         url = URLFrp + request.query_string.decode("utf-8")
@@ -60,9 +49,7 @@ def projectDetail(project_id):
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
 
-        return render_template( 'graphics/detail.html', 
-                                menu = menuGraphics 
-                                 )
+        return render_template( 'graphics/detail.html' )
     
     else:
 
