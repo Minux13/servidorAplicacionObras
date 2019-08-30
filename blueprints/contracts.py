@@ -2,7 +2,7 @@ import os, json, requests
 from flask import Flask, url_for, render_template, request, jsonify, Blueprint
 
 
-from general import URLFrp, menuContract
+from general import URLFrp
 
 bp = Blueprint('contracts', __name__,
                         template_folder='templates')
@@ -15,7 +15,7 @@ def contractsList():
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        return render_template( 'contracts/index.html', catalog='contracts', menu = menuContract, title='Contratos' )
+        return render_template( 'contracts/index.html' )
     
     else:
         data = request.get_json()
@@ -71,7 +71,7 @@ def contractsAdd():
 
 
 
-        return render_template( 'contracts/add.html', catalog='contracts', menu = menuContract, providers =providers )
+        return render_template( 'contracts/add.html', providers =providers )
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
@@ -141,8 +141,6 @@ def contractsEdit(provider_id):
 
         return render_template( 'contracts/edit.html', 
                                 data = reqJ, 
-                                catalog = 'contracts', 
-                                menu = menuContract, 
                                 providers = providers,
                                 displayExistRegister = displayExistRegister,
                                 titleDontExist = titleDontExist

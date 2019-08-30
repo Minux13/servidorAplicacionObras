@@ -64,37 +64,37 @@
                     </div>
                 </div>
                 <ul class="list-unstyled components">   
-                
+                 
                 
                         
-                    <li class="menu-element"  id="{{ menu[1]['idHTML'] }}"  {{ menu[1]['isActive'] }}  >
-                        <a  href="{{ menu[1]['url'] }}" >
-                            <i class="{{ menu[1]['iconClass'] }}"></i>
-                            <span class="menu-title">  {{ menu[1]['name'] }} </span>
+                    <li class="menu-element"  id="menuComponentProviders" >
+                        <a  href="/providers" >
+                            <i class="fas fa-ethernet"></i>
+                            <span class="menu-title">  Contratistas </span>
                         </a>
                     </li>
-                    <li class="menu-element"  id="{{ menu[2]['idHTML'] }}"  {{ menu[2]['isActive'] }} >
-                        <a  href="{{ menu[2]['url'] }}"  >
-                            <i class="{{ menu[2]['iconClass'] }}"></i>
-                            <span class="menu-title" > {{ menu[2]['name'] }} </span>
+                    <li class="menu-element"  id="menuComponentContracts" active >
+                        <a  href="/contracts"  >
+                            <i class="fas fa-file-contract"></i>
+                            <span class="menu-title" > Contratos </span>
                         </a>                       
                     </li>
-                    <li class="menu-element"  id="{{ menu[3]['idHTML'] }}"   {{ menu[3]['isActive'] }} > 
-                        <a   href="{{ menu[3]['url'] }}" >
-                            <i class="{{ menu[3]['iconClass'] }}"> </i>
-                            <span class="menu-title"> {{ menu[3]['name'] }} </span>
+                    <li class="menu-element"  id="menuComponentProjects" > 
+                        <a   href="/projects" >
+                            <i class="fas fa-hard-hat"> </i>
+                            <span class="menu-title"> Obras </span>
                         </a>
                     </li>
-                    <li class="menu-element"  id="{{ menu[4]['idHTML'] }}"  {{ menu[4]['isActive'] }} >
-                        <a   href="{{ menu[4]['url'] }}" >
-                            <i class="{{ menu[4]['iconClass'] }}"> </i>
-                            <span class="menu-title"> {{ menu[4]['name'] }} </span>
+                    <li class="menu-element"  id="menuComponentFollowUp" >
+                        <a   href="/follow_ups/projects" >
+                            <i class="fas fa-business-time"> </i>
+                            <span class="menu-title"> Avance de Obras </span>
                         </a>
-                    </li>                      
-                    <li class="menu-element"  id="{{ menu[5]['idHTML'] }}"  {{ menu[5]['isActive'] }} >
-                        <a   href="{{ menu[5]['url'] }}" >
-                            <i class="{{ menu[5]['iconClass'] }}"> </i>
-                            <span class="menu-title"> {{ menu[5]['name'] }} </span>
+                    </li>                   
+                    <li class="menu-element"  id="menuComponentGraphics" >
+                        <a   href="/graphics" >
+                            <i class="fas fa-chart-pie"> </i>
+                            <span class="menu-title"> Tableros </span>
                         </a>
                     </li>                   
                     
@@ -146,11 +146,11 @@
                         <li>
                             <i class="fa fa-home"></i>
                             &nbsp;
-                            <a  id="titleFirstLink" href="{{ menu[0]['url'] }}">{{ menu[0]['name'] }}</a>
+                            <a  id="titleFirstLink" >Contratos</a>
                             &nbsp;&nbsp;
                             <i class="fa fa-angle-right"></i>
                             &nbsp;&nbsp;
-                            <a  id="titleDepartment" > Editar {{ menu[0]['nameSingular'] }}  </a>
+                            <a  id="titleDepartment" > Editar Contrato </a>
                         </li>                         
                     </ol>
                     <div class="clearfix">
@@ -382,7 +382,7 @@
 
         
         <input id="registerid" type="hidden" value="{{ data.id }}" >
-        <input id="catalogName" type="hidden" value="{{ catalog }}" >
+        <input id="catalogName" type="hidden" value="contracts" >
  
 
         
