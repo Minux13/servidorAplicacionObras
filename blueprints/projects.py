@@ -14,7 +14,7 @@ def projectsList():
     #Renderiza el template de la lista de proveedores
     if request.method == 'GET':
         
-        return render_template( 'projects/index.html', catalog='projects', menu = menuProject, title='Obras' )
+        return render_template( 'projects/index.html' )
     
     else:
         data = request.get_json()
@@ -65,7 +65,7 @@ def projectsAdd():
         contracts = rContracts.json() 
         
 
-        return render_template( 'projects/add.html', catalog='projects', menu = menuProject, contracts = contracts )
+        return render_template( 'projects/add.html', contracts = contracts )
     
 
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
@@ -124,8 +124,6 @@ def projectsEdit(provider_id):
         
         return render_template( 'projects/edit.html', 
                                 data = reqJ, 
-                                catalog = 'projects', 
-                                menu = menuProject, 
                                 contracts = contracts,
                                 displayExistRegister = displayExistRegister,
                                 titleDontExist = titleDontExist
