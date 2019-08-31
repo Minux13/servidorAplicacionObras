@@ -1,108 +1,185 @@
+const URLSERVER = 'http://15.164.48.84/api/v1/';
+
 var listRegisters = {
-    paginationStar  : 0,
+    url             : '',
+    urlCount        : '',   //Url que devuelve el numero total de registros para crear los botones de paginacion
+    paginationStart : 0,
     paginationStep  : 10,
-    numberOfButtons : 1,     //Mock, se actualiza cuando se reciben los datos ajax
     by              : 'id',
     order           : 'ASC',
     searchBy        : '',
     valueSearchBy   : '',
-    goToRegister : function(thisElement){
-        var idRegister = thisElement.getAttribute('idRegister');
-        var catalog = document.getElementById('catalogName').value;
-        var url = '/'+ catalog +'/edit/' + idRegister;
-        window.open( url ,"_self"); 
+    registersTotal  : 0,
+    setURLS         : function(){
+        var urlGetRegisters = document.getElementById('urlGetRegisters').value;
+        var urlCountAllRegisters = document.getElementById('urlCountAllRegisters').value;
+
+        if( this.searchBy ){
+            this.urlCount = URLSERVER + urlCountAllRegisters + '?' + this.searchBy + '=' + this.valueSearchBy
+            var searchQuery = '&'+ this.searchBy +'=' + this.valueSearchBy 
+        } else{
+            this.urlCount = URLSERVER + urlCountAllRegisters;
+            var searchQuery = '' 
+        }
+        
+        queryStr = urlGetRegisters + '/?offset=' + this.paginationStart + '&limit=' + this.paginationStep + searchQuery
+        this.url = URLSERVER + queryStr;
+
     },
-    getDataTable : function( url, createBtns ){
+    getDataTable : function( ){
+
+        var urlGetRegisters = document.getElementById('urlGetRegisters').value;
+        var searchQuery = this.searchBy ?  '&'+ this.searchBy +'=' + this.valueSearchBy : '';
+        
+        var pathUrl = urlGetRegisters + '/?offset=' + this.paginationStart + '&limit=' + this.paginationStep + searchQuery
+        this.url = URLSERVER + pathUrl;
+
+        var url = document.getElementById('catalogName').value + '?' + this.url;
+
          $.ajax({
             url: url,
             type: 'post',
             dataType: 'json',
             contentType: 'application/json',
             success: function (res) {
-                
-                var numAllRegisters = res.count;
-                
-                if( createBtns ){
-                    setTag.createButtons( numAllRegisters, listRegisters.searchBy, listRegisters.valueSearchBy );
-                }
-
-                setTag.setTable(res.data)
-        
-               document.getElementById('waintingAnimation').style.display = "none";
-               
-
+                setTag.setTable(res) //Este objeto esta en el html del catalogo
             },
 
-            data:  JSON.stringify ({'paginationStart': listRegisters.paginationStar ,
+            data:  JSON.stringify ({'paginationStart': listRegisters.paginationStart ,
                                     'paginationStep' : listRegisters.paginationStep ,
                                     'by'             : listRegisters.by,
                                     'order'          : listRegisters.order,
                                     'searchBy'       : listRegisters.searchBy,    
                                     'valueSearchBy'  : listRegisters.valueSearchBy
                                     })
-        }).done(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        })
-        .fail(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        })
-        .always(function() {
-            document.getElementById('waintingAnimation').style.display = "none";
-        }) ;
+
+        }).done(function() { document.getElementById('waintingAnimation').style.display = "none";
+        }).fail(function() { document.getElementById('waintingAnimation').style.display = "none";
+        }).always(function() { document.getElementById('waintingAnimation').style.display = "none";
+        });
        
     },
-    linkAddProvider: function(){
-        var catalog = document.getElementById('catalogName').value;
-        var url = '/'+ catalog +'/add';
-        window.open( url ,"_self"); 
-    },
-    actionButtonPagination: function( thisButton ){
+    buttons: {
+        getCountAllRegisters : function( ){
+            var urlCountAllRegisters = document.getElementById('urlCountAllRegisters').value;
 
-        //Icono de espera
-        document.getElementById('waintingAnimation').style.display = "block";
-
-        //Set list
-        var url      =  document.getElementById('catalogName').value;
-
-        listRegisters.paginationStar = parseInt( thisButton.getAttribute('initL') ) ;
-
-        listRegisters.getDataTable( url, false )
+            if( listRegisters.searchBy ){
+                listRegisters.urlCount = URLSERVER + urlCountAllRegisters + '?' + listRegisters.searchBy + '=' + listRegisters.valueSearchBy
+                var searchQuery = '&'+ listRegisters.searchBy +'=' + listRegisters.valueSearchBy 
+            } else{
+                listRegisters.urlCount = URLSERVER + urlCountAllRegisters;
+                var searchQuery = '' 
+            }
+            
+            var urll = document.getElementById('catalogName').value + '?' + listRegisters.urlCount;
+            
+             $.ajax({
+                url: urll,
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (res) {
+                    listRegisters.registersTotal = res.count;
+                    listRegisters.buttons.create();
+                }
         
-        //Behavior button
-        $(".button_pag").removeAttr("active");
-        $( thisButton ).attr('active','')
+            }).done(function() { document.getElementById('waintingAnimation').style.display = "none";
+            }).fail(function() { document.getElementById('waintingAnimation').style.display = "none";
+            }).always(function() { document.getElementById('waintingAnimation').style.display = "none";
+            });
+           
+        },
+        create : function( numRegisters ){
+            var numAllRegisters = listRegisters.registersTotal;
+            
+            var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ); //Del 0 (con label 1) al N
+           
+            if(numOfButtons <= 1 ){return ;}
+            var strAllButtons = '';
+            var limitButtons = 7;
+            
+            var currentNumButton = (listRegisters.paginationStart/ listRegisters.paginationStep );
 
+            if(numOfButtons <= limitButtons){
+                for(var b=0; b< numOfButtons ; b++ ){
+                    var start = b * listRegisters.paginationStep ;
+                    var numLabelButton = b + 1;
+                    var isActive = b==currentNumButton? 'active' : '';
+                    strAllButtons += listRegisters.buttons.tagHTML( start, numLabelButton, isActive)
+                }
+            }else{
+                
+                strAllButtons += '<button initL="0"  onclick="listRegisters.buttons.action(this)" class="button_pag" >&#xab;</button>';
+                
+                var middleLimitOfButton = Math.ceil(limitButtons/2)-1; //Como los botones empiezan en 0 se resta 1
+
+                var firstNumButton = currentNumButton <= middleLimitOfButton ? 0 : currentNumButton - middleLimitOfButton; //Para que no se vaya a numeros negativos
+                var middleRightNumOfButtons = limitButtons - middleLimitOfButton;
+                var restt = numOfButtons - currentNumButton;
+                if( restt < middleRightNumOfButtons ){
+                    firstNumButton = numOfButtons - (limitButtons);
+                }
+                
+                for(var b=firstNumButton; b<(firstNumButton+limitButtons) ; b++ ){
+                    var start = b * listRegisters.paginationStep ;
+                    var numLabelButton = b + 1;
+                    var isActive = b==currentNumButton? 'active' : '';
+                    strAllButtons += listRegisters.buttons.tagHTML( start, numLabelButton, isActive)
+                }
+
+                var initLFinal = (numOfButtons -1)*10;
+                strAllButtons += '<button initL="'+ initLFinal +'"  onclick="listRegisters.buttons.action(this)" class="button_pag" >&#xbb;</button>';
+            }
+
+            $('#containerButtonsPagination').html(strAllButtons);
+        },
+        tagHTML : function(init, numValueButton, isActive ){
+            return '<button initL="'+ init +'" onclick="listRegisters.buttons.action(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
+        },
+        action: function( thisButton ){
+
+            //Icono de espera
+            document.getElementById('waintingAnimation').style.display = "block";
+
+            listRegisters.paginationStart = parseInt( thisButton.getAttribute('initL') ) ;
+
+            listRegisters.setURLS();
+            listRegisters.getDataTable();
+            
+            listRegisters.buttons.create();
+        }
     },
-    
-
-
+    openRegister: function(thisElement){
+        var idRegister = thisElement.getAttribute('idRegister');
+        var catalog = document.getElementById('catalogName').value;
+        var url = '/'+ catalog +'/edit/' + idRegister;
+        window.open( url ,"_self");       
+    },
     initSearch : function() {
         document.getElementById('waintingAnimation').style.display = "block";
         
-        var searchBy      = $('#searchRegisterSelect').val();
-        var valueSearchBy = $('#searchRegisterField').val();
-        var url = document.getElementById('catalogName').value;
-
-        listRegisters.paginationStar = 0;
-        listRegisters.searchBy       = $('#searchRegisterSelect').val();  
-        listRegisters.valueSearchBy  = $('#searchRegisterField').val();
+        this.paginationStart = 0;
+        this.searchBy       = $('#searchRegisterSelect').val();  
+        this.valueSearchBy  = $('#searchRegisterField').val();
         
-        listRegisters.getDataTable( url, true  );
+        this.setURLS();
+        this.getDataTable();
+        this.buttons.getCountAllRegisters(); //Cuando obtiene este numero crea los botones de paginacion
         
     },
-
     init : function(){
 
         document.getElementById('waintingAnimation').style.display = "block";
 
-        //Set values for init pagination
-        listRegisters.paginationStar = 0;
-        listRegisters.searchBy       = '';  
-        listRegisters.valueSearchBy  = '';
+        //Valores iniciales para la lista principal
+        this.paginationStart = 0;
+        this.searchBy       = '';  
+        this.valueSearchBy  = '';
+        this.url = document.getElementById('catalogName').value;
 
-        var url = document.getElementById('catalogName').value;
-
-        listRegisters.getDataTable(  url, true );
+        this.setURLS();
+        this.getDataTable();
+        this.buttons.getCountAllRegisters(); //Cuando obtiene este numero crea los botones de paginacion
     }
 };
 
@@ -880,7 +957,7 @@ var listStatusProjects = {
     },
     goToDetail : function ( thisTag ){
         var idObra = thisTag.getAttribute("idProject");
-        var urlLink = document.getElementById('urlLink').value;
+        var urlLink = '/project_detail/';
         var url = urlLink + idObra ;
         window.open( url ,"_self");   
     },
