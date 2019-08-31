@@ -2,7 +2,7 @@ import os, json, requests
 from flask import Flask, url_for, render_template, request, jsonify, Blueprint
 
 
-from general import URLFrp, menuProject
+from general import URLFrp
 
 bp = Blueprint('projects', __name__,
                         template_folder='templates')
@@ -17,33 +17,13 @@ def projectsList():
         return render_template( 'projects/index.html' )
     
     else:
-        data = request.get_json()
+
+        url = request.query_string.decode("utf-8")
         
-        paginationStart     = data['paginationStart']
-        paginationStep      = data['paginationStep']
-        paginationBy        = data['by']
-        paginationOrder     = data['order']
-        searchBy            = data['searchBy']
-        valueSearchBy       = data['valueSearchBy']
-        
-
-        if searchBy == '':
-            urlCount = URLFrp + 'projects/count'
-            searchQuery = '' 
-        else:
-            urlCount = URLFrp + 'projects/count?' + searchBy + '=' + valueSearchBy
-            searchQuery = '&'+ searchBy +'=' + valueSearchBy
-
-
-        countAmount = requests.get( urlCount ).json()['count']
-        queryStr = 'projects/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
-        url = URLFrp + queryStr
-
-
         r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
+        return jsonify( dataRes )
 
 
 

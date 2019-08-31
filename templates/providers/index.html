@@ -179,7 +179,7 @@
                                         </div>
                                         <div class="col-md-6 order-0 order-md-1 ">
                                             <div id="containerAddButton">
-                                                <button onclick="listRegisters.linkAddProvider();" class="obrasButtonNormal"> Agregar Contratista </button>
+                                                <a href="/providers/add" class="obrasButtonNormal"> Agregar Contratista </a>
                                             </div>
                                         </div>
                                     </div>
@@ -255,7 +255,10 @@
             <div> </div>
         </div>
         
-        <input id="catalogName" type="hidden" value="providers" >
+        <!-- Este valor se toma para los diferentes catalogos -->
+        <input id="catalogName"          type="hidden" value="providers" >
+        <input id="urlGetRegisters"      type="hidden" value="providers" >
+        <input id="urlCountAllRegisters" type="hidden" value="providers/count" >
 
     
         <!-- Jquery -->
@@ -307,15 +310,12 @@
             var setTag = {
                 tr : function( title, description, idRegister){
                     strTr = `
-                        <tr idRegister="`+ idRegister +`" onclick="listRegisters.goToRegister(this);" >
+                        <tr idRegister="`+ idRegister +`" onclick="listRegisters.openRegister(this);" >
                             <td> `+ title +` </td>
                             <td> `+ description +` </td>
                         </tr>
                     `;
                     return strTr;
-                },
-                button : function(init, numValueButton, isActive, searchBy, valueSearchBy){
-                    return '<button initL="'+ init +'" searchBy="'+ searchBy +'" valueSearchBy="'+ valueSearchBy +'"  onclick="listRegisters.actionButtonPagination(this)" class="button_pag" '+isActive+'>'+ numValueButton +'</button>';
                 },
                 setTable : function(data){
                     
@@ -329,22 +329,7 @@
 
                     document.getElementById('tableRegisters').innerHTML = strTRs;
                    
-                },
-                createButtons: function( numAllRegisters, filterBy, valueSearchBy ){
-                    
-                    var numOfButtons = Math.ceil( numAllRegisters/listRegisters.paginationStep ) ;
-                    listRegisters.numberOfButtons = numOfButtons ;
-                    
-                    var strAllButtons = '';
-                    for(var b=0; b< numOfButtons ; b++ ){
-                        var start = b * listRegisters.paginationStep ;
-                        var numLebelButton = b + 1;
-                        var isActive = b==0? 'active' : '';
-                        strAllButtons += setTag.button( start, numLebelButton, isActive, filterBy, valueSearchBy )
-                    }
-                    document.getElementById('containerButtonsPagination').innerHTML = strAllButtons;                   
-                }
-                          
+                }                          
             };
 
 

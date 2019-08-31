@@ -18,34 +18,13 @@ def providersList():
     
     #Cuando termina de cargar la pagina el javascrip pide la lista de los proveedores
     else:
-        data = request.get_json()
-        
-        paginationStart     = data['paginationStart']
-        paginationStep      = data['paginationStep']
-        paginationBy        = data['by']
-        paginationOrder     = data['order']
-        searchBy            = data['searchBy']
-        valueSearchBy       = data['valueSearchBy']
 
-        #?offset=9&limit=10&order_by=id&order=ASC
-
-
-        if searchBy == '':
-            urlCount = URLFrp + 'providers/count'
-            searchQuery = '' 
-        else:
-            urlCount = URLFrp + 'providers/count?' + searchBy + '=' + valueSearchBy
-            searchQuery = '&'+ searchBy +'=' + valueSearchBy
-
-
-        countAmount = requests.get( urlCount ).json()['count']
-        queryStr = 'providers/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
-        url = URLFrp + queryStr
+        url = request.query_string.decode("utf-8")
         
         r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
+        return jsonify( dataRes )
 
 
 

@@ -18,34 +18,14 @@ def contractsList():
         return render_template( 'contracts/index.html' )
     
     else:
-        data = request.get_json()
+
+        url = request.query_string.decode("utf-8")
         
-        paginationStart     = data['paginationStart']
-        paginationStep      = data['paginationStep']
-        paginationBy        = data['by']
-        paginationOrder     = data['order']
-        searchBy            = data['searchBy']
-        valueSearchBy       = data['valueSearchBy']
-        
-
-
-        if searchBy == '':
-            urlCount = URLFrp + 'contracts/count'
-            searchQuery = '' 
-        else:
-            urlCount = URLFrp + 'contracts/count?' + searchBy + '=' + valueSearchBy
-            searchQuery = '&'+ searchBy +'=' + valueSearchBy
-
-
-        countAmount = requests.get( urlCount ).json()['count']
-        queryStr = 'contracts/?offset=' + str(paginationStart) + '&limit=' + str(paginationStep) + searchQuery
-        url = URLFrp + queryStr
-
-
         r = requests.get( url) 
         dataRes = r.json() 
         
-        return jsonify( { 'data' : dataRes, 'count' : countAmount} )
+        return jsonify( dataRes )
+
 
 
 
