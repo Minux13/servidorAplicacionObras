@@ -192,7 +192,7 @@
                                             </div>
                                                 
                                             <div class="contentOfButtonsActions" >
-                                                <button class="buttonsActions" onclick="addRegister();">Guardar</button>
+                                                <button class="buttonsActions" onclick="updateRegister.send();">Guardar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -250,28 +250,29 @@
 
             });
 
+            var updateRegister = {
+                url: '/providers/add?'+ URLSERVER +'/providers',
+                urlRedirect: '/providers',
+                validate: function(){
+                    var fieldsJson = [
+                        {'id' : 'nameprovider',         'type' : 'text'},
+                        {'id' : 'descriptionprovider',  'type' : 'text'},
+                    ]
 
-            function addRegister() {
-             
-                var catalog = document.getElementById('catalogName').value;
-                var url = '/'+ catalog +'/add';
-
-                var fieldsJson = [
-                    {'id' : 'nameprovider',         'type' : 'text'},
-                    {'id' : 'descriptionprovider',  'type' : 'text'},
-                ]
-
-                var send = validate.fields( fieldsJson );
-                
-                if (send){
-                    var dataJson = JSON.stringify({
-                        'title':        $('#nameprovider').val() , 
-                        'description':  $('#descriptionprovider').val()
-                    });
-                    POSTRegister.send( url, dataJson, 'create' );
+                    return validate.fields( fieldsJson );   //True o false
+                },
+                send: function(){
+                    if (this.validate){
+                        var dataJson = JSON.stringify({
+                            'title':        $('#nameprovider').val() , 
+                            'description':  $('#descriptionprovider').val(),
+                            'inceptor_uuid': 'string'
+                        });
+                        POSTRegister.send( this.url, dataJson, 'create', this.urlRedirect );
+                    }
                 }
-            
             }
+
 
         </script>
 
