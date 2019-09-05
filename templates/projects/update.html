@@ -1,0 +1,778 @@
+<!doctype html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        
+        <link rel="icon" href="/static/images/favi.png" type="image/gif" sizes="16x9">
+        
+        
+        <!--Loading JQuery UI css-->
+        <link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css">
+        
+        <!--  -->
+        <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+        <!-- Bootstrap CSS CDN -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        
+        <!-- Our Custom CSS -->
+        <link href="/static/css/style4.css" rel="stylesheet" type="text/css">
+        
+        <!-- Font Awesome 
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        -->
+        
+        <!-- Fonts Google 
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        -->
+
+        <!-- Select2 -->
+        <link href="/static/css/select2.min.css" rel="stylesheet" />
+ 
+        <!-- CSS for Lato family font -->
+        <link href="/static/css/cssLaton.css" rel="stylesheet">
+        
+        
+        <link href="/static/css/obras.css" rel="stylesheet">
+        
+
+        <title> Contraloría y Transparencia Gubernamental Gobierno del Estado de Nuevo León </title>
+    </head>
+
+    <body class="  pace-done">
+
+
+
+        <div class="lds-roller"  id="waintingAnimation" >
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+        </div> 
+
+
+
+
+        <div class="pace  pace-inactive">
+            <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">  
+                <div class="pace-progress-inner">
+                </div>
+            </div>
+            <div class="pace-activity">
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar" style="min-height: 100%;">
+                <div class="sidebar-header">
+                    <div class="sjo-logo-big">
+                        <img width="244" height="119" class="img-fluid" src="/static/images/logo.png">
+                    </div>
+                    <div class="sjo-logo-small">
+                        <img width="244" height="119" class="img-fluid" src="/static/images/escudo.png">
+                    </div>
+                </div>
+                <ul class="list-unstyled components">       
+                
+                         
+                    <li class="menu-element"  id="menuComponentProviders" >
+                        <a  href="/providers/" >
+                            <i class="fas fa-ethernet"></i>
+                            <span class="menu-title">  Contratistas </span>
+                        </a>
+                    </li>
+                    <li class="menu-element"  id="menuComponentContracts" >
+                        <a  href="/contracts/"  >
+                            <i class="fas fa-file-contract"></i>
+                            <span class="menu-title" > Contratos </span>
+                        </a>                       
+                    </li>
+                    <li class="menu-element"  id="menuComponentProjects" active > 
+                        <a   href="/projects/" >
+                            <i class="fas fa-hard-hat"> </i>
+                            <span class="menu-title"> Obras </span>
+                        </a>
+                    </li>
+                    <li class="menu-element"  id="menuComponentFollowUp" >
+                        <a   href="/follow_ups/projects/" >
+                            <i class="fas fa-business-time"> </i>
+                            <span class="menu-title"> Avance de Obras </span>
+                        </a>
+                    </li>                   
+                    <li class="menu-element"  id="menuComponentGraphics" >
+                        <a   href="/graphics/" >
+                            <i class="fas fa-chart-pie"> </i>
+                            <span class="menu-title"> Tableros </span>
+                        </a>
+                    </li>                  
+                                    
+                    
+                </ul>
+            </nav>
+
+
+
+            <!-- Page Content Holder -->
+            <div id="content" class="container-fluid">
+
+            <!-- Nav Bar -->
+                <nav class="navbar navbar-default navbar-static-top" >
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button class="btn btn-info navbar-btn" id="sidebarCollapse" type="button">
+                                <i class="fa fa-bars"></i>
+                                <span class="sr-only">Toggle navigation</span>
+                            </button>
+                        </div>
+                        <!--
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle" style="font-size: 20px; vertical-align: -1px;"></i>
+                                Usuario
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-sw" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" ><i class="fa fa-user"></i>Mi Perfil</a>               
+                                
+                                <a class="dropdown-item" href="#"><i class="fa fa-calendar"></i>Calendario</a>
+                                <a class="dropdown-item" href="#"><i class="fa fa-envelope"></i>Buzón</a>     
+                                
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" ><i class="fas fa-sign-out-alt"></i></i>Salir</a>
+                            </div>
+                        </div>   
+                        -->                     
+                    </div>
+                </nav>
+
+
+                <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                
+                <div class="page-title-breadcrumb" id="title-breadcrumb-option-demo">
+                    <ol class="breadcrumb page-breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            &nbsp;
+                            <a  id="titleFirstLink"  href="/projects">Obras</a>
+                            &nbsp;&nbsp;
+                            <i class="fa fa-angle-right"></i>
+                            &nbsp;&nbsp;
+                            <a  id="titleDepartment" > Actualizar Obra  </a>
+                        </li>                         
+                    </ol>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                
+                <!--END TITLE & BREADCRUMB PAGE-->
+                
+
+                <!--BEGIN CONTENT-->
+                <div class="container-fluid">
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                             <div class="portlet box">
+                                
+
+                                <br>
+
+
+
+                                <div class="portlet-body" >
+
+
+                                    <div action="/" id="addRegister">
+                                        <div class="form-group">
+
+                                            <div class="row rowAddRegister"  >
+                                                <div class="col-md-6">
+                                                    <label for="title" class="indicatorName">Nombre </label> <br>
+                                                    <input type="text" name="title" class="form-control" id="title" >
+                                                    <p id="for_title" class="msjNotValid" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="city" class="indicatorName"> Municipio </label> <br>
+                                                    <select name="city" class="form-control" id="city" >
+                                                    </select>
+                                                    <p id="for_city" class="msjNotValid" > </p>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row rowAddRegister"  >
+                                                <div class="col-md-6">
+                                                    <label for="category" class="indicatorName"> Categoría </label> <br>
+                                                    <select name="category" class="form-control" id="category" >
+                                                    </select>
+                                                    <p id="for_category" class="msjNotValid" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="department" class="indicatorName"> Dependencia </label> <br>
+                                                    <select name="department" class="form-control" id="department" >
+                                                    </select>
+                                                    <p id="for_department" class="msjNotValid" > </p>
+                                                </div>
+                                            </div>
+
+
+                                        
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="budget" class="indicatorName"> Presupuesto </label> <br>
+                                                    <input type="number" name="budget" class="form-control" id="budget" >
+                                                    <p id="for_budget" class="msjNotValid" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="contract" class="indicatorName"> Contrato </label> <br>
+                                                    <select name="contract" class="form-control" id="contract" >
+                                                    </select>
+                                                    <p id="for_contract" class="msjNotValid" > </p>
+                                                </div>
+                                            </div>                                       
+                                        
+                                              
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-6">
+                                                    <label for="planed_kickoff" class="indicatorName"> Fecha de inicio planeada </label> <br>
+                                                    <input type="text" name="planed_kickoff" class="form-control" id="planed_kickoff" >
+                                                    <p id="for_planed_kickoff" class="msjNotValid" > </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="planed_ending" class="indicatorName"> Fecha de fin de obra planeada </label> <br>
+                                                    <input type="text" name="planed_ending" class="form-control" id="planed_ending" >
+                                                    <p id="for_planed_ending" class="msjNotValid" > </p>
+                                                </div>
+                                            </div>  
+
+
+
+
+                                             <div class="row rowAddRegister">
+                                                <div class="col-md-12">
+                                                    <label for="description" class="indicatorName"> Descripción </label> <br>
+                                                    <textarea name="description" class="form-control" id="description" ></textarea>
+                                                    <p id="for_description" class="msjNotValid" > Ingresa este campo </p>
+                                                </div>
+                                                
+                                            </div> 
+                                                
+
+
+                                            <div class="contentOfButtonsActions" >
+                                                <button class="buttonsActions" onclick="updateRegister.send();">Guardar</button>
+                                                <button onclick="DELETERegisters.warning();" style="display:none;" class="buttonsActions deleteRegisterButton" id="deleteRegisterButton"> Eliminar </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>                            
+                </div>
+
+            </div>
+        </div>
+        
+        
+        
+        <!-- BEGIN MODAL -->
+        <div id="modalconfirm" class="modal fade" data-backdrop-limit="1" tabindex="-1" role="dialog">
+            <div class="modal-dialog" id="dialogConfirmModal">
+                <div class="modal-content">
+                    <div class="modal-body" >
+                        
+                        <div id="containerModalImageZoom" style="text-align: center;">
+                            <p id="messageconfirm">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Seguro que desea eliminar este elemento
+                            </p>    
+                            <button type="button" class="close confirmDeleteButton cancelButtonConfirm" data-dismiss="modal" aria-hidden="true"  >Cancelar</button>
+                            <button type="button" class="close confirmDeleteButton deleteButtonConfirm" data-dismiss="modal" aria-hidden="true" onclick="DELETERegisters.send();">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                   
+        <!-- END MODAL -->
+        
+
+
+        <input id="catalogName" type="hidden" value="projects" >
+
+
+    
+        <!-- Jquery -->
+        <script src="/static/js/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- Jquery UI -->
+        <script src="/static/js/jquery-ui.js"></script>
+        <!--  -->
+        <script src="/static/js/jsonpath-0.8.0.js"></script>
+        <!-- Highcharts -->
+        <script src="/static/js/highcharts.js"></script>
+        <!-- Highcharts 3D charts -->
+        <script src="/static/js/highcharts-3d.js"></script>
+        <!-- Module of Highcharts -->
+        <script src="/static/js/exporting.js"></script>
+
+        <!-- Notify -->
+        <script src="/static/js/notify.min.js"></script>
+        
+        
+        <!--  
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        -->
+
+        <!-- Select2 -->
+        <script src="/static/js/select2.min.js"></script>
+        
+        
+        
+        <!-- Js for crate list -->
+        <script src="/static/js/listRegisters.js"></script>
+
+    
+        <script>
+
+            $(document).ready(function () {
+
+                //Button toggle for sidebar
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+
+                setSelects.init();
+            });
+
+
+
+            var updateRegister = {
+                url: URLSERVER +'projects/',
+                urlRedirect: '/projects/',
+                idRegister: 0,
+                method:     'POST',
+                validate: function(){
+                    var fieldsJson = [
+                        {'id' : 'title',                'type' : 'text'},
+                        {'id' : 'city',                 'type' : 'selectNumber'},
+                        {'id' : 'category',             'type' : 'selectNumber'},
+                        {'id' : 'department',           'type' : 'selectNumber'},
+                        {'id' : 'budget',               'type' : 'float'},
+                        {'id' : 'contract',             'type' : 'selectNumber'},
+                        {'id' : 'planed_kickoff',       'type' : 'date'},
+                        {'id' : 'planed_ending',        'type' : 'date'},
+                        {'id' : 'description',          'type' : 'text'},
+                    ];
+
+                    return validate.fields( fieldsJson );   //True o false
+                },
+                send: function(){
+                    if (this.validate()){
+                            var dataJson = JSON.stringify({
+                                'title'         : $('#title').val(),
+                                'description'   : $('#description').val(),
+                                'city'          : $('#city').val(),
+                                'category'      : $('#category').val(),
+                                'department'    : $('#department').val(),
+                                'contract'      : $('#contract').val(),
+                                'budget'        : $('#budget').val(),
+                                'planed_kickoff': datesGENL.formatDateSend( $('#planed_kickoff').val() ) ,
+                                'planed_ending' : datesGENL.formatDateSend( $('#planed_ending').val() ) ,
+                                'inceptor_uuid' : 'string',           
+                            });
+                        
+                        POSTRegister.send( this.url, dataJson, this.urlRedirect, updateRegister.method );
+                    }
+                },
+            }
+
+
+
+
+
+            var setSelects = {
+                init: function(){
+                    this.contracts.get();
+                    this.departments.get();
+                    this.cities.get();
+                    this.categories.get();
+
+                    setSelects.promise = setInterval(function(){
+                        if(setSelects.contracts.isDone&&setSelects.departments.isDone&&setSelects.cities.isDone&&setSelects.categories.isDone){
+                            clearInterval(setSelects.promise);
+                            var urlParams = new URLSearchParams(location.search);
+                            if(urlParams.has('reg')){
+                                setPage.isEdit(urlParams.get('reg'));
+                            }else{
+                                setPage.isAdd();
+                            }
+                        }
+                    }, 250);
+                },
+                promise: undefined,
+                requestGET: function(url, callbackTrue, callbackFalse){
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.onload = function() { 
+                        if(  xmlHttp.status >=200 && xmlHttp.status < 300 ){
+                            var res = JSON.parse(xmlHttp.response);
+                            callbackTrue(res);
+                        }else{
+                            callbackFalse();
+                        }
+                    }
+                    xmlHttp.open("GET", url, true); 
+                    xmlHttp.send(null);
+
+                },
+                contracts: {
+                    setSelect: function(contracts){
+                        var strOptions = '<option value="0" > -- Selecciona un Contrato -- </option>';
+                        for(var c in contracts){
+                            strOptions += '<option value="'+ contracts[c].id +'"> '+ contracts[c].title +' </option>'
+                        }
+                        $('#contract').html(strOptions);
+                        $('#contract').select2();
+                        setSelects.contracts.isDone = true;
+                    },
+                    get: function(){
+                        var url = URLSERVER + 'contracts/?offset=0&limit=10000000';
+                        setSelects.requestGET( url, this.setSelect, function(){;} )
+                    },
+                    isDone: false
+                },
+                departments: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona una Dependencia -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#department').html(strOptions);
+                        if(setSelects.departments.setStorage){localStorage.setItem('departmentCatalogue',JSON.stringify(registers));}
+                        setSelects.departments.isDone = true;
+                    },
+                    get: function(){
+                        var departmentStorage = localStorage.getItem('departmentCatalogue');
+
+                        if( departmentStorage ){
+                            setSelects.departments.setStorage = false;
+                            setSelects.departments.setSelect( JSON.parse(departmentStorage) );
+                        }else{
+                            var url = URLSERVER + 'catalogues/departments';
+                            setSelects.requestGET( url, setSelects.departments.setSelect, function(){;} )
+                        }
+                    },
+                    setStorage: true,
+                    isDone: false
+                },
+                cities: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona un Municipio -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#city').html(strOptions);
+                        if(setSelects.cities.setStorage){localStorage.setItem('cityCatalogue',JSON.stringify(registers));}
+                        setSelects.cities.isDone = true;
+                    },
+                    get: function(){
+                        var cityStorage = localStorage.getItem('cityCatalogue');
+
+                        if( cityStorage ){
+                            setSelects.cities.setStorage = false;
+                            setSelects.cities.setSelect( JSON.parse(cityStorage) );
+                        }else{
+                            //var url = URLSERVER + 'catalogues/departments';
+                            //setSelects.requestGET( url, setSelects.departments.setSelect, function(){;} )
+                            setSelects.cities.setSelect(citiesNLObj)
+                        }
+                    },
+                    setStorage: true,
+                    isDone: false
+                },
+                categories: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona una Categoría -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#category').html(strOptions);
+                        if(setSelects.categories.setStorage){localStorage.setItem('categoriesCatalogue',JSON.stringify(registers));}
+                        setSelects.categories.isDone = true;
+                    },
+                    get: function(){
+                        var categoryStorage = localStorage.getItem('categoriesCatalogue');
+
+                        if( categoryStorage ){
+                            setSelects.categories.setStorage = false;
+                            setSelects.categories.setSelect( JSON.parse(categoryStorage) );
+                        }else{
+                            var url = URLSERVER + 'catalogues/categories';
+                            setSelects.requestGET( url, setSelects.categories.setSelect, function(){;} )
+                        }
+                    },
+                    setStorage: true,
+                    isDone: false
+                },
+            }
+
+
+
+
+
+
+            var setPage = {
+                isEdit: function(idReg){
+                    updateRegister.idRegister = parseInt(idReg);
+                    updateRegister.method = 'PUT';
+                    updateRegister.url += idReg;
+
+                    var url= URLSERVER + 'projects/' + idReg;
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.onload = function() { 
+                        if(  xmlHttp.status >=200 && xmlHttp.status < 300 ){
+                            var res = JSON.parse(xmlHttp.response);
+                            setPage.fill(res);
+                        }else{
+                            setPage.dontExistRegister();
+                        }
+                    }
+                    xmlHttp.open("GET", url, true); 
+                    xmlHttp.send(null);
+                    
+                    $('#deleteRegisterButton').css('display','initial');
+                },
+                isAdd: function(){
+                    //Se aplican los iniciadores de datepicker a los inputs tipo fecha
+                    $( "#kickoff" ).datepicker( datesGENL.formatPicker );
+                    $( "#ending" ).datepicker( datesGENL.formatPicker );
+                    
+                    $('#provider').select2();
+                    $('#waintingAnimation').css('display','none');
+                },
+                fill: function(res){
+                    $('#title'         ).val(res.title              );
+                    $('#description'   ).val(res.description        );
+                    $('#city'          ).val(res.city               );
+                    $('#category'      ).val(res.category           );
+                    $('#department'    ).val(res.department         );
+                    $('#contract'      ).val(res.contract           );
+                    $('#budget'        ).val(res.budget             );
+                    $('#planed_kickoff').val(datesGENL.formatOrder(res.planed_kickoff)     );
+                    $('#planed_ending' ).val(datesGENL.formatOrder(res.planed_ending)      );
+                    $('#inceptor_uuid' ).val(res.inceptor_uuid      );
+
+
+                    $('#contract').select2().trigger('change');
+
+                    $('#waintingAnimation').css('display','none');
+
+                },
+                dontExistRegister: function(){
+                    $('#addRegister').html('<i style="font-size:4em; color: #666;" class="fas fa-exclamation-circle"></i><span style="font-weight: bold; font-size: 2.3em; vertical-align: 0.3em; margin-left: 0.5em; color: #666;">El registro no existe</span>');
+                
+                    $('#waintingAnimation').css('display','none');
+                }
+            }
+
+
+
+
+
+
+
+var citiesNLObj = [
+    {'id' : 0  , 'title' : 'Selecciona un Municipio--'},
+    {'id' : 1  , 'title' : 'Abasolo'},
+    {'id' : 2  , 'title' : 'Agualeguas'},
+    {'id' : 3  , 'title' : 'Los Aldamas'},
+    {'id' : 4  , 'title' : 'Allende'},
+    {'id' : 5  , 'title' : 'Anahuac'},
+    {'id' : 6  , 'title' : 'Apodaca'},
+    {'id' : 7  , 'title' : 'Aramberri'},
+    {'id' : 8  , 'title' : 'Bustamante'},
+    {'id' : 9  , 'title' : 'Cadereyta Jimenez'},
+    {'id' : 10 , 'title' : 'Carmen'},
+    {'id' : 11 , 'title' : 'Cerralvo'},
+    {'id' : 12 , 'title' : 'Cienega de Flores'},
+    {'id' : 13 , 'title' : 'China'},
+    {'id' : 14 , 'title' : 'Dr. Arroyo'},
+    {'id' : 15 , 'title' : 'Dr. Coss'},
+    {'id' : 16 , 'title' : 'Dr. Gonzalez'},
+    {'id' : 17 , 'title' : 'Galeana'},
+    {'id' : 18 , 'title' : 'Garcia'},
+    {'id' : 19 , 'title' : 'San Pedro Garza Garcia'},
+    {'id' : 20 , 'title' : 'Gral. Bravo'},
+    {'id' : 21 , 'title' : 'Gral. Escobedo'},
+    {'id' : 22 , 'title' : 'Gral. Teran'},
+    {'id' : 23 , 'title' : 'Gral. Trevi'},
+    {'id' : 24 , 'title' : 'Gral. Zaragoza'},
+    {'id' : 25 , 'title' : 'Gral. Zuazua'},
+    {'id' : 26 , 'title' : 'Guadalupe'},
+    {'id' : 27 , 'title' : 'Los Herreras'},
+    {'id' : 28 , 'title' : 'Higueras'},
+    {'id' : 29 , 'title' : 'Hualahuises'},
+    {'id' : 30 , 'title' : 'Iturbide'},
+    {'id' : 31 , 'title' : 'Juarez'},
+    {'id' : 32 , 'title' : 'Lampazos de Naranjo'},
+    {'id' : 33 , 'title' : 'Linares'},
+    {'id' : 34 , 'title' : 'Marin'},
+    {'id' : 35 , 'title' : 'Melchor Ocampo'},
+    {'id' : 36 , 'title' : 'Mier y Noriega'},
+    {'id' : 37 , 'title' : 'Mina'},
+    {'id' : 38 , 'title' : 'Montemorelos'},
+    {'id' : 39 , 'title' : 'Monterrey'},
+    {'id' : 40 , 'title' : 'Paras'},
+    {'id' : 41 , 'title' : 'Pesqueria'},
+    {'id' : 42 , 'title' : 'Los Ramones'},
+    {'id' : 43 , 'title' : 'Rayones'},
+    {'id' : 44 , 'title' : 'Sabinas Hidalgo'},
+    {'id' : 45 , 'title' : 'Salinas Victoria'},
+    {'id' : 46 , 'title' : 'San Nicolas de los Garza'},
+    {'id' : 47 , 'title' : 'Hidalgo'},
+    {'id' : 48 , 'title' : 'Santa Catarina'},
+    {'id' : 49 , 'title' : 'Santiago'},
+    {'id' : 50 , 'title' : 'Vallecillo'},
+    {'id' : 51 , 'title' : 'Villaldama'},
+];
+
+
+
+
+/*
+
+
+
+            var setSelects = {
+                init: function(){
+                    this.contracts.get();
+                    this.departments.get();
+                    this.cities.get();
+                    this.categories.get();
+                },
+                requestGET: function(url, callbackTrue, callbackFalse){
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.onload = function() { 
+                        if(  xmlHttp.status >=200 && xmlHttp.status < 300 ){
+                            var res = JSON.parse(xmlHttp.response);
+                            callbackTrue(res);
+                        }else{
+                            callbackFalse();
+                        }
+                    }
+                    xmlHttp.open("GET", url, true); // true for asynchronous
+                    xmlHttp.send(null);
+
+                },
+                contracts: {
+                    setSelect: function(contracts){
+                        var strOptions = '<option value="0" > -- Selecciona un Contrato -- </option>';
+                        for(var c in contracts){
+                            strOptions += '<option value="'+ contracts[c].id +'"> '+ contracts[c].title +' </option>'
+                        }
+                        $('#contract').html(strOptions);
+                        $('#contract').select2();
+                    },
+                    get: function(){
+                        var url = URLSERVER + 'contracts/?offset=0&limit=10000000';
+                        setSelects.requestGET( url, this.setSelect, function(){;} )
+                    }
+                },
+                departments: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona una Dependencia -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#department').html(strOptions);
+                        if(setSelects.departments.setStorage){localStorage.setItem('departmentCatalogue',JSON.stringify(registers));}
+                    },
+                    get: function(){
+                        var departmentStorage = localStorage.getItem('departmentCatalogue');
+
+                        if( departmentStorage ){
+                            setSelects.departments.setStorage = false;
+                            setSelects.departments.setSelect( JSON.parse(departmentStorage) );
+                        }else{
+                            var url = URLSERVER + 'catalogues/departments';
+                            setSelects.requestGET( url, setSelects.departments.setSelect, function(){;} )
+                        }
+                    },
+                    setStorage: true
+                },
+                cities: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona un Municipio -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#city').html(strOptions);
+                        if(setSelects.cities.setStorage){localStorage.setItem('cityCatalogue',JSON.stringify(registers));}
+                    },
+                    get: function(){
+                        var cityStorage = localStorage.getItem('cityCatalogue');
+
+                        if( cityStorage ){
+                            setSelects.cities.setStorage = false;
+                            setSelects.cities.setSelect( JSON.parse(cityStorage) );
+                        }else{
+                            //var url = URLSERVER + 'catalogues/departments';
+                            //setSelects.requestGET( url, setSelects.departments.setSelect, function(){;} )
+                            setSelects.cities.setSelect(citiesNLObj)
+                        }
+                    },
+                    setStorage: true
+                },
+                categories: {
+                    setSelect: function(registers){
+                        var strOptions = '<option value="0" > -- Selecciona una Categoría -- </option>';
+                        for(var c in registers){
+                            strOptions += '<option value="'+ registers[c].id +'"> '+ registers[c].title +' </option>'
+                        }
+                        $('#category').html(strOptions);
+                        if(setSelects.categories.setStorage){localStorage.setItem('categoriesCatalogue',JSON.stringify(registers));}
+                    },
+                    get: function(){
+                        var categoryStorage = localStorage.getItem('categoriesCatalogue');
+
+                        if( categoryStorage ){
+                            setSelects.categories.setStorage = false;
+                            setSelects.categories.setSelect( JSON.parse(categoryStorage) );
+                        }else{
+                            var url = URLSERVER + 'catalogues/categories';
+                            setSelects.requestGET( url, setSelects.categories.setSelect, function(){;} )
+                        }
+                    },
+                    setStorage: true
+                },
+            }
+
+
+
+
+*/
+            
+
+        </script>
+
+    </body>
+</html>
